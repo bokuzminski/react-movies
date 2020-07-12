@@ -1,40 +1,39 @@
 import React from "react";
-import "../App.css";
-import { Link } from "react-router-dom";
+import styled from "styled-components";
 
+import MovieItem from "./MovieItem";
+import Pagination from "./Pagination";
+
+const MoviesWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 25rem));
+  justify-content: space-evenly;
+  align-content: space-between;
+  align-items: start;
+  padding: 4rem 0;
+  grid-gap: 4rem 2rem;
+  @media ${(props) => props.theme.mediaQueries.small} {
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 23rem));
+    justify-content: space-around;
+    grid-gap: 4rem 1.5rem;
+  }
+  @media ${(props) => props.theme.mediaQueries.smaller} {
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 18rem));
+    grid-gap: 4rem 1rem;
+  }
+`;
 
 function FilmItem({ film }) {
   return (
-    <div>
-      <div className="moviePoster">
-        {/* {film.map((f) => (
-          <div key={f.id} id="container">
-            <Link to={`/${f.id}`}>
-              <img
-                src={`https://image.tmdb.org/t/p/w342/${f.poster_path}`}
-                alt="#"
-              ></img>
-            </Link>
-            <div className="title">{f.title}</div>
-          </div>
-        ))} */}
-        {Object.entries(film).map(([slug, { id, title, poster_path }]) => (
-          <div key={id} id="container">
-            <Link to={`/${id}`}>
-              <img
-                src={`https://image.tmdb.org/t/p/w342/${poster_path}`}
-                alt="#"
-              ></img>
-            </Link>
-            <div className="title">{title}</div>
-          </div>
+    <>
+      <MoviesWrapper>
+        {film.results.map((f) => (
+          <MovieItem key={f.id} film={f}></MovieItem>
         ))}
-      </div>
-    </div>
+      </MoviesWrapper>
+      <Pagination movies={film} />
+    </>
   );
 }
 
 export default FilmItem;
-
-//https://via.placeholder.com/250x380?text=Movie+Poster
-//<Modal key={f.id} show={modal} handleClose={hideModal} film={f} />
