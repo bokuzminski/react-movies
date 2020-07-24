@@ -56,7 +56,9 @@ const Genre = (params) => {
           setLoading(false);
         });
     } catch (error) {
+      console.error(error);
       throw error;
+      
     }
   }, [gen, location]);
 
