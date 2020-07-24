@@ -1,24 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   HashRouter as Router,
   Switch,
   Route,
   Redirect,
-} from "react-router-dom";
-import styled from "styled-components";
+} from 'react-router-dom';
+import styled from 'styled-components';
 
-import FilmInfo from "./components/FilmInfo";
-import Sidebar from "./components/sideBar";
-import Discover from "./components/Discover";
-import SearchBar from "./components/SearchBar";
-import MobileMenu from "./components/MobileMenu";
-import Search from "./components/Search";
-import Genre from "./components/Genre";
-import movdb, { api_key } from "./api/movdb";
+import { Store } from './globalState/state';
+import FilmInfo from './components/FilmInfo';
+import Sidebar from './components/sideBar';
+import Discover from './components/Discover';
+import SearchBar from './components/SearchBar';
+import MobileMenu from './components/MobileMenu';
+import Search from './components/Search';
+import Genre from './components/Genre';
+import movdb, { api_key } from './api/movdb';
 
 const MainWrapper = styled.div`
   display: flex;
-  flex-direction: ${(props) => (props.isMobile ? "column" : "row")};
+  flex-direction: ${(props) => (props.isMobile ? 'column' : 'row')};
   position: relative;
   align-items: flex-start;
   height: 100%;
@@ -56,15 +57,15 @@ function App() {
   const [genres, setGenres] = useState([]);
 
   const changeMobile = () => {
-    window.matchMedia("(max-width: 80em)").matches
+    window.matchMedia('(max-width: 80em)').matches
       ? setisMobile(true)
       : setisMobile(false);
   };
 
   useEffect(() => {
     changeMobile();
-    window.addEventListener("resize", changeMobile());
-    return () => window.removeEventListener("resize", changeMobile());
+    window.addEventListener('resize', changeMobile());
+    return () => window.removeEventListener('resize', changeMobile());
   }, []);
 
   useEffect(() => {
@@ -79,38 +80,40 @@ function App() {
 
   /*   function Home() { */
   return (
-    <Router>
-      <MainWrapper isMobile={isMobile}>
-        {isMobile ? (
-          <MobileMenu genres={genres} />
-        ) : (
-          <>
-            <Sidebar />
-            <SearchBarWrapper>
-              <SearchBar />
-            </SearchBarWrapper>
-          </>
-        )}
-        <ContentWrapper>
-          <Switch>
-            <Route
-              path="/"
-              exact
-              render={() => <Redirect from="/" to="/react-movies" />}
-            />
-            <Route path="/react-movies" exact render={() => <Discover />} />
+    <Store>
+      <Router>
+        <MainWrapper isMobile={isMobile}>
+          {isMobile ? (
+            <MobileMenu genres={genres} />
+          ) : (
+            <>
+              <Sidebar />
+              <SearchBarWrapper>
+                <SearchBar />
+              </SearchBarWrapper>
+            </>
+          )}
+          <ContentWrapper>
+            <Switch>
+              <Route
+                path="/"
+                exact
+                render={() => <Redirect from="/" to="/react-movies" />}
+              />
+              <Route path="/react-movies" exact render={() => <Discover />} />
 
-            <Route
-              path="/genres/:gen"
-              exact
-              render={() => <Genre genres={genres} />}
-            />
-            <Route path="/:slug" exact render={() => <FilmInfo />} />
-            <Route path="/search/:query" exact component={Search} />
-          </Switch>
-        </ContentWrapper>
-      </MainWrapper>
-    </Router>
+              <Route
+                path="/genres/:gen"
+                exact
+                render={() => <Genre genres={genres} />}
+              />
+              <Route path="/:slug" exact render={() => <FilmInfo />} />
+              <Route path="/search/:query" exact component={Search} />
+            </Switch>
+          </ContentWrapper>
+        </MainWrapper>
+      </Router>
+    </Store>
   );
 }
 export default App;

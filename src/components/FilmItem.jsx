@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import MovieItem from "./MovieItem";
-import Pagination from "./Pagination";
+import MovieItem from './MovieItem';
+import Pagination from './Pagination';
 
 const MoviesWrapper = styled.div`
   display: grid;
@@ -24,6 +24,7 @@ const MoviesWrapper = styled.div`
 `;
 
 function FilmItem({ film }) {
+  console.log(film)
   return (
     <>
       <MoviesWrapper>
