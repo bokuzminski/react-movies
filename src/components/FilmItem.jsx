@@ -24,7 +24,6 @@ const MoviesWrapper = styled.div`
 `;
 
 function FilmItem({ film }) {
-  console.log(film)
   return (
     <>
       <MoviesWrapper>
@@ -32,7 +31,7 @@ function FilmItem({ film }) {
           <MovieItem key={f.id} film={f}></MovieItem>
         ))}
       </MoviesWrapper>
-      <Pagination movies={film} />
+      <Pagination film={film} />
     </>
   );
 }

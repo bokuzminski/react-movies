@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
-  HashRouter as Router,
+  BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
 } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Store } from './globalState/state';
 import FilmInfo from './components/FilmInfo';
 import Sidebar from './components/sideBar';
 import Discover from './components/Discover';
@@ -16,6 +15,7 @@ import MobileMenu from './components/MobileMenu';
 import Search from './components/Search';
 import Genre from './components/Genre';
 import movdb, { api_key } from './api/movdb';
+import { useStore } from './globalState/moviesState';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -55,6 +55,7 @@ function App() {
   const [films, setFilms] = useState([]);
   const [isMobile, setisMobile] = useState(null);
   const [genres, setGenres] = useState([]);
+  const [state, dispatch] = useStore();
 
   const changeMobile = () => {
     window.matchMedia('(max-width: 80em)').matches
@@ -70,50 +71,45 @@ function App() {
 
   useEffect(() => {
     movdb.get(`/genre/movie/list${api_key}`).then((response) => {
-      setGenres(response.data.genres);
+      dispatch({
+        type: 'FETCH_GENRES',
+        payload: response.data,
+      });
     });
-
-    movdb.get(`/movie/popular${api_key}`).then((response) => {
-      setFilms(response.data);
+    dispatch({
+      type: 'FINISHED_FETCHING_GENRES',
     });
   }, []);
 
   /*   function Home() { */
   return (
-    <Store>
-      <Router>
-        <MainWrapper isMobile={isMobile}>
-          {isMobile ? (
-            <MobileMenu genres={genres} />
-          ) : (
-            <>
-              <Sidebar />
-              <SearchBarWrapper>
-                <SearchBar />
-              </SearchBarWrapper>
-            </>
-          )}
-          <ContentWrapper>
-            <Switch>
-              <Route
-                path="/"
-                exact
-                render={() => <Redirect from="/" to="/react-movies" />}
-              />
-              <Route path="/react-movies" exact render={() => <Discover />} />
-
-              <Route
-                path="/genres/:gen"
-                exact
-                render={() => <Genre genres={genres} />}
-              />
-              <Route path="/:slug" exact render={() => <FilmInfo />} />
-              <Route path="/search/:query" exact component={Search} />
-            </Switch>
-          </ContentWrapper>
-        </MainWrapper>
-      </Router>
-    </Store>
+    <Router>
+      <MainWrapper isMobile={isMobile}>
+        {isMobile ? (
+          <MobileMenu genres={genres} />
+        ) : (
+          <>
+            <Sidebar />
+            <SearchBarWrapper>
+              <SearchBar />
+            </SearchBarWrapper>
+          </>
+        )}
+        <ContentWrapper>
+          <Switch>
+            <Route
+              path="/"
+              exact
+              render={() => <Redirect from="/" to="/react-movies" />}
+            />
+            <Route path="/react-movies" exact component={Discover} />
+            <Route path="/genres/:gen" exact component={Genre} />
+            <Route path="/:slug" exact component={FilmInfo} />
+            <Route path="/search/:query" exact component={Search} />
+          </Switch>
+        </ContentWrapper>
+      </MainWrapper>
+    </Router>
   );
 }
 export default App;

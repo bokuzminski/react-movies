@@ -4,7 +4,10 @@ import Reducer from './Reducer';
 export const MovieContext = createContext();
 
 const initialState = {
-  loading: true,
+  movies: { loading: true },
+  movie: { loading: true },
+  genres: { loading: true },
+  similar: { loading: true },
 };
 
 export const Store = ({ children }) => {

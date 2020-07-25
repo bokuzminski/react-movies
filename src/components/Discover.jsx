@@ -5,7 +5,7 @@ import FilmItem from './FilmItem';
 import Loader from './Loader';
 import { useLocation } from 'react-router-dom';
 import movdb, { api_key } from '../api/movdb';
-import { useStore } from '../globalState/state';
+import { useStore } from '../globalState/moviesState';
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,17 +19,6 @@ const Discover = () => {
 
   const [state, dispatch] = useStore();
 
-  /*   useEffect(() => {
-    movdb
-      .get(`/movie/popular${api_key}`, {
-        params: {
-          page: param.page,
-        },
-      })
-      .then((response) => {
-        setFilms(response.data);
-      });
-  }, [location]); */
   useEffect(() => {
     movdb
       .get(`/movie/popular${api_key}`, {
@@ -38,18 +27,17 @@ const Discover = () => {
         },
       })
       .then((response) => {
-        //setFilms(response.data);
         dispatch({
           type: 'FETCH_MOVIES',
           payload: response.data,
         });
         dispatch({
-          type: 'FINISHED_FETCHING',
+          type: 'FINISHED_FETCHING_MOVIES',
         });
       });
   }, [location]);
-
-  if (!state.loading) {
+  
+  if (!state.movies.loading) {
     return (
       <Wrapper>
         <title>Popular movies</title>
