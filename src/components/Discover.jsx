@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import queryString from "query-string";
-import FilmItem from "./FilmItem";
-import Loader from "./Loader";
-import { useParams, useLocation } from "react-router-dom";
-import axios from "axios";
-import movdb, { api_key } from "../api/movdb";
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
+import queryString from 'query-string';
+import FilmItem from './FilmItem';
+import Loader from './Loader';
+import { useLocation } from 'react-router-dom';
+import movdb, { api_key } from '../api/movdb';
+import { useStore } from '../globalState/moviesState';
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,11 +16,11 @@ const Wrapper = styled.div`
 const Discover = () => {
   const location = useLocation();
   const param = queryString.parse(location.search);
-  const apiurl =
-    "https://api.themoviedb.org/3/movie/popular?api_key=e366d974f73ae203397850eadc7bce1f";
-  const [films, setFilms] = useState([]);
+
+  const [state, dispatch] = useStore();
 
   useEffect(() => {
+    dispatch({ type: 'FETCH_MOVIES_LOADING' });
     movdb
       .get(`/movie/popular${api_key}`, {
         params: {
@@ -28,15 +28,21 @@ const Discover = () => {
         },
       })
       .then((response) => {
-        setFilms(response.data);
+        dispatch({
+          type: 'FETCH_MOVIES',
+          payload: response.data,
+        });
+        dispatch({
+          type: 'FINISHED_FETCHING_MOVIES',
+        });
       });
   }, [location]);
 
-  if (Object.keys(films).length > 0) {
+  if (!state.movies.loading) {
     return (
       <Wrapper>
         <title>Popular movies</title>
-        <FilmItem film={films} />
+        <FilmItem film={state.movies} />
       </Wrapper>
     );
   } else {

@@ -1,20 +1,20 @@
-import React from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { scroller } from "react-scroll";
+import React from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { scroller } from 'react-scroll';
 
-import Button from "./Button";
+import Button from './Button';
 
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: ${(props) => {
-    if (props.type === "one") {
-      return "flex-start";
-    } else if (props.type === "both") {
-      return "space-between";
+    if (props.type === 'one') {
+      return 'flex-start';
+    } else if (props.type === 'both') {
+      return 'space-between';
     } else {
-      return "flex-end";
+      return 'flex-end';
     }
   }};
 `;
@@ -23,11 +23,11 @@ const WrapperLink = styled(Link)`
   text-decoration: none;
 `;
 //Pagination element
-const Pagination = ({ movies }) => {
-  const { page, total_pages } = movies;
+const Pagination = ({ film }) => {
+  const { page, total_pages } = film;
 
   const scrollTo = () => {
-    scroller.scrollTo("scroll-to-element", {
+    scroller.scrollTo('scroll-to-element', {
       smooth: true,
       offset: -50,
     });

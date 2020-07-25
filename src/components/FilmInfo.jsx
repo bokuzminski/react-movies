@@ -1,19 +1,20 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styled from "styled-components";
-import LazyLoad from "react-lazyload";
-import { Element, animateScroll as scroll } from "react-scroll";
-import queryString from "query-string";
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import styled from 'styled-components';
+import LazyLoad from 'react-lazyload';
+import { Element, animateScroll as scroll } from 'react-scroll';
+import queryString from 'query-string';
 
-import { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
-import { Link } from "react-router-dom";
-import Loading from "./Loading";
-import Loader from "./Loader";
-import Header from "./Header";
-import FilmItem from "./FilmItem";
-import Rating from "./Rating";
-import movdb, { api_key } from "../api/movdb";
+import { useState, useEffect } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Loading from './Loading';
+import Loader from './Loader';
+import Header from './Header';
+import FilmItem from './FilmItem';
+import Rating from './Rating';
+import movdb, { api_key } from '../api/movdb';
+import { useStore } from '../globalState/moviesState';
 
 //styled components
 const Wrapper = styled.div`
@@ -126,13 +127,13 @@ const ImageWrapper = styled.div`
 
 const MovieImg = styled.img`
   max-height: 100%;
-  height: ${(props) => (props.error ? "25rem" : "auto")};
-  object-fit: ${(props) => (props.error ? "contain" : "cover")};
-  padding: ${(props) => (props.error ? "2rem" : "")};
+  height: ${(props) => (props.error ? '25rem' : 'auto')};
+  object-fit: ${(props) => (props.error ? 'contain' : 'cover')};
+  padding: ${(props) => (props.error ? '2rem' : '')};
   max-width: 100%;
   border-radius: 0.8rem;
   box-shadow: ${(props) =>
-    props.error ? "none" : "0rem 2rem 5rem var(--shadow-color-dark)"};
+    props.error ? 'none' : '0rem 2rem 5rem var(--shadow-color-dark)'};
 `;
 
 const ImgLoading = styled.div`
@@ -223,18 +224,13 @@ const LeftButtons = styled.div`
   }
 `;
 
-const AWrapper = styled.a`
-  text-decoration: none;
-`;
-
 const Movie = () => {
-  const [movie, setMovie] = useState([]);
-  const [similar, setSimilar] = useState([]);
   const { slug } = useParams();
   const location = useLocation();
   const ploc = queryString.parse(location.search);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [state, dispatch] = useStore();
 
   useEffect(() => {
     scroll.scrollToTop({
@@ -243,8 +239,12 @@ const Movie = () => {
   }, [slug]);
 
   useEffect(() => {
+    setLoading(true);
     movdb.get(`/movie/${slug}${api_key}`).then((res) => {
-      setMovie(res.data);
+      dispatch({
+        type: 'FETCH_SINGLE_MOVIE',
+        payload: res.data,
+      });
     });
     getRecommended(slug, api_key, ploc);
   }, [slug]);
@@ -259,12 +259,15 @@ const Movie = () => {
         params: { page: ploc.page },
       })
       .then((res) => {
-        setSimilar(res.data);
+        dispatch({
+          type: 'FETCH_SIMILAR_MOVIES',
+          payload: res.data,
+        });
         setLoading(false);
       });
   }
 
-  if (movie.length === 0) {
+  if (loading) {
     return <Loading />;
   } else {
     return (
@@ -274,48 +277,52 @@ const Movie = () => {
             <ImageWrapper>
               <MovieImg
                 error={error ? 1 : 0}
-                src={`https://image.tmdb.org/t/p/w342/${movie.poster_path}`}
+                src={`https://image.tmdb.org/t/p/w342/${state.movie.poster_path}`}
                 onError={(e) => {
                   setError(true);
                   if (
                     e.target.src !==
-                    "https://webitrs5.net/images/comingsoon-square.png" //need better error image
+                    'https://webitrs5.net/images/comingsoon-square.png' //need better error image
                   ) {
                     e.target.src =
-                      "https://webitrs5.net/images/comingsoon-square.png";
+                      'https://webitrs5.net/images/comingsoon-square.png';
                   }
                 }}
               />
             </ImageWrapper>
             <MovieDetails>
               <HeaderWrapper>
-                <Header size="2" title={movie.title} subtitle={movie.tagline} />
+                <Header
+                  size="2"
+                  title={state.movie.title}
+                  subtitle={state.movie.tagline}
+                />
               </HeaderWrapper>
               <DetailsWrapper>
                 <RatingsWrapper>
-                  <Rating number={movie.vote_average} />
+                  <Rating number={state.movie.vote_average} />
                 </RatingsWrapper>
                 <Info>
                   {renderInfo(
-                    movie.spoken_languages,
-                    movie.runtime,
-                    movie.release_date
+                    state.movie.spoken_languages,
+                    state.movie.runtime,
+                    state.movie.release_date
                   )}
                 </Info>
               </DetailsWrapper>
               <Heading>Genres</Heading>
-              <LinksWrapper>{renderGenres(movie.genres)}</LinksWrapper>
+              <LinksWrapper>{renderGenres(state.movie.genres)}</LinksWrapper>
               <Heading>The Synopsis</Heading>
               <Text>
-                {movie.overview
-                  ? movie.overview
-                  : "There is no synopsis available."}
+                {state.movie.overview
+                  ? state.movie.overview
+                  : 'There is no description available for this movie.'}
               </Text>
             </MovieDetails>
           </MovieWrapper>
         </LazyLoad>
         <Header title="Similar" subtitle="movies" />
-        {renderRecommended(similar, loading)}
+        {renderRecommended(state.similar, loading)}
       </Wrapper>
     );
   }
@@ -328,7 +335,7 @@ function renderInfo(languages, time, data) {
   info.push(time, data);
   return info
     .filter((el) => el !== null)
-    .map((el) => (typeof el === "number" ? `${el} min.` : el))
+    .map((el) => (typeof el === 'number' ? `${el} min.` : el))
     .map((el, i, array) => (i !== array.length - 1 ? `${el} / ` : el));
 }
 
@@ -336,11 +343,11 @@ function renderRecommended(similar, loading) {
   if (loading) {
     return <Loader />;
   } else if (similar.total_results === 0) {
-    return <h2>Sorry no recomended movies</h2>;
+    return <h2>Sorry, no recomended movies</h2>;
   } else {
     return (
       <Element name="scroll-to-element">
-        <FilmItem film={similar} />{" "}
+        <FilmItem film={similar} />{' '}
       </Element>
     );
   }
@@ -352,7 +359,7 @@ function renderGenres(genres) {
       <FontAwesomeIcon
         icon="dot-circle"
         size="1x"
-        style={{ marginRight: "5px" }}
+        style={{ marginRight: '5px' }}
       />
       {gen.name}
     </StyledLink>

@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import StickyBox from "react-sticky-box";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import StickyBox from 'react-sticky-box';
+import { Link } from 'react-router-dom';
 
-import MenuItem from "./MenuItem";
-import LogoImg from "./Logo";
-import movdb, { api_key } from "../api/movdb";
+import MenuItem from './MenuItem';
+import LogoImg from './Logo';
+import Loader from './Loader';
+import { useStore } from '../globalState/moviesState';
 
 const Wrapper = styled.div`
   display: flex;
@@ -18,7 +19,7 @@ const Wrapper = styled.div`
 `;
 
 const Heading = styled.h2`
-  font-family: "Proza Libre", sans-serif;
+  font-family: 'Proza Libre', sans-serif;
   font-weight: 500;
   font-size: 1.1rem;
   text-transform: uppercase;
@@ -37,23 +38,14 @@ const LinkWrap = styled(Link)`
 `;
 
 const Sidebar = () => {
-  const [genres, setgenres] = useState([]);
+  const [state, dispatch] = useStore();
 
-  useEffect(() => {
-    movdb
-      .get(
-        `/genre/movie/list${api_key}`
-      )
-      .then((res) => {
-        setgenres(res.data.genres);
-      });
-  }, []);
   return (
     <StickyBox>
       <Wrapper>
         <LogoImg />
         <Heading>Genres</Heading>
-        {renderGenres(genres)}
+        {!state.genres.genres ? <Loader /> : renderGenres(state.genres.genres)}
       </Wrapper>
     </StickyBox>
   );

@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
-import Header from "./Header";
-import styled from "styled-components";
-import { animateScroll as scroll } from "react-scroll";
-import { useParams, useLocation } from "react-router-dom";
-import queryString from "query-string";
+import React, { useEffect } from 'react';
+import Header from './Header';
+import styled from 'styled-components';
+import { animateScroll as scroll } from 'react-scroll';
+import { useParams, useLocation } from 'react-router-dom';
+import queryString from 'query-string';
 
-import FilmItem from "./FilmItem";
-import NotFound from "./NotFound";
-import Loader from "./Loader";
-import movdb, { api_key } from "../api/movdb";
+import FilmItem from './FilmItem';
+import NotFound from './NotFound';
+import Loader from './Loader';
+import movdb, { api_key } from '../api/movdb';
+import { useStore } from '../globalState/moviesState';
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,11 +21,13 @@ const Search = () => {
   const location = useLocation();
   const param = queryString.parse(location.search);
   const { query } = useParams();
-  const [Films, setFilms] = useState([]);
-  const [loading, setLoading] = useState(true);
+
+  const [state, dispatch] = useStore();
 
   const getMovie = (query) => {
-    setLoading(true);
+    dispatch({
+      type: 'FETCH_MOVIES_LOADING',
+    });
     movdb
       .get(`/search/movie${api_key}`, {
         params: {
@@ -33,8 +36,14 @@ const Search = () => {
         },
       })
       .then((res) => {
-        setFilms(res.data);
-        setLoading(false);
+        dispatch({
+          type: 'FETCH_MOVIES',
+          payload: res.data,
+        });
+
+        dispatch({
+          type: 'FINISHED_FETCHING_MOVIES',
+        });
       });
   };
   useEffect(() => {
@@ -44,9 +53,9 @@ const Search = () => {
     });
   }, [query, location]);
 
-  if (loading) {
+  if (state.movies.loading) {
     return <Loader />;
-  } else if (Films.total_results === 0) {
+  } else if (state.movies.total_results === 0) {
     return (
       <NotFound title=":(" subtitle={`There were no results for ${query}`} />
     );
@@ -54,7 +63,7 @@ const Search = () => {
     return (
       <Wrapper>
         <Header title={query} subtitle="results" />
-        <FilmItem film={Films} />
+        <FilmItem film={state.movies} />
       </Wrapper>
     );
   }
