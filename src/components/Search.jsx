@@ -35,7 +35,6 @@ const Search = () => {
         },
       })
       .then((res) => {
-        //setFilms(res.data);
         dispatch({
           type: 'FETCH_MOVIES',
           payload: res.data,

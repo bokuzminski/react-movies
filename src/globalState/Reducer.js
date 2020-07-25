@@ -50,6 +50,14 @@ const Reducer = (state, action) => {
           ...action.payload,
         },
       };
+    case 'FETCH_GENRES_LOADING':
+      return {
+        ...state,
+        genres: {
+          ...state.genres,
+          loading: true,
+        },
+      };
     case 'FETCH_SIMILAR_MOVIES':
       return {
         ...state,

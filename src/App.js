@@ -52,9 +52,7 @@ const SearchBarWrapper = styled.div`
 `;
 
 function App() {
-  const [films, setFilms] = useState([]);
   const [isMobile, setisMobile] = useState(null);
-  const [genres, setGenres] = useState([]);
   const [state, dispatch] = useStore();
 
   const changeMobile = () => {
@@ -76,9 +74,7 @@ function App() {
         payload: response.data,
       });
     });
-    dispatch({
-      type: 'FINISHED_FETCHING_GENRES',
-    });
+    dispatch({ type: 'FINISHED_FETCHING_GENRES' });
   }, []);
 
   /*   function Home() { */
@@ -86,7 +82,7 @@ function App() {
     <Router>
       <MainWrapper isMobile={isMobile}>
         {isMobile ? (
-          <MobileMenu genres={genres} />
+          <MobileMenu genres={state.genres.genres} />
         ) : (
           <>
             <Sidebar />

@@ -30,7 +30,7 @@ const Genre = (params) => {
     });
     setLoading(true);
     try {
-      const myID = state.genres
+      const myID = state.genres.genres
         .filter((el) => el.name === gen)
         .map((el) => el.id)
         .join('');
@@ -52,7 +52,7 @@ const Genre = (params) => {
     } catch (error) {
       console.error(error);
     }
-  }, [gen, state.genres]);
+  }, [gen, state.genres.genres]);
 
   return (
     <Wrapper>

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import LazyLoad from "react-lazyload";
-import Rating from "react-rating";
-import Loading from "./Loading";
-import imageMissing from "../style/imageMissing.png";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import LazyLoad from 'react-lazyload';
+import Rating from 'react-rating';
+import Loading from './Loading';
+import imageMissing from '../style/imageMissing.png';
 
 const MovieWrapper = styled(Link)`
   display: flex;
@@ -23,9 +23,9 @@ const MovieWrapper = styled(Link)`
 const MovieImg = styled.img`
   width: 100%;
   height: 38rem;
-  object-fit: ${(props) => (props.error ? "contain" : "cover")};
+  object-fit: ${(props) => (props.error ? 'contain' : 'cover')};
   border-radius: 0.8rem;
-  padding: ${(props) => (props.error ? "2rem" : "")};
+  padding: ${(props) => (props.error ? '2rem' : '')};
   box-shadow: 0rem 2rem 5rem var(--shadow-color);
   transition: all 100ms cubic-bezier(0.645, 0.045, 0.355, 1);
   ${MovieWrapper}:hover & {
@@ -99,7 +99,7 @@ const Tooltip = styled.span`
   margin-left: -60px;
   transition: all 200ms cubic-bezier(0.645, 0.045, 0.355, 1);
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 100%;
     left: 50%;
@@ -130,10 +130,10 @@ const MovieItem = ({ film }) => {
         ) : null}
         <MovieImg
           onLoad={() => setloaded(true)}
-          style={!loaded ? { display: "none" } : {}}
-          onError={err => {
+          style={!loaded ? { display: 'none' } : {}}
+          onError={(err) => {
             seterror(true);
-            if(err.target.src !== `${imageMissing}`){
+            if (err.target.src !== `${imageMissing}`) {
               err.target.src = `${imageMissing}`; //need better error image
             }
           }}
@@ -141,12 +141,6 @@ const MovieItem = ({ film }) => {
         />
         <DetailsWrapper>
           <Title>{film.title}</Title>
-          {/* <RatingsWrapper>
-            <p>test rating</p>
-            <Tooltip>
-              <p>Average rating based on ..</p>
-            </Tooltip>
-          </RatingsWrapper> */}
         </DetailsWrapper>
       </MovieWrapper>
     </LazyLoad>

@@ -229,8 +229,6 @@ const AWrapper = styled.a`
 `;
 
 const Movie = () => {
-  const [movie, setMovie] = useState([]);
-  const [similar, setSimilar] = useState([]);
   const { slug } = useParams();
   const location = useLocation();
   const ploc = queryString.parse(location.search);
@@ -265,7 +263,6 @@ const Movie = () => {
         params: { page: ploc.page },
       })
       .then((res) => {
-        setSimilar(res.data);
         dispatch({
           type: 'FETCH_SIMILAR_MOVIES',
           payload: res.data,
