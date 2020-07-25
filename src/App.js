@@ -62,12 +62,12 @@ function App() {
   };
 
   useEffect(() => {
-    changeMobile();
-    window.addEventListener('resize', changeMobile());
-    return () => window.removeEventListener('resize', changeMobile());
+    window.addEventListener('resize', changeMobile);
+    return () => window.removeEventListener('resize', changeMobile);
   }, []);
 
   useEffect(() => {
+    dispatch({ type: 'FETCH_GENRES_LOADING' });
     movdb.get(`/genre/movie/list${api_key}`).then((response) => {
       dispatch({
         type: 'FETCH_GENRES',
@@ -77,7 +77,6 @@ function App() {
     dispatch({ type: 'FINISHED_FETCHING_GENRES' });
   }, []);
 
-  /*   function Home() { */
   return (
     <Router>
       <MainWrapper isMobile={isMobile}>

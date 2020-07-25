@@ -7,8 +7,6 @@ import MenuItem from './MenuItem';
 import LogoImg from './Logo';
 import Loader from './Loader';
 import { useStore } from '../globalState/moviesState';
-import { render } from '@testing-library/react';
-import Loading from './Loading';
 
 const Wrapper = styled.div`
   display: flex;

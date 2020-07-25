@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Header from './Header';
 import styled from 'styled-components';
 import { animateScroll as scroll } from 'react-scroll';
@@ -22,11 +22,12 @@ const Search = () => {
   const param = queryString.parse(location.search);
   const { query } = useParams();
 
-  const [loading, setLoading] = useState(true);
   const [state, dispatch] = useStore();
 
   const getMovie = (query) => {
-    setLoading(true);
+    dispatch({
+      type: 'FETCH_MOVIES_LOADING',
+    });
     movdb
       .get(`/search/movie${api_key}`, {
         params: {
@@ -39,7 +40,10 @@ const Search = () => {
           type: 'FETCH_MOVIES',
           payload: res.data,
         });
-        setLoading(false);
+
+        dispatch({
+          type: 'FINISHED_FETCHING_MOVIES',
+        });
       });
   };
   useEffect(() => {
@@ -49,7 +53,7 @@ const Search = () => {
     });
   }, [query, location]);
 
-  if (loading) {
+  if (state.movies.loading) {
     return <Loader />;
   } else if (state.movies.total_results === 0) {
     return (

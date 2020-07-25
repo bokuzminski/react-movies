@@ -224,10 +224,6 @@ const LeftButtons = styled.div`
   }
 `;
 
-const AWrapper = styled.a`
-  text-decoration: none;
-`;
-
 const Movie = () => {
   const { slug } = useParams();
   const location = useLocation();

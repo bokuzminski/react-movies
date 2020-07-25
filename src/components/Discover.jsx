@@ -20,6 +20,7 @@ const Discover = () => {
   const [state, dispatch] = useStore();
 
   useEffect(() => {
+    dispatch({ type: 'FETCH_MOVIES_LOADING' });
     movdb
       .get(`/movie/popular${api_key}`, {
         params: {
@@ -36,7 +37,7 @@ const Discover = () => {
         });
       });
   }, [location]);
-  
+
   if (!state.movies.loading) {
     return (
       <Wrapper>
