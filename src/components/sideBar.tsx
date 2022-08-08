@@ -1,11 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import StickyBox from "react-sticky-box";
+import Loader from "src/components/Loader";
+import LogoImg from "src/components/Logo";
+import MenuItem from "src/components/MenuItem";
+import { Genre, useFetchAvailableGenresQuery } from "src/redux/genres";
 import styled from "styled-components";
-import Loader from "./Loader";
-import LogoImg from "./Logo";
-import MenuItem from "./MenuItem";
-import { Genre, useFetchAvailableGenresQuery } from "./redux/genres";
 
 const Wrapper = styled.div`
   display: flex;
@@ -36,24 +35,22 @@ const LinkWrap = styled(Link)`
   margin-bottom: 0.5rem;
 `;
 
-export const Sidebar: React.FunctionComponent = () => {
-  const { isLoading, data: genres } = useFetchAvailableGenresQuery();
+export const Sidebar = () => {
+  const { data: genres, isLoading } = useFetchAvailableGenresQuery();
 
   return (
-    <StickyBox>
-      <Wrapper>
-        <LogoImg />
-        <Heading>Genres</Heading>
-        {isLoading ? <Loader /> : renderGenres(genres || [])}
-      </Wrapper>
-    </StickyBox>
+    <Wrapper>
+      <LogoImg />
+      <Heading>Genres</Heading>
+      {isLoading ? <Loader /> : renderGenres(genres || [])}
+    </Wrapper>
   );
 };
 
 function renderGenres(genres: Genre[]) {
   return genres.map(genre => (
     <LinkWrap to={`/genres/${genre.name}`} key={genre.id}>
-      <MenuItem title={genre.name} />
+      <MenuItem title={genre.name} mobile={false} selected={false} />
     </LinkWrap>
   ));
 }

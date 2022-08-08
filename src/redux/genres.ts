@@ -4,7 +4,7 @@ export const genresApi = createApi({
   reducerPath: "genres",
   baseQuery: fetchBaseQuery({ baseUrl: "https://api.themoviedb.org/3/" }),
   endpoints: builder => ({
-    fetchAvailableGenres: builder.query<Genre[], null>({
+    fetchAvailableGenres: builder.query<Genre[], void>({
       query: () => `genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}`,
       transformResponse: (response: RespGenre) => response.genres
     })
