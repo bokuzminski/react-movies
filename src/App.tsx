@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
+import { MovieList } from "src/components/movieList/MovieList";
 import { Sidebar } from "src/components/sideBar";
 import styled from "styled-components";
 
@@ -57,6 +58,7 @@ export const App = () => {
         )} */}
         <Sidebar />
         <ContentWrapper>
+          <MovieList />
           {/*  <Route path="/" element={<App />} />
           <Route path="/react-movies" element={<Discover />} />
           <Route path="/genres/:genre" element={<Genre />} />

@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
-import queryString from 'query-string';
-import FilmItem from './FilmItem';
-import Loader from './Loader';
-import { useLocation } from 'react-router-dom';
-import movdb, { api_key } from '../api/movdb';
-import { useStore } from '../globalState/moviesState';
+import queryString from "query-string";
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import styled from "styled-components";
+import movdb, { api_key } from "../api/movdb";
+import { useStore } from "../globalState/moviesState";
+import Loader from "./Loader";
+import FilmItem from "./movieList/MovieList";
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,20 +20,20 @@ const Discover = () => {
   const [state, dispatch] = useStore();
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_MOVIES_LOADING' });
+    dispatch({ type: "FETCH_MOVIES_LOADING" });
     movdb
       .get(`/movie/popular${api_key}`, {
         params: {
-          page: param.page,
-        },
+          page: param.page
+        }
       })
-      .then((response) => {
+      .then(response => {
         dispatch({
-          type: 'FETCH_MOVIES',
-          payload: response.data,
+          type: "FETCH_MOVIES",
+          payload: response.data
         });
         dispatch({
-          type: 'FINISHED_FETCHING_MOVIES',
+          type: "FINISHED_FETCHING_MOVIES"
         });
       });
   }, [location]);

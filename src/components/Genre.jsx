@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { useParams, useLocation } from 'react-router-dom';
-import { animateScroll as scroll } from 'react-scroll';
-import queryString from 'query-string';
+import queryString from "query-string";
+import React, { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import { animateScroll as scroll } from "react-scroll";
+import styled from "styled-components";
 
-import Header from './Header';
-import FilmItem from './FilmItem';
-import Loader from './Loader';
-import movdb, { api_key } from '../api/movdb';
-import { useStore } from '../globalState/moviesState';
+import movdb, { api_key } from "../api/movdb";
+import { useStore } from "../globalState/moviesState";
+import Header from "./Header";
+import Loader from "./Loader";
+import FilmItem from "./movieList/MovieList";
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   flex-direction: column;
 `;
 
-const Genre = (params) => {
+const Genre = params => {
   const { gen } = useParams();
   const location = useLocation();
   const ploc = queryString.parse(location.search);
@@ -26,26 +26,26 @@ const Genre = (params) => {
 
   useEffect(() => {
     scroll.scrollToTop({
-      smooth: true,
+      smooth: true
     });
     setLoading(true);
     try {
       const myID = state.genres.genres
-        .filter((el) => el.name === gen)
-        .map((el) => el.id)
-        .join('');
+        .filter(el => el.name === gen)
+        .map(el => el.id)
+        .join("");
       movdb
         .get(`/discover/movie${api_key}`, {
           params: {
             page: ploc.page,
             with_genres: myID,
-            sort_by: 'popularity.desc',
-          },
+            sort_by: "popularity.desc"
+          }
         })
-        .then((res) => {
+        .then(res => {
           dispatch({
-            type: 'FETCH_MOVIES',
-            payload: res.data,
+            type: "FETCH_MOVIES",
+            payload: res.data
           });
           setLoading(false);
         });

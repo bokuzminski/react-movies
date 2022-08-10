@@ -1,20 +1,19 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styled from 'styled-components';
-import LazyLoad from 'react-lazyload';
-import { Element, animateScroll as scroll } from 'react-scroll';
-import queryString from 'query-string';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import queryString from "query-string";
+import React from "react";
+import LazyLoad from "react-lazyload";
+import { animateScroll as scroll, Element } from "react-scroll";
+import styled from "styled-components";
 
-import { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import Loading from './Loading';
-import Loader from './Loader';
-import Header from './Header';
-import FilmItem from './FilmItem';
-import Rating from './Rating';
-import movdb, { api_key } from '../api/movdb';
-import { useStore } from '../globalState/moviesState';
+import { useEffect, useState } from "react";
+import { Link, useLocation, useParams } from "react-router-dom";
+import movdb, { api_key } from "../api/movdb";
+import { useStore } from "../globalState/moviesState";
+import Header from "./Header";
+import Loader from "./Loader";
+import Loading from "./Loading";
+import FilmItem from "./movieList/MovieList";
+import Rating from "./Rating";
 
 //styled components
 const Wrapper = styled.div`
@@ -32,18 +31,18 @@ const MovieWrapper = styled.div`
   margin: 0 auto;
   margin-bottom: 7rem;
   transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
-  @media ${(props) => props.theme.mediaQueries.largest} {
+  @media ${props => props.theme.mediaQueries.largest} {
     max-width: 105rem;
   }
-  @media ${(props) => props.theme.mediaQueries.larger} {
+  @media ${props => props.theme.mediaQueries.larger} {
     max-width: 110rem;
     margin-bottom: 6rem;
   }
-  @media ${(props) => props.theme.mediaQueries.large} {
+  @media ${props => props.theme.mediaQueries.large} {
     max-width: 110rem;
     margin-bottom: 5rem;
   }
-  @media ${(props) => props.theme.mediaQueries.medium} {
+  @media ${props => props.theme.mediaQueries.medium} {
     flex-direction: column;
     margin-bottom: 5rem;
   }
@@ -84,19 +83,19 @@ const MovieDetails = styled.div`
   max-width: 60%;
   padding: 4rem;
   flex: 1 1 60%;
-  @media ${(props) => props.theme.mediaQueries.largest} {
+  @media ${props => props.theme.mediaQueries.largest} {
     padding: 3rem;
   }
-  @media ${(props) => props.theme.mediaQueries.large} {
+  @media ${props => props.theme.mediaQueries.large} {
     padding: 2rem;
   }
-  @media ${(props) => props.theme.mediaQueries.smaller} {
+  @media ${props => props.theme.mediaQueries.smaller} {
     padding: 1rem;
   }
-  @media ${(props) => props.theme.mediaQueries.smallest} {
+  @media ${props => props.theme.mediaQueries.smallest} {
     padding: 0rem;
   }
-  @media ${(props) => props.theme.mediaQueries.medium} {
+  @media ${props => props.theme.mediaQueries.medium} {
     max-width: 100%;
     flex: 1 1 100%;
   }
@@ -110,16 +109,16 @@ const ImageWrapper = styled.div`
   justify-content: center;
   display: flex;
   padding: 4rem;
-  @media ${(props) => props.theme.mediaQueries.largest} {
+  @media ${props => props.theme.mediaQueries.largest} {
     padding: 3rem;
   }
-  @media ${(props) => props.theme.mediaQueries.large} {
+  @media ${props => props.theme.mediaQueries.large} {
     padding: 2rem;
   }
-  @media ${(props) => props.theme.mediaQueries.smaller} {
+  @media ${props => props.theme.mediaQueries.smaller} {
     margin-bottom: 2rem;
   }
-  @media ${(props) => props.theme.mediaQueries.medium} {
+  @media ${props => props.theme.mediaQueries.medium} {
     max-width: 60%;
     flex: 1 1 60%;
   }
@@ -127,13 +126,12 @@ const ImageWrapper = styled.div`
 
 const MovieImg = styled.img`
   max-height: 100%;
-  height: ${(props) => (props.error ? '25rem' : 'auto')};
-  object-fit: ${(props) => (props.error ? 'contain' : 'cover')};
-  padding: ${(props) => (props.error ? '2rem' : '')};
+  height: ${props => (props.error ? "25rem" : "auto")};
+  object-fit: ${props => (props.error ? "contain" : "cover")};
+  padding: ${props => (props.error ? "2rem" : "")};
   max-width: 100%;
   border-radius: 0.8rem;
-  box-shadow: ${(props) =>
-    props.error ? 'none' : '0rem 2rem 5rem var(--shadow-color-dark)'};
+  box-shadow: ${props => (props.error ? "none" : "0rem 2rem 5rem var(--shadow-color-dark)")};
 `;
 
 const ImgLoading = styled.div`
@@ -145,7 +143,7 @@ const ImgLoading = styled.div`
   justify-content: center;
   height: 100%;
   transition: all 100ms cubic-bezier(0.645, 0.045, 0.355, 1);
-  @media ${(props) => props.theme.mediaQueries.smaller} {
+  @media ${props => props.theme.mediaQueries.smaller} {
     height: 28rem;
   }
 `;
@@ -160,7 +158,7 @@ const Heading = styled.h3`
   text-transform: uppercase;
   margin-bottom: 1rem;
   font-size: 1.4rem;
-  @media ${(props) => props.theme.mediaQueries.medium} {
+  @media ${props => props.theme.mediaQueries.medium} {
     font-size: 1.2rem;
   }
 `;
@@ -204,7 +202,7 @@ const Text = styled.p`
 const ButtonsWrapper = styled.div`
   display: flex;
   align-items: center;
-  @media ${(props) => props.theme.mediaQueries.small} {
+  @media ${props => props.theme.mediaQueries.small} {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -213,12 +211,12 @@ const ButtonsWrapper = styled.div`
 const LeftButtons = styled.div`
   margin-right: auto;
   display: flex;
-  @media ${(props) => props.theme.mediaQueries.small} {
+  @media ${props => props.theme.mediaQueries.small} {
     margin-bottom: 2rem;
   }
   & > *:not(:last-child) {
     margin-right: 2rem;
-    @media ${(props) => props.theme.mediaQueries.large} {
+    @media ${props => props.theme.mediaQueries.large} {
       margin-right: 1rem;
     }
   }
@@ -234,16 +232,16 @@ const Movie = () => {
 
   useEffect(() => {
     scroll.scrollToTop({
-      smooth: true,
+      smooth: true
     });
   }, [slug]);
 
   useEffect(() => {
     setLoading(true);
-    movdb.get(`/movie/${slug}${api_key}`).then((res) => {
+    movdb.get(`/movie/${slug}${api_key}`).then(res => {
       dispatch({
-        type: 'FETCH_SINGLE_MOVIE',
-        payload: res.data,
+        type: "FETCH_SINGLE_MOVIE",
+        payload: res.data
       });
     });
     getRecommended(slug, api_key, ploc);
@@ -256,12 +254,12 @@ const Movie = () => {
   function getRecommended(slug, api_key, ploc) {
     movdb
       .get(`/movie/${slug}/recommendations${api_key}`, {
-        params: { page: ploc.page },
+        params: { page: ploc.page }
       })
-      .then((res) => {
+      .then(res => {
         dispatch({
-          type: 'FETCH_SIMILAR_MOVIES',
-          payload: res.data,
+          type: "FETCH_SIMILAR_MOVIES",
+          payload: res.data
         });
         setLoading(false);
       });
@@ -278,45 +276,31 @@ const Movie = () => {
               <MovieImg
                 error={error ? 1 : 0}
                 src={`https://image.tmdb.org/t/p/w342/${state.movie.poster_path}`}
-                onError={(e) => {
+                onError={e => {
                   setError(true);
                   if (
-                    e.target.src !==
-                    'https://webitrs5.net/images/comingsoon-square.png' //need better error image
+                    e.target.src !== "https://webitrs5.net/images/comingsoon-square.png" //need better error image
                   ) {
-                    e.target.src =
-                      'https://webitrs5.net/images/comingsoon-square.png';
+                    e.target.src = "https://webitrs5.net/images/comingsoon-square.png";
                   }
                 }}
               />
             </ImageWrapper>
             <MovieDetails>
               <HeaderWrapper>
-                <Header
-                  size="2"
-                  title={state.movie.title}
-                  subtitle={state.movie.tagline}
-                />
+                <Header size="2" title={state.movie.title} subtitle={state.movie.tagline} />
               </HeaderWrapper>
               <DetailsWrapper>
                 <RatingsWrapper>
                   <Rating number={state.movie.vote_average} />
                 </RatingsWrapper>
-                <Info>
-                  {renderInfo(
-                    state.movie.spoken_languages,
-                    state.movie.runtime,
-                    state.movie.release_date
-                  )}
-                </Info>
+                <Info>{renderInfo(state.movie.spoken_languages, state.movie.runtime, state.movie.release_date)}</Info>
               </DetailsWrapper>
               <Heading>Genres</Heading>
               <LinksWrapper>{renderGenres(state.movie.genres)}</LinksWrapper>
               <Heading>The Synopsis</Heading>
               <Text>
-                {state.movie.overview
-                  ? state.movie.overview
-                  : 'There is no description available for this movie.'}
+                {state.movie.overview ? state.movie.overview : "There is no description available for this movie."}
               </Text>
             </MovieDetails>
           </MovieWrapper>
@@ -334,8 +318,8 @@ function renderInfo(languages, time, data) {
   }
   info.push(time, data);
   return info
-    .filter((el) => el !== null)
-    .map((el) => (typeof el === 'number' ? `${el} min.` : el))
+    .filter(el => el !== null)
+    .map(el => (typeof el === "number" ? `${el} min.` : el))
     .map((el, i, array) => (i !== array.length - 1 ? `${el} / ` : el));
 }
 
@@ -347,20 +331,16 @@ function renderRecommended(similar, loading) {
   } else {
     return (
       <Element name="scroll-to-element">
-        <FilmItem film={similar} />{' '}
+        <FilmItem film={similar} />{" "}
       </Element>
     );
   }
 }
 
 function renderGenres(genres) {
-  return genres.map((gen) => (
+  return genres.map(gen => (
     <StyledLink to={`/genres/${gen.name}`} key={gen.id}>
-      <FontAwesomeIcon
-        icon="dot-circle"
-        size="1x"
-        style={{ marginRight: '5px' }}
-      />
+      <FontAwesomeIcon icon="dot-circle" size="1x" style={{ marginRight: "5px" }} />
       {gen.name}
     </StyledLink>
   ));

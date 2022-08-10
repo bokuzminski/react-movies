@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
-import Header from './Header';
-import styled from 'styled-components';
-import { animateScroll as scroll } from 'react-scroll';
-import { useParams, useLocation } from 'react-router-dom';
-import queryString from 'query-string';
+import queryString from "query-string";
+import React, { useEffect } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import { animateScroll as scroll } from "react-scroll";
+import styled from "styled-components";
+import Header from "./Header";
 
-import FilmItem from './FilmItem';
-import NotFound from './NotFound';
-import Loader from './Loader';
-import movdb, { api_key } from '../api/movdb';
-import { useStore } from '../globalState/moviesState';
+import movdb, { api_key } from "../api/movdb";
+import { useStore } from "../globalState/moviesState";
+import Loader from "./Loader";
+import FilmItem from "./movieList/MovieList";
+import NotFound from "./NotFound";
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,41 +24,39 @@ const Search = () => {
 
   const [state, dispatch] = useStore();
 
-  const getMovie = (query) => {
+  const getMovie = query => {
     dispatch({
-      type: 'FETCH_MOVIES_LOADING',
+      type: "FETCH_MOVIES_LOADING"
     });
     movdb
       .get(`/search/movie${api_key}`, {
         params: {
           query,
-          page: param.page,
-        },
+          page: param.page
+        }
       })
-      .then((res) => {
+      .then(res => {
         dispatch({
-          type: 'FETCH_MOVIES',
-          payload: res.data,
+          type: "FETCH_MOVIES",
+          payload: res.data
         });
 
         dispatch({
-          type: 'FINISHED_FETCHING_MOVIES',
+          type: "FINISHED_FETCHING_MOVIES"
         });
       });
   };
   useEffect(() => {
     getMovie(query);
     scroll.scrollToTop({
-      smooth: true,
+      smooth: true
     });
   }, [query, location]);
 
   if (state.movies.loading) {
     return <Loader />;
   } else if (state.movies.total_results === 0) {
-    return (
-      <NotFound title=":(" subtitle={`There were no results for ${query}`} />
-    );
+    return <NotFound title=":(" subtitle={`There were no results for ${query}`} />;
   } else {
     return (
       <Wrapper>

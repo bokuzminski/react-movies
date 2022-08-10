@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import LazyLoad from 'react-lazyload';
-import Rating from 'react-rating';
-import Loading from './Loading';
-import imageMissing from '../style/imageMissing.png';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import Loading from "../../Loading";
 
 const MovieWrapper = styled(Link)`
   display: flex;
@@ -23,16 +20,16 @@ const MovieWrapper = styled(Link)`
 const MovieImg = styled.img`
   width: 100%;
   height: 38rem;
-  object-fit: ${(props) => (props.error ? 'contain' : 'cover')};
+  object-fit: cover;
   border-radius: 0.8rem;
-  padding: ${(props) => (props.error ? '2rem' : '')};
+  padding: 2rem;
   box-shadow: 0rem 2rem 5rem var(--shadow-color);
   transition: all 100ms cubic-bezier(0.645, 0.045, 0.355, 1);
   ${MovieWrapper}:hover & {
     border-radius: 0.8rem 0.8rem 0rem 0rem;
     box-shadow: none;
   }
-  @media ${(props) => props.theme.mediaQueries.smaller} {
+  @media ${props => props.theme.mediaQueries.smaller} {
     height: 28rem;
   }
 `;
@@ -65,7 +62,7 @@ const DetailsWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 3rem;
-  @media ${(props) => props.theme.mediaQueries.smaller} {
+  @media ${props => props.theme.mediaQueries.smaller} {
     padding: 1.5rem 1.5rem;
   }
 `;
@@ -99,7 +96,7 @@ const Tooltip = styled.span`
   margin-left: -60px;
   transition: all 200ms cubic-bezier(0.645, 0.045, 0.355, 1);
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 100%;
     left: 50%;
@@ -115,36 +112,30 @@ const Tooltip = styled.span`
   }
 `;
 
-//render list of movies
-const MovieItem = ({ film }) => {
+export const MovieListItem = ({ id, poster_path, title }: MovieListItemProps) => {
   const [loaded, setloaded] = useState(false);
-  const [error, seterror] = useState(false);
 
   return (
-    <LazyLoad height={200} offset={200}>
-      <MovieWrapper to={`/${film.id}`}>
-        {!loaded ? (
-          <ImgLoading>
-            <Loading />
-          </ImgLoading>
-        ) : null}
-        <MovieImg
-          onLoad={() => setloaded(true)}
-          style={!loaded ? { display: 'none' } : {}}
-          onError={(err) => {
-            seterror(true);
-            if (err.target.src !== `${imageMissing}`) {
-              err.target.src = `${imageMissing}`; //need better error image
-            }
-          }}
-          src={`https://image.tmdb.org/t/p/w342/${film.poster_path}`}
-        />
-        <DetailsWrapper>
-          <Title>{film.title}</Title>
-        </DetailsWrapper>
-      </MovieWrapper>
-    </LazyLoad>
+    <MovieWrapper to={`/${id}`}>
+      {!loaded ? (
+        <ImgLoading>
+          <Loading />
+        </ImgLoading>
+      ) : null}
+      <MovieImg
+        onLoad={() => setloaded(true)}
+        style={!loaded ? { display: "none" } : {}}
+        src={`https://image.tmdb.org/t/p/w342/${poster_path}`}
+      />
+      <DetailsWrapper>
+        <Title>{title}</Title>
+      </DetailsWrapper>
+    </MovieWrapper>
   );
 };
 
-export default MovieItem;
+type MovieListItemProps = {
+  id: number;
+  title: string;
+  poster_path: string;
+};
