@@ -16,7 +16,6 @@ export const Genre = () => {
   const { genre } = useParams<{ genre: string }>();
   /*   const location = useLocation();
   const ploc = queryString.parse(location.search); */
-
   const { isLoading, data } = useFetchMoviesByGenreQuery(genre!);
 
   return (

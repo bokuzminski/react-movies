@@ -48,8 +48,8 @@ export const App = () => {
   return (
     <BrowserRouter>
       <MainWrapper isMobile={isMobile}>
-        {/*   {isMobile ? (
-          <MobileMenu genres={state.genres.genres} />
+        {/*  {false ? (
+          <MobileMenu />
         ) : (
           <>
             <Sidebar />
@@ -61,10 +61,9 @@ export const App = () => {
         <Sidebar />
         <ContentWrapper>
           <Routes>
-            {/* <Route path="/" element={<App />}> */}
-            <Route path="/:filmid" element={<DetailedMovieView />} />
-            <Route path="/genre/:genre" element={<Genre />} />
             <Route path="/" element={<Discover />} />
+            <Route path="/:movieId" element={<DetailedMovieView />} />
+            <Route path="/genre/:genre" element={<Genre />} />
             {/* 
         <Route path="/search/:query" element={<Search />} /> */}
           </Routes>
@@ -82,56 +81,3 @@ export const App = () => {
     window.matchMedia("(max-width: 80em)").matches ? setisMobile(true) : setisMobile(false);
   }
 };
-
-/*
-function App() {
-  const [isMobile, setisMobile] = useState(null);
-  const [state, dispatch] = useStore();
-
-  const changeMobile = () => {
-    window.matchMedia("(max-width: 80em)").matches ? setisMobile(true) : setisMobile(false);
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", changeMobile);
-    return () => window.removeEventListener("resize", changeMobile);
-  }, []);
-
-  useEffect(() => {
-    dispatch({ type: "FETCH_GENRES_LOADING" });
-    movdb.get(`/genre/movie/list${api_key}`).then(response => {
-      dispatch({
-        type: "FETCH_GENRES",
-        payload: response.data
-      });
-    });
-    dispatch({ type: "FINISHED_FETCHING_GENRES" });
-  }, []);
-
-  console.log(data);
-  return (
-    <Router>
-      <MainWrapper isMobile={isMobile}>
-        {isMobile ? (
-          <MobileMenu genres={state.genres.genres} />
-        ) : (
-          <>
-            <Sidebar />
-            <SearchBarWrapper>
-              <SearchBar />
-            </SearchBarWrapper>
-          </>
-        )}
-        <ContentWrapper>
-          <Switch>
-            <Route path="/" exact render={() => <Redirect from="/" to="/react-movies" />} />
-            <Route path="/react-movies" exact component={Discover} />
-            <Route path="/genres/:gen" exact component={Genre} />
-            <Route path="/:slug" exact component={FilmInfo} />
-            <Route path="/search/:query" exact component={Search} />
-          </Switch>
-        </ContentWrapper>
-      </MainWrapper>
-    </Router>
-  );
-}*/

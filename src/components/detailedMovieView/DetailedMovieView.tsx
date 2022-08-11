@@ -4,7 +4,8 @@ import { Link, useParams } from "react-router-dom";
 import { Header } from "src/components/Header";
 import { Rating } from "src/components/Rating";
 import { Genre } from "src/redux/genres";
-import { MovieDetails, useFeetchMovieByIdQuery } from "src/redux/movies";
+import { DetailedMovie } from "src/redux/movdbModel";
+import { useFeetchMovieByIdQuery } from "src/redux/movies";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -214,7 +215,7 @@ const LeftButtons = styled.div`
 `;
 
 export const DetailedMovieView = () => {
-  const { filmid } = useParams<{ filmid: string }>();
+  const { movieId } = useParams<{ movieId: string }>();
   /* const { slug } = useParams();
   const location = useLocation();
   const ploc = queryString.parse(location.search);
@@ -229,7 +230,7 @@ export const DetailedMovieView = () => {
   }, [slug]);
  */
 
-  const { data, isLoading, error } = useFeetchMovieByIdQuery(filmid!);
+  const { data, isLoading, error } = useFeetchMovieByIdQuery(movieId!);
   if (isLoading) return <h1>Loading....</h1>;
   if (!data) return <h1>no data</h1>;
   return (
@@ -269,9 +270,9 @@ function renderInfo({
   time,
   languages
 }: {
-  date: MovieDetails["release_date"];
-  time: MovieDetails["runtime"];
-  languages: MovieDetails["spoken_languages"];
+  date: DetailedMovie["release_date"];
+  time: DetailedMovie["runtime"];
+  languages: DetailedMovie["spoken_languages"];
 }): JSX.Element {
   const info = [];
   if (languages.length !== 0) {

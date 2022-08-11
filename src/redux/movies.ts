@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { BatchMoviesResponse, DetailedMovie } from "src/redux/movdbModel";
+import { BatchMoviesResponse, DetailedMovie, Genre } from "src/redux/movdbModel";
 
 const api_key = `?api_key=${process.env.REACT_APP_API_KEY}`;
 
@@ -8,6 +8,10 @@ export const moviesApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "https://api.themoviedb.org/3/" }),
   tagTypes: ["movies", "movie"],
   endpoints: builder => ({
+    fetchAvailableGenres: builder.query<Genre[], void>({
+      query: () => `genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}`,
+      transformResponse: (response: { genres: Genre[] }) => response.genres
+    }),
     fetchPopularMovies: builder.query<BatchMoviesResponse["results"], void>({
       query: () => `/movie/popular${api_key}`,
       providesTags: ["movies"],
@@ -24,4 +28,9 @@ export const moviesApi = createApi({
   })
 });
 
-export const { useFetchPopularMoviesQuery, useFeetchMovieByIdQuery, useFetchMoviesByGenreQuery } = moviesApi;
+export const {
+  useFetchAvailableGenresQuery,
+  useFetchPopularMoviesQuery,
+  useFeetchMovieByIdQuery,
+  useFetchMoviesByGenreQuery
+} = moviesApi;

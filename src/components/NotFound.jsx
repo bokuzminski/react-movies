@@ -1,9 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-
-
-import Button from './Button';
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const Wrapper = styled.div`
   width: 100%;

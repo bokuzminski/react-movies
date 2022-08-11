@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { Loader } from "src/components/Loader";
 import { LogoImage } from "src/components/Logo";
 import MenuItem from "src/components/MenuItem";
-import { Genre, useFetchAvailableGenresQuery } from "src/redux/genres";
+import { Genre } from "src/redux/movdbModel";
+import { useFetchAvailableGenresQuery } from "src/redux/movies";
 import styled from "styled-components";
 
 const Wrapper = styled.div`

@@ -1,8 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Form = styled.form`
   position: relative;
@@ -27,27 +24,26 @@ const Input = styled.input`
 `;
 const Button = styled.button`
   line-height: 1;
-  pointer-events: ${(props) => (props.state ? "auto" : "none")};
-  cursor: ${(props) => (props.state ? "pointer" : "none")};
+  pointer-events: ${props => (props.state ? "auto" : "none")};
+  cursor: ${props => (props.state ? "pointer" : "none")};
   background-color: transparent;
   border: none;
   outline: none;
   color: var(--text-color);
-  @media ${(props) => props.theme.mediaQueries.large} {
+  @media ${props => props.theme.mediaQueries.large} {
     color: var(--text-color);
     font-size: 10px;
   }
-  @media ${(props) => props.theme.mediaQueries.small} {
+  @media ${props => props.theme.mediaQueries.small} {
     color: var(--text-color);
     font-size: 8px;
   }
 `;
-const SearchBar = () => {
+export const SearchBar = () => {
   const [input, setInput] = useState("");
   const [state, setState] = useState(false);
   const node = useRef();
   const inputFocus = useRef();
-  const history = useHistory();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleclick);
@@ -56,7 +52,7 @@ const SearchBar = () => {
     };
   }, []);
 
-  const handleclick = (e) => {
+  const handleclick = e => {
     if (node.current.contains(e.target)) {
       return;
     }
@@ -76,14 +72,7 @@ const SearchBar = () => {
   return (
     <Form state={state} onSubmit={onFormSubmit} ref={node}>
       <Button type="submit" state={state}></Button>
-      <Input
-        onChange={(e) => setInput(e.target.value)}
-        value={input}
-        state={state}
-        placeholder="Search for movies"
-      />
+      <Input onChange={e => setInput(e.target.value)} value={input} state={state} placeholder="Search for movies" />
     </Form>
   );
 };
-
-export default SearchBar;
