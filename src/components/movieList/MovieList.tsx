@@ -1,7 +1,7 @@
 import React from "react";
 import { Loader } from "src/components/Loader";
 import { MovieListItem } from "src/components/movieList/movieListItem/MovieListItem";
-import { Movie } from "src/redux/movies";
+import { BatchMoviesResponse } from "src/redux/movdbModel";
 import styled from "styled-components";
 
 const MoviesWrapper = styled.div`
@@ -39,6 +39,6 @@ export const MovieList = ({ isLoading, movies }: MovieListProps) => {
 };
 
 type MovieListProps = {
-  movies: Movie[];
+  movies: BatchMoviesResponse["results"];
   isLoading: boolean;
 };

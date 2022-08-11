@@ -22,7 +22,7 @@ export const Genre = () => {
   return (
     <Wrapper>
       <Header title={genre!} subtitle="movies" />
-      {isLoading ? <Loader /> : <MovieList movies={data!.results} isLoading={isLoading} />}
+      {isLoading ? <Loader /> : <MovieList movies={data!} isLoading={isLoading} />}
     </Wrapper>
   );
 };
