@@ -56,7 +56,7 @@ const Search = () => {
   if (state.movies.loading) {
     return <Loader />;
   } else if (state.movies.total_results === 0) {
-    return <NotFound title=":(" subtitle={`There were no results for ${query}`} />;
+    return <NotFound />;
   } else {
     return (
       <Wrapper>

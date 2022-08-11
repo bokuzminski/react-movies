@@ -44,12 +44,13 @@ const Svg = styled.img`
   height: 40vh;
   margin-bottom: 6rem;
 `;
-const NotFound = ({ title, subtitle }) => {
+
+export const NotFound = () => {
   return (
     <Wrapper>
       <TitleWrapper>
-        <Title>{title}</Title>
-        <SubTitle>{subtitle}</SubTitle>
+        <Title>`Not Found`</Title>
+        <SubTitle>There were no results</SubTitle>
       </TitleWrapper>
       <LinkWrapper to="/">
         <Button title="Home" solid icon="home" left />
@@ -57,4 +58,3 @@ const NotFound = ({ title, subtitle }) => {
     </Wrapper>
   );
 };
-export default NotFound;

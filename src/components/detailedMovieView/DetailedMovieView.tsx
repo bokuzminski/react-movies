@@ -21,10 +21,12 @@ import { Loader } from "src/components/Loader";
 import { Rating } from "src/components/Rating";
 import { DetailedMovie } from "src/redux/movdbModel";
 import { useFeetchMovieByIdQuery } from "src/redux/movies";
+import missingImg from "src/style/imageMissing.png";
 
 export const DetailedMovieView = () => {
   const { movieId = "" } = useParams<{ movieId: string }>();
   const { data, isLoading, error } = useFeetchMovieByIdQuery(movieId);
+  const imageSource = data?.poster_path ? `https://image.tmdb.org/t/p/w342/${data.poster_path}` : missingImg;
   if (isLoading) return <Loader />;
   if (!data) return <h1>no data</h1>;
 
@@ -32,7 +34,7 @@ export const DetailedMovieView = () => {
     <DetailedMovieViewWrapper>
       <InteriorWrapper>
         <ImageWrapper>
-          <MovieImg error={!!error} src={`https://image.tmdb.org/t/p/w342/${data.poster_path}`} />
+          <MovieImg error={!!error} src={imageSource} />
         </ImageWrapper>
         <ContentWrapper>
           <HeaderWrapper>

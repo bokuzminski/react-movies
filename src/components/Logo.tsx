@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Logo from "src/style/Logo.png";
 import styled from "styled-components";
-import Logo from "../style/Logo.png";
 
 const LinkWrapper = styled(Link)`
   width: 100%;
