@@ -8,7 +8,7 @@ export const store = configureStore({
     [genresApi.reducerPath]: genresApi.reducer,
     [moviesApi.reducerPath]: moviesApi.reducer
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(genresApi.middleware)
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(moviesApi.middleware)
 });
 setupListeners(store.dispatch);
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,28 +1,15 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import queryString from "query-string";
 import React from "react";
-import LazyLoad from "react-lazyload";
-import { animateScroll as scroll, Element } from "react-scroll";
+import { Link, useParams } from "react-router-dom";
+import { MovieDetails, useFeetchMovieByIdQuery } from "src/redux/movies";
 import styled from "styled-components";
 
-import { useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
-import movdb, { api_key } from "../api/movdb";
-import { useStore } from "../globalState/moviesState";
-import Header from "./Header";
-import Loader from "./Loader";
-import Loading from "./Loading";
-import FilmItem from "./movieList/MovieList";
-import Rating from "./Rating";
-
-//styled components
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
 `;
 
-const MovieWrapper = styled.div`
+const InteriorWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,7 +65,7 @@ const LinksWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const MovieDetails = styled.div`
+const BogMater = styled.div`
   width: 100%;
   max-width: 60%;
   padding: 4rem;
@@ -124,7 +111,7 @@ const ImageWrapper = styled.div`
   }
 `;
 
-const MovieImg = styled.img`
+const MovieImg = styled.img<{ error: boolean }>`
   max-height: 100%;
   height: ${props => (props.error ? "25rem" : "auto")};
   object-fit: ${props => (props.error ? "contain" : "cover")};
@@ -222,8 +209,9 @@ const LeftButtons = styled.div`
   }
 `;
 
-const Movie = () => {
-  const { slug } = useParams();
+export const DetailedMovieView = () => {
+  const { filmid } = useParams<{ filmid: string }>();
+  /* const { slug } = useParams();
   const location = useLocation();
   const ploc = queryString.parse(location.search);
   const [error, setError] = useState(false);
@@ -263,66 +251,65 @@ const Movie = () => {
         });
         setLoading(false);
       });
-  }
-
-  if (loading) {
-    return <Loading />;
-  } else {
-    return (
-      <Wrapper>
-        <LazyLoad height={500}>
-          <MovieWrapper>
-            <ImageWrapper>
-              <MovieImg
-                error={error ? 1 : 0}
-                src={`https://image.tmdb.org/t/p/w342/${state.movie.poster_path}`}
-                onError={e => {
-                  setError(true);
-                  if (
-                    e.target.src !== "https://webitrs5.net/images/comingsoon-square.png" //need better error image
-                  ) {
-                    e.target.src = "https://webitrs5.net/images/comingsoon-square.png";
-                  }
-                }}
-              />
-            </ImageWrapper>
-            <MovieDetails>
-              <HeaderWrapper>
-                <Header size="2" title={state.movie.title} subtitle={state.movie.tagline} />
-              </HeaderWrapper>
-              <DetailsWrapper>
-                <RatingsWrapper>
-                  <Rating number={state.movie.vote_average} />
-                </RatingsWrapper>
-                <Info>{renderInfo(state.movie.spoken_languages, state.movie.runtime, state.movie.release_date)}</Info>
-              </DetailsWrapper>
-              <Heading>Genres</Heading>
-              <LinksWrapper>{renderGenres(state.movie.genres)}</LinksWrapper>
-              <Heading>The Synopsis</Heading>
-              <Text>
-                {state.movie.overview ? state.movie.overview : "There is no description available for this movie."}
-              </Text>
-            </MovieDetails>
-          </MovieWrapper>
-        </LazyLoad>
-        <Header title="Similar" subtitle="movies" />
-        {renderRecommended(state.similar, loading)}
-      </Wrapper>
-    );
-  }
+  } */
+  const movieId = parseInt(filmid!);
+  const { data, isLoading, error } = useFeetchMovieByIdQuery(movieId, {
+    refetchOnMountOrArgChange: true
+  });
+  if (isLoading) return <h1>Loading....</h1>;
+  if (!data) return <h1>no data</h1>;
+  return (
+    <Wrapper>
+      <InteriorWrapper>
+        <ImageWrapper>
+          <MovieImg error={!!error} src={`https://image.tmdb.org/t/p/w342/${data.poster_path}`} />
+        </ImageWrapper>
+        <BogMater>
+          <HeaderWrapper>
+            {/*   <Header size="2" title={BogMaterData.title} subtitle={BogMaterData.tagline} /> */}
+          </HeaderWrapper>
+          <DetailsWrapper>
+            <RatingsWrapper>{/*   <Rating number={BogMaterData.vote_average} /> */}</RatingsWrapper>
+            <Info>
+              {renderInfo({
+                languages: data.spoken_languages,
+                time: data.runtime,
+                date: data.release_date
+              })}
+            </Info>
+          </DetailsWrapper>
+          <Heading>Genres</Heading>
+          {/*  <LinksWrapper>{renderGenres(BogMaterData.genres)}</LinksWrapper> */}
+          <Heading>The Synopsis</Heading>
+          <Text>{data.overview ? data.overview : "There is no description available for this movie."}</Text>
+        </BogMater>
+      </InteriorWrapper>
+      {/* <Header title="Similar" subtitle="movies" />
+      {renderRecommended(state.similar, loading)} */}
+    </Wrapper>
+  );
 };
-function renderInfo(languages, time, data) {
+
+function renderInfo({
+  date,
+  time,
+  languages
+}: {
+  date: MovieDetails["release_date"];
+  time: MovieDetails["runtime"];
+  languages: MovieDetails["spoken_languages"];
+}): JSX.Element {
   const info = [];
   if (languages.length !== 0) {
     info.push(languages[0].name);
   }
-  info.push(time, data);
+  info.push(time, date);
   return info
     .filter(el => el !== null)
     .map(el => (typeof el === "number" ? `${el} min.` : el))
     .map((el, i, array) => (i !== array.length - 1 ? `${el} / ` : el));
 }
-
+/*
 function renderRecommended(similar, loading) {
   if (loading) {
     return <Loader />;
@@ -345,4 +332,4 @@ function renderGenres(genres) {
     </StyledLink>
   ));
 }
-export default Movie;
+ */
