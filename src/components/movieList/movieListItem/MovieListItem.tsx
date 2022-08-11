@@ -7,7 +7,7 @@ const MovieWrapper = styled(Link)`
   display: flex;
   flex-direction: column;
   text-decoration: none;
-  background-color: transparent;
+
   border-radius: 0.8rem;
   transition: all 300ms cubic-bezier(0.645, 0.045, 0.355, 1);
   position: relative;

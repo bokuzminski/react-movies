@@ -51,12 +51,10 @@ const Loading = styled.div`
   }
 `;
 
-const Loader = () => {
+export const Loader = () => {
   return (
     <LoaderWrapper>
       <Loading />
     </LoaderWrapper>
   );
 };
-
-export default Loader;

@@ -1,6 +1,6 @@
 import React from "react";
-import styled from "styled-components";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 import Logo from "../style/Logo.png";
 
 const LinkWrapper = styled(Link)`
@@ -17,12 +17,10 @@ const LogoWrapper = styled.img`
   max-width: 75%;
 `;
 
-const LogoImg = () => {
+export const LogoImage = () => {
   return (
-    <LinkWrapper to={"/react-movies"} >
+    <LinkWrapper to={"/"}>
       <LogoWrapper src={Logo} />
     </LinkWrapper>
   );
 };
-
-export default LogoImg;

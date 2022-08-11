@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import StickyBox from 'react-sticky-box';
-import { slide as Menu } from 'react-burger-menu';
-import SearchBar from './SearchBar';
-import MenuItem from './MenuItem';
-import LogoImg from './Logo';
-import Loading from './Loading';
+import React, { useState } from "react";
+import { slide as Menu } from "react-burger-menu";
+import { Link } from "react-router-dom";
+import StickyBox from "react-sticky-box";
+import styled from "styled-components";
+import Loading from "./Loading";
+import LogoImage from "./Logo";
+import MenuItem from "./MenuItem";
+import SearchBar from "./SearchBar";
 
 const WrapperStickyBox = styled(StickyBox)`
   width: 100%;
@@ -63,38 +63,38 @@ const LinkWrap = styled(Link)`
 
 let styles = {
   bmBurgerButton: {
-    display: 'none',
+    display: "none"
   },
   bmCrossButton: {
-    height: '24px',
-    width: '24px',
-    marginRight: '1rem',
+    height: "24px",
+    width: "24px",
+    marginRight: "1rem"
   },
   bmCross: {
-    background: '#fafafa',
+    background: "#fafafa"
   },
   bmMenuWrap: {
-    position: 'fixed',
-    height: '100%',
+    position: "fixed",
+    height: "100%",
     top: 0,
-    left: 0,
+    left: 0
   },
   bmMenu: {
-    background: '#f4f6f5',
-    overflowY: 'scroll',
-    padding: '2.5em 1.5em',
+    background: "#f4f6f5",
+    overflowY: "scroll",
+    padding: "2.5em 1.5em"
   },
   bmItemList: {
-    color: '#fafafa',
-    padding: '0.8rem',
+    color: "#fafafa",
+    padding: "0.8rem"
   },
   bmItem: {
-    outline: 'none',
+    outline: "none"
   },
   bmOverlay: {
     top: 0,
-    background: 'rgba(0, 0, 0, 0.3)',
-  },
+    background: "rgba(0, 0, 0, 0.3)"
+  }
 };
 const MobileMenu = ({ genres }) => {
   const [isOpen, setisOpen] = useState(false);
@@ -113,7 +113,7 @@ const MobileMenu = ({ genres }) => {
         <SearchBar />
       </WrapperStickyBox>
       <Menu isOpen={isOpen} onStateChange={isMenuOpen} styles={styles}>
-        <LogoImg />
+        <LogoImage />
         <Heading>Genres</Heading>
         {!genres ? <Loading /> : renderGenres(genres)}
       </Menu>
@@ -121,12 +121,8 @@ const MobileMenu = ({ genres }) => {
   );
 };
 function renderGenres(genres, setisOpen) {
-  return genres.map((genre) => (
-    <LinkWrap
-      to={`/genres/${genre.name}`}
-      key={genre.id}
-      onClick={setisOpen ? () => setisOpen(false) : null}
-    >
+  return genres.map(genre => (
+    <LinkWrap to={`/genres/${genre.name}`} key={genre.id} onClick={setisOpen ? () => setisOpen(false) : null}>
       <MenuItem mobile={setisOpen ? 1 : 0} title={genre.name} />
     </LinkWrap>
   ));

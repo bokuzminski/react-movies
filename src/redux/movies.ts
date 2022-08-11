@@ -3,32 +3,35 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const moviesApi = createApi({
   reducerPath: "moviesByGenre",
   baseQuery: fetchBaseQuery({ baseUrl: "https://api.themoviedb.org/3/" }),
+  tagTypes: ["movies", "movie"],
   endpoints: builder => ({
-    fetchPopularMovies: builder.query<ReducerStateType, void>({
+    fetchPopularMovies: builder.query<Movie[], void>({
       query: () => `/movie/popular?api_key=${process.env.REACT_APP_API_KEY}`,
+      providesTags: ["movies"],
       transformResponse: (response: MovieResponse) => {
         const { results } = response;
-        return { popular: results };
+        return results;
       }
     }),
-    feetchMovieById: builder.query<MovieDetails, number>({
-      query: (id: number) => `/movie/${id}?api_key=${process.env.REACT_APP_API_KEY}`
+    feetchMovieById: builder.query<MovieDetails, string>({
+      query: (id: string) => `/movie/${id}?api_key=${process.env.REACT_APP_API_KEY}`,
+      providesTags: result => (result ? [{ type: "movie", id: result.id }] : ["movie"])
+    }),
+    fetchMoviesByGenre: builder.query<MovieResponse, string>({
+      query: (genre: string) => `discover/movie?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${genre}`
     })
   })
 });
 
-export const { useFetchPopularMoviesQuery, useFeetchMovieByIdQuery } = moviesApi;
+export const { useFetchPopularMoviesQuery, useFeetchMovieByIdQuery, useFetchMoviesByGenreQuery } = moviesApi;
 
-type ReducerStateType = {
-  popular: Movie[];
-};
 export type MovieResponse = {
   page: number;
   results: Movie[];
   total_pages: number;
   total_results: number;
 };
-type Movie = {
+export type Movie = {
   adult: boolean;
   backdrop_path: string;
   genre_ids: Genre["id"][];

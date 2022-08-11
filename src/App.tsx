@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter } from "react-router-dom";
-import { MovieList } from "src/components/movieList/MovieList";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { DetailedMovieView } from "src/components/detailedMovieView/DetailedMovieView";
+import { Discover } from "src/components/Discover";
+import { Genre } from "src/components/Genre";
 import { Sidebar } from "src/components/sideBar";
 import styled from "styled-components";
 
@@ -58,12 +60,14 @@ export const App = () => {
         )} */}
         <Sidebar />
         <ContentWrapper>
-          <MovieList />
-          {/*  <Route path="/" element={<App />} />
-          <Route path="/react-movies" element={<Discover />} />
-          <Route path="/genres/:genre" element={<Genre />} />
-          <Route path="/:filmid" element={<FilmInfo />} />
-          <Route path="/search/:query" element={<Search />} /> */}
+          <Routes>
+            {/* <Route path="/" element={<App />}> */}
+            <Route path="/:filmid" element={<DetailedMovieView />} />
+            <Route path="/genre/:genre" element={<Genre />} />
+            <Route path="/" element={<Discover />} />
+            {/* 
+        <Route path="/search/:query" element={<Search />} /> */}
+          </Routes>
         </ContentWrapper>
       </MainWrapper>
     </BrowserRouter>
@@ -78,6 +82,7 @@ export const App = () => {
     window.matchMedia("(max-width: 80em)").matches ? setisMobile(true) : setisMobile(false);
   }
 };
+
 /*
 function App() {
   const [isMobile, setisMobile] = useState(null);

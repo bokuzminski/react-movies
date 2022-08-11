@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Loader from "src/components/Loader";
-import LogoImg from "src/components/Logo";
+import { Loader } from "src/components/Loader";
+import { LogoImage } from "src/components/Logo";
 import MenuItem from "src/components/MenuItem";
 import { Genre, useFetchAvailableGenresQuery } from "src/redux/genres";
 import styled from "styled-components";
@@ -40,7 +40,7 @@ export const Sidebar = () => {
 
   return (
     <Wrapper>
-      <LogoImg />
+      <LogoImage />
       <Heading>Genres</Heading>
       {isLoading ? <Loader /> : renderGenres(genres || [])}
     </Wrapper>
@@ -49,7 +49,7 @@ export const Sidebar = () => {
 
 function renderGenres(genres: Genre[]) {
   return genres.map(genre => (
-    <LinkWrap to={`/genres/${genre.name}`} key={genre.id}>
+    <LinkWrap to={`/genre/${genre.id}`} key={genre.id}>
       <MenuItem title={genre.name} mobile={false} selected={false} />
     </LinkWrap>
   ));

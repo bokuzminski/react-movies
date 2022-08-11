@@ -1,6 +1,7 @@
 import React from "react";
+import { Loader } from "src/components/Loader";
 import { MovieListItem } from "src/components/movieList/movieListItem/MovieListItem";
-import { useFetchPopularMoviesQuery } from "src/redux/movies";
+import { Movie } from "src/redux/movies";
 import styled from "styled-components";
 
 const MoviesWrapper = styled.div`
@@ -22,17 +23,22 @@ const MoviesWrapper = styled.div`
   }
 `;
 
-export const MovieList = () => {
-  const { data: movies } = useFetchPopularMoviesQuery();
+export const MovieList = ({ isLoading, movies }: MovieListProps) => {
+  if (isLoading || !movies) return <Loader />;
 
   return (
     <>
       <MoviesWrapper>
-        {movies?.popular.map(movie => (
+        {movies.map(movie => (
           <MovieListItem key={movie.id} title={movie.title} id={movie.id} poster_path={movie.poster_path} />
         ))}
       </MoviesWrapper>
       {/* <Pagination film={film} /> */}
     </>
   );
+};
+
+type MovieListProps = {
+  movies: Movie[];
+  isLoading: boolean;
 };

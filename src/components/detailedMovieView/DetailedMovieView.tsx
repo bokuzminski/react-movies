@@ -1,5 +1,9 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
+import { Header } from "src/components/Header";
+import { Rating } from "src/components/Rating";
+import { Genre } from "src/redux/genres";
 import { MovieDetails, useFeetchMovieByIdQuery } from "src/redux/movies";
 import styled from "styled-components";
 
@@ -223,39 +227,9 @@ export const DetailedMovieView = () => {
       smooth: true
     });
   }, [slug]);
+ */
 
-  useEffect(() => {
-    setLoading(true);
-    movdb.get(`/movie/${slug}${api_key}`).then(res => {
-      dispatch({
-        type: "FETCH_SINGLE_MOVIE",
-        payload: res.data
-      });
-    });
-    getRecommended(slug, api_key, ploc);
-  }, [slug]);
-
-  useEffect(() => {
-    getRecommended(slug, api_key, ploc);
-  }, [ploc.page]);
-
-  function getRecommended(slug, api_key, ploc) {
-    movdb
-      .get(`/movie/${slug}/recommendations${api_key}`, {
-        params: { page: ploc.page }
-      })
-      .then(res => {
-        dispatch({
-          type: "FETCH_SIMILAR_MOVIES",
-          payload: res.data
-        });
-        setLoading(false);
-      });
-  } */
-  const movieId = parseInt(filmid!);
-  const { data, isLoading, error } = useFeetchMovieByIdQuery(movieId, {
-    refetchOnMountOrArgChange: true
-  });
+  const { data, isLoading, error } = useFeetchMovieByIdQuery(filmid!);
   if (isLoading) return <h1>Loading....</h1>;
   if (!data) return <h1>no data</h1>;
   return (
@@ -266,10 +240,10 @@ export const DetailedMovieView = () => {
         </ImageWrapper>
         <BogMater>
           <HeaderWrapper>
-            {/*   <Header size="2" title={BogMaterData.title} subtitle={BogMaterData.tagline} /> */}
+            <Header size="2" title={data.title} subtitle={data.tagline} />
           </HeaderWrapper>
           <DetailsWrapper>
-            <RatingsWrapper>{/*   <Rating number={BogMaterData.vote_average} /> */}</RatingsWrapper>
+            <RatingsWrapper>{<Rating number={data.vote_average} />}</RatingsWrapper>
             <Info>
               {renderInfo({
                 languages: data.spoken_languages,
@@ -279,13 +253,13 @@ export const DetailedMovieView = () => {
             </Info>
           </DetailsWrapper>
           <Heading>Genres</Heading>
-          {/*  <LinksWrapper>{renderGenres(BogMaterData.genres)}</LinksWrapper> */}
+          <LinksWrapper>{renderGenres(data.genres)}</LinksWrapper>
           <Heading>The Synopsis</Heading>
           <Text>{data.overview ? data.overview : "There is no description available for this movie."}</Text>
         </BogMater>
       </InteriorWrapper>
-      {/* <Header title="Similar" subtitle="movies" />
-      {renderRecommended(state.similar, loading)} */}
+      <Header title="Similar" subtitle="movies" />
+      {/* {renderRecommended(state.similar, loading)}  */}
     </Wrapper>
   );
 };
@@ -323,13 +297,12 @@ function renderRecommended(similar, loading) {
     );
   }
 }
-
-function renderGenres(genres) {
-  return genres.map(gen => (
-    <StyledLink to={`/genres/${gen.name}`} key={gen.id}>
+*/
+function renderGenres(genres: Genre[]) {
+  return genres.map(genre => (
+    <StyledLink to={`/genre/${genre.name}`} key={genre.id}>
       <FontAwesomeIcon icon="dot-circle" size="1x" style={{ marginRight: "5px" }} />
-      {gen.name}
+      {genre.name}
     </StyledLink>
   ));
 }
- */

@@ -1,8 +1,7 @@
-
-import React from 'react';
-import styled from 'styled-components';
-import Stars from 'react-rating';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
+import Stars from "react-rating";
+import styled from "styled-components";
 
 const StarsWrapper = styled(Stars)`
   line-height: 1;
@@ -17,11 +16,11 @@ const FontAwesome = styled(FontAwesomeIcon)`
   }
 `;
 
-const Rating = ({ number }) => {
+export const Rating = ({ number }: RatingProps) => {
   return (
     <StarsWrapper
-      emptySymbol={<FontAwesome icon={['far', 'star']} size="lg" />}
-      fullSymbol={<FontAwesome icon={['fas', 'star']} size="lg" />}
+      emptySymbol={<FontAwesome icon={["far", "star"]} size="lg" />}
+      fullSymbol={<FontAwesome icon={["fas", "star"]} size="lg" />}
       initialRating={number}
       stop={10}
       readonly
@@ -29,4 +28,6 @@ const Rating = ({ number }) => {
   );
 };
 
-export default Rating;
+type RatingProps = {
+  number: number;
+};
