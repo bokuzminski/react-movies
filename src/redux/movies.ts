@@ -24,12 +24,17 @@ export const moviesApi = createApi({
     fetchMoviesByGenre: builder.query<BatchMoviesResponse["results"], string>({
       query: (genre: string) => `discover/movie?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${genre}`,
       transformResponse: (response: BatchMoviesResponse) => response.results
+    }),
+    fetchSimilarMovies: builder.query<BatchMoviesResponse["results"], number>({
+      query: (movieId: number) => `/movie/${movieId}/similar${api_key}`,
+      transformResponse: (response: BatchMoviesResponse) => response.results
     })
   })
 });
 
 export const {
   useFetchAvailableGenresQuery,
+  useFetchSimilarMoviesQuery,
   useFetchPopularMoviesQuery,
   useFeetchMovieByIdQuery,
   useFetchMoviesByGenreQuery

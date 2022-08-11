@@ -18,14 +18,16 @@ import {
 } from "src/components/detailedMovieView/DetailedMovieView.style";
 import { Header } from "src/components/Header";
 import { Loader } from "src/components/Loader";
+import { MovieList } from "src/components/movieList/MovieList";
 import { Rating } from "src/components/Rating";
-import { DetailedMovie } from "src/redux/movdbModel";
-import { useFeetchMovieByIdQuery } from "src/redux/movies";
+import { DetailedMovie, Movie } from "src/redux/movdbModel";
+import { useFeetchMovieByIdQuery, useFetchSimilarMoviesQuery } from "src/redux/movies";
 import missingImg from "src/style/imageMissing.png";
 
 export const DetailedMovieView = () => {
   const { movieId = "" } = useParams<{ movieId: string }>();
   const { data, isLoading, error } = useFeetchMovieByIdQuery(movieId);
+
   const imageSource = data?.poster_path ? `https://image.tmdb.org/t/p/w342/${data.poster_path}` : missingImg;
   if (isLoading) return <Loader />;
   if (!data) return <h1>no data</h1>;
@@ -55,7 +57,7 @@ export const DetailedMovieView = () => {
         </ContentWrapper>
       </InteriorWrapper>
       <Header title="Similar" subtitle="movies" />
-      {/* {renderRecommended(state.similar, loading)}  */}
+      <SimilarMovies movieId={data.id} />
     </DetailedMovieViewWrapper>
   );
 };
@@ -88,18 +90,8 @@ const MovieGenreCategories = ({ genres }: { genres: DetailedMovie["genres"] }) =
   );
 };
 
-/*
-function renderRecommended(similar, loading) {
-  if (loading) {
-    return <Loader />;
-  } else if (similar.total_results === 0) {
-    return <h2>Sorry, no recomended movies</h2>;
-  } else {
-    return (
-      <Element name="scroll-to-element">
-        <FilmItem film={similar} />{" "}
-      </Element>
-    );
-  }
-}
-*/
+const SimilarMovies = ({ movieId }: { movieId: Movie["id"] }) => {
+  const { data = [], isLoading } = useFetchSimilarMoviesQuery(movieId);
+
+  return <MovieList movies={data} isLoading={isLoading} />;
+};
