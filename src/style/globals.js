@@ -20,19 +20,19 @@ export default createGlobalStyle`
     
     font-size: 65.5%; //1rem = 10px
     box-sizing: border-box;
-    --color-primary: ${(props) => props.theme.colors.main};
-    --color-primary-dark: ${(props) => props.theme.colors.dark};
-    --color-primary-light: ${(props) => props.theme.colors.light};
-    --color-primary-lighter: ${(props) => props.theme.colors.lighter};
-    --text-color: ${(props) => props.theme.colors.text};
-    --link-color: ${(props) => props.theme.colors.link};
+    --color-primary: ${props => props.theme.colors.main};
+    --color-primary-dark: ${props => props.theme.colors.dark};
+    --color-primary-light: ${props => props.theme.colors.light};
+    --color-primary-lighter: ${props => props.theme.colors.lighter};
+    --text-color: ${props => props.theme.colors.text};
+    --link-color: ${props => props.theme.colors.link};
     --border-color: rgba(176, 190, 197, 0.5);
     --shadow-color: rgba(0, 0, 0, 0.2);
     --shadow-color-dark: rgba(0, 0, 0, 0.25);
-    @media ${(props) => props.theme.mediaQueries.largest} {
+    @media ${props => props.theme.mediaQueries.largest} {
         font-size: 57.5%;
     }
-    @media ${(props) => props.theme.mediaQueries.large} {
+    @media ${props => props.theme.mediaQueries.large} {
         font-size: 55%;
     }
   }
