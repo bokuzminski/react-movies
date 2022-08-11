@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Loading from "../../Loading";
 
 const MovieWrapper = styled(Link)`
   display: flex;
@@ -113,20 +112,9 @@ const Tooltip = styled.span`
 `;
 
 export const MovieListItem = ({ id, poster_path, title }: MovieListItemProps) => {
-  const [loaded, setloaded] = useState(false);
-
   return (
     <MovieWrapper to={`/${id}`}>
-      {!loaded ? (
-        <ImgLoading>
-          <Loading />
-        </ImgLoading>
-      ) : null}
-      <MovieImg
-        onLoad={() => setloaded(true)}
-        style={!loaded ? { display: "none" } : {}}
-        src={`https://image.tmdb.org/t/p/w342/${poster_path}`}
-      />
+      <MovieImg src={`https://image.tmdb.org/t/p/w342/${poster_path}`} />
       <DetailsWrapper>
         <Title>{title}</Title>
       </DetailsWrapper>
