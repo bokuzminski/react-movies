@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const Form = styled.form`
@@ -17,12 +17,10 @@ const Input = styled.input`
   border-radius: 0;
   background-position: 100% center;
   width: 100%;
-
   padding: 10px 14px;
-
   background-color: transparent;
 `;
-const Button = styled.button`
+const Button = styled.button<{ state: boolean }>`
   line-height: 1;
   pointer-events: ${props => (props.state ? "auto" : "none")};
   cursor: ${props => (props.state ? "pointer" : "none")};
@@ -42,37 +40,25 @@ const Button = styled.button`
 export const SearchBar = () => {
   const [input, setInput] = useState("");
   const [state, setState] = useState(false);
-  const node = useRef();
-  const inputFocus = useRef();
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleclick);
-    return () => {
-      document.removeEventListener("mousedown", handleclick);
-    };
-  }, []);
+  return (
+    <Form onSubmit={onFormSubmit}>
+      <Button type="submit" state={state}></Button>
+      <Input onChange={changeInput} value={input} placeholder="Search for movies" />
+    </Form>
+  );
 
-  const handleclick = e => {
-    if (node.current.contains(e.target)) {
-      return;
-    }
-  };
-  //form submiting and url change
-  function onFormSubmit(e) {
+  function changeInput(event: React.ChangeEvent<HTMLInputElement>) {
+    setInput(event.target.value);
+  }
+
+  function onFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (input.length === 0) {
       return;
     } else {
       setInput("");
       setState(false);
-      history.push(`/search/${input}`);
     }
   }
-
-  return (
-    <Form state={state} onSubmit={onFormSubmit} ref={node}>
-      <Button type="submit" state={state}></Button>
-      <Input onChange={e => setInput(e.target.value)} value={input} state={state} placeholder="Search for movies" />
-    </Form>
-  );
 };

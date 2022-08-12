@@ -52,7 +52,7 @@ export const DetailedMovieView = () => {
           <LinksWrapper>
             <MovieGenreCategories genres={data.genres} />
           </LinksWrapper>
-          <Heading>The Synopsis</Heading>
+          {/* <Heading>The Synopsis</Heading>  might be worth removing*/}
           <OverviewText>{data.overview || "There is no description available for this movie."}</OverviewText>
         </ContentWrapper>
       </InteriorWrapper>

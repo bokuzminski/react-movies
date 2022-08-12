@@ -4,7 +4,7 @@ import { BatchMoviesResponse, DetailedMovie, Genre } from "src/redux/movdbModel"
 const api_key = `?api_key=${process.env.REACT_APP_API_KEY}`;
 
 export const moviesApi = createApi({
-  reducerPath: "moviesByGenre",
+  reducerPath: "movieDbApi",
   baseQuery: fetchBaseQuery({ baseUrl: "https://api.themoviedb.org/3/" }),
   tagTypes: ["movies", "movie"],
   endpoints: builder => ({

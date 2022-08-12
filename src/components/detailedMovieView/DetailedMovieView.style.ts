@@ -139,10 +139,10 @@ export const HeaderWrapper = styled.div`
 
 export const Heading = styled.h3`
   color: var(--color-primary-dark);
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   margin-bottom: 1rem;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   @media ${props => props.theme.mediaQueries.medium} {
     font-size: 1.2rem;
   }
@@ -177,7 +177,7 @@ export const Info = styled.div`
 `;
 
 export const OverviewText = styled.p`
-  font-size: 1.4rem;
+  font-size: 2rem;
   line-height: 1.8;
   color: var(--link-color);
   font-weight: 500;

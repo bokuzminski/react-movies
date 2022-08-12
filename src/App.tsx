@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DetailedMovieView } from "src/components/detailedMovieView/DetailedMovieView";
 import { Discover } from "src/components/Discover";
 import { Genre } from "src/components/Genre";
+import MobileMenu from "src/components/MobileMenu";
+import { SearchBar } from "src/components/SearchBar";
 import { Sidebar } from "src/components/sideBar";
 import styled from "styled-components";
 
@@ -48,7 +50,7 @@ export const App = () => {
   return (
     <BrowserRouter>
       <MainWrapper isMobile={isMobile}>
-        {/*  {false ? (
+        {isMobile ? (
           <MobileMenu />
         ) : (
           <>
@@ -57,15 +59,15 @@ export const App = () => {
               <SearchBar />
             </SearchBarWrapper>
           </>
-        )} */}
-        <Sidebar />
+        )}
         <ContentWrapper>
           <Routes>
             <Route path="/" element={<Discover />} />
             <Route path="/:movieId" element={<DetailedMovieView />} />
             <Route path="/genre/:genre" element={<Genre />} />
             {/* 
-        <Route path="/search/:query" element={<Search />} /> */}
+                <Route path="/search/:query" element={<Search />} /> 
+        */}
           </Routes>
         </ContentWrapper>
       </MainWrapper>
