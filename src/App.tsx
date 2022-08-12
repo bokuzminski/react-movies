@@ -6,7 +6,7 @@ import MobileMenu from "src/components/MobileMenu";
 import { PopularMovies } from "src/components/popularMovies/PopularMovies";
 import { SearchBar } from "src/components/searchMovies/searchBar/SearchBar";
 import { SearchMovies } from "src/components/searchMovies/SearchMovies";
-import { SideBarMenu } from "src/components/SideBarMenu";
+import { SideBarMenu } from "src/components/sideBar/SideBarMenu";
 import styled from "styled-components";
 
 const MainWrapper = styled.div<{ isMobile: boolean }>`
