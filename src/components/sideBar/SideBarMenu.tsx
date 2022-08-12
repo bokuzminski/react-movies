@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Loader } from "src/components/loader/Loader";
-import { LogoImage } from "src/components/Logo";
+import { LogoImage } from "src/components/sideBar/logo/Logo";
 import { SideBarMenuItem } from "src/components/sideBar/sideBarMenuItem/SideBarMenuItem";
 import { Genre } from "src/redux/movdbModel";
 import { useFetchAvailableGenresQuery } from "src/redux/movies";
@@ -50,7 +50,7 @@ export const SideBarMenu = () => {
 
 function renderGenres(genres: Genre[]) {
   return genres.map(genre => (
-    <LinkWrap to={`/genre/${genre.id}`} key={genre.id}>
+    <LinkWrap to={`/genre/${genre.id}/${genre.name}`} key={genre.id}>
       <SideBarMenuItem title={genre.name} mobile={false} selected={false} />
     </LinkWrap>
   ));

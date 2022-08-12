@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DetailedMovieView } from "src/components/detailedMovieView/DetailedMovieView";
-import { Genre } from "src/components/Genre";
 import MobileMenu from "src/components/MobileMenu";
+import { MoviesByGenre } from "src/components/moviesByGenre/MoviesByGenre";
 import { PopularMovies } from "src/components/popularMovies/PopularMovies";
 import { SearchBar } from "src/components/searchMovies/searchBar/SearchBar";
 import { SearchMovies } from "src/components/searchMovies/SearchMovies";
@@ -65,7 +65,7 @@ export const App = () => {
           <Routes>
             <Route path="/" element={<PopularMovies />} />
             <Route path="/:movieId" element={<DetailedMovieView />} />
-            <Route path="/genre/:genre" element={<Genre />} />
+            <Route path="/genre/:genreId/:genreName" element={<MoviesByGenre />} />
             <Route path="/search/:query" element={<SearchMovies />} />
           </Routes>
         </ContentWrapper>

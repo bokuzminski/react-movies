@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import StickyBox from "react-sticky-box";
 import styled from "styled-components";
 import Loading from "./loader/Loading";
-import LogoImage from "./Logo";
 import SearchBar from "./searchMovies/searchBar/SearchBar";
+import LogoImage from "./sideBar/logo/Logo";
 import MenuItem from "./sideBar/sideBarMenuItem/SideBarMenuItem";
 
 const WrapperStickyBox = styled(StickyBox)`

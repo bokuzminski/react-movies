@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
   ContentWrapper,
@@ -19,7 +19,7 @@ import {
 import { Header } from "src/components/Header";
 import { Loader } from "src/components/loader/Loader";
 import { MovieList } from "src/components/movieList/MovieList";
-import { Rating } from "src/components/Rating";
+import { RatingStars } from "src/components/RatingStars";
 import { DetailedMovie, Movie } from "src/redux/movdbModel";
 import { useFeetchMovieByIdQuery, useFetchSimilarMoviesQuery } from "src/redux/movies";
 import missingImg from "src/style/imageMissing.png";
@@ -27,8 +27,10 @@ import missingImg from "src/style/imageMissing.png";
 export const DetailedMovieView = () => {
   const { movieId = "" } = useParams<{ movieId: string }>();
   const { data, isLoading, error } = useFeetchMovieByIdQuery(movieId);
-
   const imageSource = data?.poster_path ? `https://image.tmdb.org/t/p/w342/${data.poster_path}` : missingImg;
+
+  useEffect(scrollToTopWhenNewMovieLoads, [movieId]);
+
   if (isLoading) return <Loader />;
   if (!data) return <h1>no data</h1>;
 
@@ -43,9 +45,13 @@ export const DetailedMovieView = () => {
             <Header size="2" title={data.title} subtitle={data.tagline} />
           </HeaderWrapper>
           <DetailsWrapper>
-            <RatingsWrapper>{<Rating number={data.vote_average} />}</RatingsWrapper>
+            <RatingsWrapper>{<RatingStars number={data.vote_average} />}</RatingsWrapper>
             <Info>
-              <LanguageAndDurationInfo date={data.release_date} time={data.runtime} languages={data.spoken_languages} />
+              <LanguageAndDurationInfo
+                date={data.release_date}
+                time={data.runtime}
+                languages={data.original_language}
+              />
             </Info>
           </DetailsWrapper>
           <Heading>Genres</Heading>
@@ -62,6 +68,10 @@ export const DetailedMovieView = () => {
   );
 };
 
+function scrollToTopWhenNewMovieLoads() {
+  window.scrollTo(0, 0);
+}
+
 const LanguageAndDurationInfo = ({
   date,
   time,
@@ -69,9 +79,9 @@ const LanguageAndDurationInfo = ({
 }: {
   date: DetailedMovie["release_date"];
   time: DetailedMovie["runtime"];
-  languages: DetailedMovie["spoken_languages"];
+  languages: DetailedMovie["original_language"];
 }) => {
-  const mainSpokenLanguage = languages[0].name;
+  const mainSpokenLanguage = languages.toUpperCase();
   const languageAndDuration = `${mainSpokenLanguage} / ${time} min / ${date}`;
 
   return <p>{languageAndDuration}</p>;
@@ -81,7 +91,7 @@ const MovieGenreCategories = ({ genres }: { genres: DetailedMovie["genres"] }) =
   return (
     <>
       {genres.map(genre => (
-        <StyledLink to={`/genre/${genre.name}`} key={genre.id}>
+        <StyledLink to={`/genre/${genre.id}/${genre.name}`} key={genre.id}>
           <FontAwesomeIcon icon="dot-circle" size="1x" style={{ marginRight: "5px" }} />
           {genre.name}
         </StyledLink>
