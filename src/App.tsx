@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DetailedMovieView } from "src/components/detailedMovieView/DetailedMovieView";
-import { Discover } from "src/components/Discover";
 import { Genre } from "src/components/Genre";
 import MobileMenu from "src/components/MobileMenu";
-import { SearchBar } from "src/components/SearchBar";
+import { PopularMovies } from "src/components/popularMovies/PopularMovies";
+import { SearchBar } from "src/components/searchMovies/searchBar/SearchBar";
+import { SearchMovies } from "src/components/searchMovies/SearchMovies";
 import { Sidebar } from "src/components/sideBar";
 import styled from "styled-components";
 
@@ -62,12 +63,10 @@ export const App = () => {
         )}
         <ContentWrapper>
           <Routes>
-            <Route path="/" element={<Discover />} />
+            <Route path="/" element={<PopularMovies />} />
             <Route path="/:movieId" element={<DetailedMovieView />} />
             <Route path="/genre/:genre" element={<Genre />} />
-            {/* 
-                <Route path="/search/:query" element={<Search />} /> 
-        */}
+            <Route path="/search/:query" element={<SearchMovies />} />
           </Routes>
         </ContentWrapper>
       </MainWrapper>

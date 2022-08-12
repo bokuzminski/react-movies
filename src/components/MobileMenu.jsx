@@ -6,7 +6,7 @@ import styled from "styled-components";
 import Loading from "./loader/Loading";
 import LogoImage from "./Logo";
 import MenuItem from "./MenuItem";
-import SearchBar from "./SearchBar";
+import SearchBar from "./searchMovies/searchBar/SearchBar";
 
 const WrapperStickyBox = styled(StickyBox)`
   width: 100%;

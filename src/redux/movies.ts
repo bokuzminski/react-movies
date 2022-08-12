@@ -28,6 +28,13 @@ export const moviesApi = createApi({
     fetchSimilarMovies: builder.query<BatchMoviesResponse["results"], number>({
       query: (movieId: number) => `/movie/${movieId}/similar${api_key}`,
       transformResponse: (response: BatchMoviesResponse) => response.results
+    }),
+    fetchMoviesWithSearchQuery: builder.query<BatchMoviesResponse["results"], string>({
+      query: (query: string) => ({
+        url: `search/movie${api_key}`,
+        params: { query }
+      }),
+      transformResponse: (response: BatchMoviesResponse) => response.results
     })
   })
 });
@@ -37,5 +44,6 @@ export const {
   useFetchSimilarMoviesQuery,
   useFetchPopularMoviesQuery,
   useFeetchMovieByIdQuery,
-  useFetchMoviesByGenreQuery
+  useFetchMoviesByGenreQuery,
+  useFetchMoviesWithSearchQueryQuery
 } = moviesApi;

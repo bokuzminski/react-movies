@@ -1,8 +1,8 @@
 import React from "react";
 import { useFetchPopularMoviesQuery } from "src/redux/movies";
 import styled from "styled-components";
-import { Loader } from "./loader/Loader";
-import { MovieList } from "./movieList/MovieList";
+import { Loader } from "../loader/Loader";
+import { MovieList } from "../movieList/MovieList";
 
 const Wrapper = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   flex-direction: column;
 `;
 
-export const Discover = () => {
+export const PopularMovies = () => {
   const { data = [], isLoading } = useFetchPopularMoviesQuery();
 
   if (isLoading) {
