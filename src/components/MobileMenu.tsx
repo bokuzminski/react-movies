@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { slide as Menu } from "react-burger-menu";
 import { Link } from "react-router-dom";
 import StickyBox from "react-sticky-box";
+import { Loading } from "src/components/loader/Loading";
+import { SearchBar } from "src/components/searchMovies/searchBar/SearchBar";
+import { LogoImage } from "src/components/sideBar/logo/Logo";
+import { SideBarMenuItem } from "src/components/sideBar/sideBarMenuItem/SideBarMenuItem";
+import { Genre } from "src/redux/movdbModel";
+import { useFetchAvailableGenresQuery } from "src/redux/movies";
 import styled from "styled-components";
-import Loading from "./loader/Loading";
-import SearchBar from "./searchMovies/searchBar/SearchBar";
-import LogoImage from "./sideBar/logo/Logo";
-import MenuItem from "./sideBar/sideBarMenuItem/SideBarMenuItem";
 
 const WrapperStickyBox = styled(StickyBox)`
   width: 100%;
@@ -61,7 +63,7 @@ const LinkWrap = styled(Link)`
   margin-bottom: 0.5rem;
 `;
 
-let styles = {
+const styles = {
   bmBurgerButton: {
     display: "none"
   },
@@ -96,10 +98,10 @@ let styles = {
     background: "rgba(0, 0, 0, 0.3)"
   }
 };
-const MobileMenu = ({ genres }) => {
+const MobileMenu = () => {
   const [isOpen, setisOpen] = useState(false);
-
-  const isMenuOpen = ({ isOpen }) => {
+  const { data: genres } = useFetchAvailableGenresQuery();
+  const isMenuOpen = ({ isOpen }: { isOpen: boolean }) => {
     setisOpen(isOpen);
   };
   return (
@@ -119,12 +121,13 @@ const MobileMenu = ({ genres }) => {
       </Menu>
     </>
   );
+
+  function renderGenres(genres: Genre[]) {
+    return genres.map(genre => (
+      <LinkWrap to={`/genres/${genre.name}`} key={genre.id} onClick={() => setisOpen(!isOpen)}>
+        <SideBarMenuItem mobile={isOpen} title={genre.name} selected={false} />
+      </LinkWrap>
+    ));
+  }
 };
-function renderGenres(genres, setisOpen) {
-  return genres.map(genre => (
-    <LinkWrap to={`/genres/${genre.name}`} key={genre.id} onClick={setisOpen ? () => setisOpen(false) : null}>
-      <MenuItem mobile={setisOpen ? 1 : 0} title={genre.name} />
-    </LinkWrap>
-  ));
-}
 export default MobileMenu;
