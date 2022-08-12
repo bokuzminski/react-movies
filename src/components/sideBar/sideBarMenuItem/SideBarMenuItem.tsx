@@ -38,7 +38,7 @@ const StyledItem = styled.div<{ mobile: boolean; selected: boolean }>`
   }
 `;
 
-const MenuItem = ({ title, mobile, selected }: { title: string; mobile: boolean; selected: boolean }) => {
+export const SideBarMenuItem = ({ title, mobile, selected }: SideBarMenuItemProps) => {
   return (
     <StyledItem mobile={mobile} selected={selected}>
       <FontAwesomeIcon icon="arrow-alt-circle-right" size="1x" style={{ marginRight: "10px" }} />
@@ -47,4 +47,8 @@ const MenuItem = ({ title, mobile, selected }: { title: string; mobile: boolean;
   );
 };
 
-export default MenuItem;
+type SideBarMenuItemProps = {
+  title: string;
+  mobile: boolean;
+  selected: boolean;
+};

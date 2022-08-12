@@ -5,8 +5,8 @@ import StickyBox from "react-sticky-box";
 import styled from "styled-components";
 import Loading from "./loader/Loading";
 import LogoImage from "./Logo";
-import MenuItem from "./MenuItem";
 import SearchBar from "./searchMovies/searchBar/SearchBar";
+import MenuItem from "./sideBar/sideBarMenuItem/SideBarMenuItem";
 
 const WrapperStickyBox = styled(StickyBox)`
   width: 100%;

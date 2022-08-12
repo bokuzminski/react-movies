@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Loader } from "src/components/loader/Loader";
 import { LogoImage } from "src/components/Logo";
-import MenuItem from "src/components/MenuItem";
+import { SideBarMenuItem } from "src/components/sideBar/sideBarMenuItem/SideBarMenuItem";
 import { Genre } from "src/redux/movdbModel";
 import { useFetchAvailableGenresQuery } from "src/redux/movies";
 import styled from "styled-components";
@@ -36,7 +36,7 @@ const LinkWrap = styled(Link)`
   margin-bottom: 0.5rem;
 `;
 
-export const Sidebar = () => {
+export const SideBarMenu = () => {
   const { data: genres, isLoading } = useFetchAvailableGenresQuery();
 
   return (
@@ -51,7 +51,7 @@ export const Sidebar = () => {
 function renderGenres(genres: Genre[]) {
   return genres.map(genre => (
     <LinkWrap to={`/genre/${genre.id}`} key={genre.id}>
-      <MenuItem title={genre.name} mobile={false} selected={false} />
+      <SideBarMenuItem title={genre.name} mobile={false} selected={false} />
     </LinkWrap>
   ));
 }
