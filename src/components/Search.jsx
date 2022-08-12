@@ -7,7 +7,7 @@ import Header from "./Header";
 
 import movdb, { api_key } from "../api/movdb";
 import { useStore } from "../globalState/moviesState";
-import { Loader } from "./Loader";
+import { Loader } from "./loader/Loader";
 import FilmItem from "./movieList/MovieList";
 import NotFound from "./NotFound";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { useFetchPopularMoviesQuery } from "src/redux/movies";
 import styled from "styled-components";
-import { Loader } from "./Loader";
+import { Loader } from "./loader/Loader";
 import { MovieList } from "./movieList/MovieList";
 
 const Wrapper = styled.div`

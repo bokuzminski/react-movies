@@ -43,7 +43,7 @@ const SearchBarWrapper = styled.div`
 `;
 
 export const App = () => {
-  const [isMobile, setisMobile] = useState<boolean>(false);
+  const [isMobile, setisMobile] = useState(false);
 
   useEffect(resizeWindowIfOnMobile, []);
 

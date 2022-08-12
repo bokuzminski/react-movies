@@ -3,7 +3,7 @@ import { slide as Menu } from "react-burger-menu";
 import { Link } from "react-router-dom";
 import StickyBox from "react-sticky-box";
 import styled from "styled-components";
-import Loading from "./Loading";
+import Loading from "./loader/Loading";
 import LogoImage from "./Logo";
 import MenuItem from "./MenuItem";
 import SearchBar from "./SearchBar";

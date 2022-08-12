@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Loader } from "src/components/Loader";
+import { Loader } from "src/components/loader/Loader";
 import { LogoImage } from "src/components/Logo";
 import MenuItem from "src/components/MenuItem";
 import { Genre } from "src/redux/movdbModel";

@@ -1,5 +1,5 @@
 import React from "react";
-import { Loader } from "src/components/Loader";
+import { Loader } from "src/components/loader/Loader";
 import { MovieListItem } from "src/components/movieList/movieListItem/MovieListItem";
 import { BatchMoviesResponse } from "src/redux/movdbModel";
 import styled from "styled-components";

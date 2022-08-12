@@ -17,7 +17,7 @@ import {
   StyledLink
 } from "src/components/detailedMovieView/DetailedMovieView.style";
 import { Header } from "src/components/Header";
-import { Loader } from "src/components/Loader";
+import { Loader } from "src/components/loader/Loader";
 import { MovieList } from "src/components/movieList/MovieList";
 import { Rating } from "src/components/Rating";
 import { DetailedMovie, Movie } from "src/redux/movdbModel";
