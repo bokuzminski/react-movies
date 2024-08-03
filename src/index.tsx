@@ -9,6 +9,10 @@ import { store } from "src/redux/store";
 import GlobalStyle from "src/style/globals";
 import theme from "src/style/theme";
 import { ThemeProvider } from "styled-components";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
 
 library.add(fas, far, faStar);
 
