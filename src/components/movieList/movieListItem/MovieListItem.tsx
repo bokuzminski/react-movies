@@ -1,15 +1,18 @@
-import { Box, Card, CardActionArea, CardContent, CardMedia, Rating, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 
 export const MovieListItem = ({ id, poster_path, title }: MovieListItemProps) => {
   return (
     <Box
+      component={Link}
+      to={`/${id}`}
       sx={{
         transition: "transform 0.3s",
         maxWidth: 342,
         display: "flex",
         flexDirection: "column",
+        textDecoration: "none",
         borderRadius: 3,
         gap: 2,
         "&:hover": {
@@ -22,7 +25,7 @@ export const MovieListItem = ({ id, poster_path, title }: MovieListItemProps) =>
         component="img"
         src={`https://image.tmdb.org/t/p/w342/${poster_path}`}
         alt={title}
-        sx={{ borderRadius: 3, objectFit: "cover" }}
+        sx={{ borderRadius: 3, objectFit: "cover", maxWidth: 342 }}
       />
 
       <Typography
