@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logo from "src/style/Logo.png";
+import Logo from "src/style/Logo.svg";
 import styled from "styled-components";
 
 const LinkWrapper = styled(Link)`
@@ -14,7 +14,7 @@ const LinkWrapper = styled(Link)`
 `;
 
 const LogoWrapper = styled.img`
-  max-width: 75%;
+  max-width: 100%;
 `;
 
 export const LogoImage = () => {

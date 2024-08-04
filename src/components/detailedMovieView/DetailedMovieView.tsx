@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Rating } from "@mui/material";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -13,13 +14,11 @@ import {
   LinksWrapper,
   MovieImg,
   OverviewText,
-  RatingsWrapper,
   StyledLink
 } from "src/components/detailedMovieView/DetailedMovieView.style";
 import { Header } from "src/components/Header";
 import { Loader } from "src/components/loader/Loader";
 import { MovieList } from "src/components/movieList/MovieList";
-import { RatingStars } from "src/components/RatingStars";
 import { DetailedMovie, Movie } from "src/redux/movdbModel";
 import { useFeetchMovieByIdQuery, useFetchSimilarMoviesQuery } from "src/redux/movies";
 
@@ -44,7 +43,7 @@ export const DetailedMovieView = () => {
             <Header size="2" title={data.title} subtitle={data.tagline} />
           </HeaderWrapper>
           <DetailsWrapper>
-            <RatingsWrapper>{<RatingStars number={data.vote_average} />}</RatingsWrapper>
+            <Rating size="large" defaultValue={data.vote_average / 2} precision={0.5} readOnly />
             <Info>
               <LanguageAndDurationInfo
                 date={data.release_date}

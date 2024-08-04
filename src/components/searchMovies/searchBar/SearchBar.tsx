@@ -1,3 +1,5 @@
+import { SearchRounded } from "@mui/icons-material";
+import { InputAdornment, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
@@ -28,7 +30,19 @@ export const SearchBar = () => {
 
   return (
     <Form onSubmit={onFormSubmit}>
-      <Input onChange={changeInput} value={searchQuery} placeholder="Search for movies" />
+      <TextField
+        fullWidth
+        label="Search"
+        id="fullWidth"
+        variant="standard"
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchRounded />
+            </InputAdornment>
+          )
+        }}
+      />
     </Form>
   );
 

@@ -1,3 +1,4 @@
+import { Box, CssBaseline, Divider, Drawer, Toolbar } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DetailedMovieView } from "src/components/detailedMovieView/DetailedMovieView";
@@ -47,29 +48,32 @@ export const App = () => {
   const [isMobile, setisMobile] = useState(false);
 
   useEffect(resizeWindowIfOnMobile, []);
-
+  const drawerWidth = 270;
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL || ""}>
-      <MainWrapper isMobile={isMobile}>
-        {isMobile ? (
-          <MobileMenu />
-        ) : (
-          <>
-            <SideBarMenu />
-            <SearchBarWrapper>
-              <SearchBar />
-            </SearchBarWrapper>
-          </>
-        )}
-        <ContentWrapper>
+    <BrowserRouter>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <Drawer
+          variant="permanent"
+          sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: "border-box" }
+          }}
+        >
+          <SideBarMenu />
+        </Drawer>
+
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+          <Toolbar />
           <Routes>
             <Route path="/" element={<PopularMovies />} />
             <Route path="/:movieId" element={<DetailedMovieView />} />
             <Route path="/genre/:genreId/:genreName" element={<MoviesByGenre />} />
             <Route path="/search/:query" element={<SearchMovies />} />
           </Routes>
-        </ContentWrapper>
-      </MainWrapper>
+        </Box>
+      </Box>
     </BrowserRouter>
   );
 
