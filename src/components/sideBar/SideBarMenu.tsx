@@ -1,4 +1,4 @@
-import { Circle } from "@mui/icons-material";
+import { Circle, Grade, Upcoming, WhatshotOutlined } from "@mui/icons-material";
 import { Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -13,6 +13,69 @@ export const SideBarMenu = () => {
   return (
     <Box display={"flex"} flexDirection={"column"} p={2}>
       <LogoImage />
+      <Typography
+        fontFamily={"Monserrat, sans-serif"}
+        fontWeight={700}
+        textTransform={"uppercase"}
+        lineHeight={1.2}
+        variant="h2"
+        sx={{ fontSize: "1.2rem", letterSpacing: "0.8px" }}
+      >
+        Discover
+      </Typography>
+      <List>
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to={"/"}>
+            <ListItemIcon>
+              <WhatshotOutlined color="primary" />
+            </ListItemIcon>
+            <ListItemText
+              primary={"Popular"}
+              primaryTypographyProps={{
+                fontWeight: 600,
+
+                fontSize: "1.2rem",
+                lineHeight: 1,
+                variant: "caption"
+              }}
+            />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to={"/"}>
+            <ListItemIcon>
+              <Grade color="primary" />
+            </ListItemIcon>
+            <ListItemText
+              primary={"Top rated"}
+              primaryTypographyProps={{
+                fontWeight: 600,
+
+                fontSize: "1.2rem",
+                lineHeight: 1,
+                variant: "caption"
+              }}
+            />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to={"/"}>
+            <ListItemIcon>
+              <Upcoming color="primary" />
+            </ListItemIcon>
+            <ListItemText
+              primary={"Upcoming"}
+              primaryTypographyProps={{
+                fontWeight: 600,
+
+                fontSize: "1.2rem",
+                lineHeight: 1,
+                variant: "caption"
+              }}
+            />
+          </ListItemButton>
+        </ListItem>
+      </List>
       <Typography
         fontFamily={"Monserrat, sans-serif"}
         fontWeight={700}
