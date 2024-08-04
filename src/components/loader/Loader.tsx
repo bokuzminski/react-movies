@@ -1,3 +1,5 @@
+import { LocalActivity } from "@mui/icons-material";
+import { CircularProgress } from "@mui/material";
 import React from "react";
 import styled from "styled-components";
 
@@ -52,9 +54,5 @@ const Loading = styled.div`
 `;
 
 export const Loader = () => {
-  return (
-    <LoaderWrapper>
-      <Loading />
-    </LoaderWrapper>
-  );
+  return <CircularProgress />;
 };
