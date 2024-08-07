@@ -1,0 +1,40 @@
+name: Github CI/CD
+run-name: Running CI/CD
+on: [pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📦 checkout project repo
+        uses: actions/checkout@v4
+
+      - name: 🚀 setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 🔍 run eslint
+        run: npm run eslint
+
+      - name: 💅 run prettier
+        run: npm run prettier
+
+      - name: 🧪 run tests
+        run: npm run test
+
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📦 checkout project repo
+        uses: actions/checkout@v4
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
