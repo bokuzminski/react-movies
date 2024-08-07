@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { slide as Menu } from "react-burger-menu";
 import { Link } from "react-router-dom";
 import StickyBox from "react-sticky-box";
 import { Loading } from "src/components/loader/Loading";
@@ -114,11 +113,6 @@ const MobileMenu = () => {
         </Hamburger>
         <SearchBar />
       </WrapperStickyBox>
-      <Menu isOpen={isOpen} onStateChange={isMenuOpen} styles={styles}>
-        <LogoImage />
-        <Heading>Genres</Heading>
-        {!genres ? <Loading /> : renderGenres(genres)}
-      </Menu>
     </>
   );
 

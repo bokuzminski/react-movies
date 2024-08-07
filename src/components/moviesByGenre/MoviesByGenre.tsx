@@ -12,12 +12,12 @@ const Wrapper = styled.div`
 `;
 
 export const MoviesByGenre = () => {
-  const { genreId, genreName } = useParams<{ genre: string; genreName: string }>();
-  const { isLoading, data = [] } = useFetchMoviesByGenreQuery(genreId);
+  const { genreId, genreName } = useParams<{ genreId: string; genreName: string }>();
+  const { isLoading, data = [] } = useFetchMoviesByGenreQuery(genreId!);
 
   return (
     <Wrapper>
-      <Header title={genreName} subtitle="movies" />
+      <Header title={genreName!} subtitle="movies" />
       <MovieList movies={data} isLoading={isLoading} />
     </Wrapper>
   );

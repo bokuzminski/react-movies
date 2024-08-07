@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logo from "src/style/Logo.svg";
+
 import styled from "styled-components";
 
 const LinkWrapper = styled(Link)`
@@ -20,7 +20,7 @@ const LogoWrapper = styled.img`
 export const LogoImage = () => {
   return (
     <LinkWrapper to={"/"}>
-      <LogoWrapper src={Logo} />
+      <LogoWrapper />
     </LinkWrapper>
   );
 };

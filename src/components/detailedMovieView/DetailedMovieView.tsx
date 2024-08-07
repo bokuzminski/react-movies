@@ -1,7 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Rating } from "@mui/material";
+import { Circle } from "@mui/icons-material";
+import { Box, Breadcrumbs, Divider, Rating, Stack, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { MovieGenreCategories } from "src/components/detailedMovieView/components/MovieGenreCategories";
 import {
   ContentWrapper,
   DetailedMovieViewWrapper,
@@ -25,44 +27,88 @@ import { useFeetchMovieByIdQuery, useFetchSimilarMoviesQuery } from "src/redux/m
 export const DetailedMovieView = () => {
   const { movieId = "" } = useParams<{ movieId: string }>();
   const { data, isLoading, error } = useFeetchMovieByIdQuery(movieId);
-  const imageSource = data?.poster_path ? `https://image.tmdb.org/t/p/w342/${data.poster_path}` : "";
-
+  const imageSource = `https://image.tmdb.org/t/p/w500/${data?.poster_path}`;
+  const backdrop = data?.backdrop_path;
   useEffect(scrollToTopWhenNewMovieLoads, [movieId]);
 
   if (isLoading) return <Loader />;
   if (!data) return <h1>no data</h1>;
 
   return (
-    <DetailedMovieViewWrapper>
-      <InteriorWrapper>
-        <ImageWrapper>
-          <MovieImg error={!!error} src={imageSource} />
-        </ImageWrapper>
-        <ContentWrapper>
-          <HeaderWrapper>
-            <Header size="2" title={data.title} subtitle={data.tagline} />
-          </HeaderWrapper>
-          <DetailsWrapper>
-            <Rating size="large" defaultValue={data.vote_average / 2} precision={0.5} readOnly />
-            <Info>
-              <LanguageAndDurationInfo
-                date={data.release_date}
-                time={data.runtime}
-                languages={data.original_language}
-              />
-            </Info>
-          </DetailsWrapper>
-          <Heading>Genres</Heading>
-          <LinksWrapper>
-            <MovieGenreCategories genres={data.genres} />
-          </LinksWrapper>
-          {/* <Heading>The Synopsis</Heading>  might be worth removing*/}
-          <OverviewText>{data.overview || "There is no description available for this movie."}</OverviewText>
-        </ContentWrapper>
-      </InteriorWrapper>
-      <Header title="Similar" subtitle="movies" />
-      <SimilarMovies movieId={data.id} />
-    </DetailedMovieViewWrapper>
+    <Box display={"flex"} flexDirection={"row"} position={"relative"} gap={4}>
+      {/*  <Box
+        component={"div"}
+        sx={{
+          backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url(https://media.themoviedb.org/t/p/w1280/${backdrop})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          zIndex: -1
+        }}
+      /> */}
+      <Box component={"img"} src={imageSource} />
+      <Stack direction={"column"} gap={3}>
+        <Stack direction={"column"}>
+          <Typography
+            fontFamily={"Montserrat, sans-serif"}
+            variant="h1"
+            fontWeight={200}
+            fontSize={"4rem"}
+            textTransform={"uppercase"}
+            letterSpacing={-0.5}
+            lineHeight={1.2}
+          >
+            {data.title}
+          </Typography>
+          <Typography
+            variant="h2"
+            fontFamily={"Proza Libre, sans-serif"}
+            fontWeight={700}
+            fontSize={"2rem"}
+            color={"GrayText"}
+            textTransform={"uppercase"}
+            lineHeight={1.5}
+          >
+            {data.tagline}
+          </Typography>
+        </Stack>
+        <Stack direction={"row"} gap={1} alignItems={"center"}>
+          <Rating
+            size="large"
+            sx={{ color: "black" }}
+            readOnly
+            defaultValue={data.vote_average}
+            max={10}
+            precision={0.5}
+          />
+          <Typography fontSize={"1.2rem"}>{Number(data.vote_average).toFixed(1)}</Typography>
+        </Stack>
+        <MovieGenreCategories genres={data.genres} />
+        <Stack direction={"column"}>
+          <Typography fontFamily={"Roboto"} fontWeight={400} fontSize={"1.5rem"}>
+            Overview
+          </Typography>
+          <Typography
+            variant="body1"
+            fontFamily={"Proza Libre"}
+            fontWeight={400}
+            color={"GrayText"}
+            lineHeight={1.5}
+            fontSize={"2rem"}
+            maxWidth={"60%"}
+            pl={1}
+          >
+            {data.overview}
+            <Divider variant="fullWidth" />
+          </Typography>
+        </Stack>
+      </Stack>
+    </Box>
   );
 };
 
@@ -85,21 +131,25 @@ const LanguageAndDurationInfo = ({
   return <p>{languageAndDuration}</p>;
 };
 
-const MovieGenreCategories = ({ genres }: { genres: DetailedMovie["genres"] }) => {
-  return (
-    <>
-      {genres.map(genre => (
-        <StyledLink to={`/genre/${genre.id}/${genre.name}`} key={genre.id}>
-          <FontAwesomeIcon icon="dot-circle" size="1x" style={{ marginRight: "5px" }} />
-          {genre.name}
-        </StyledLink>
-      ))}
-    </>
-  );
-};
-
 const SimilarMovies = ({ movieId }: { movieId: Movie["id"] }) => {
   const { data = [], isLoading } = useFetchSimilarMoviesQuery(movieId);
 
   return <MovieList movies={data} isLoading={isLoading} />;
 };
+{
+  /* <Box
+component={"div"}
+sx={{
+  backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.4), rgba(0,0,0,0.8)), url(https://media.themoviedb.org/t/p/original/${backdrop})`,
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  backgroundRepeat: "no-repeat",
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  zIndex: -1
+}}
+/> */
+}
