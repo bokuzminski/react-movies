@@ -1,24 +1,8 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Circle, Instagram, LinkedIn, LinkOutlined, Twitter, X, YouTube } from "@mui/icons-material";
-import { Box, Breadcrumbs, Button, Divider, Grid, Rating, Stack, SvgIcon, Typography } from "@mui/material";
+import { Instagram, LinkOutlined, X, YouTube } from "@mui/icons-material";
+import { Box, Breadcrumbs, Button, Divider, Rating, Stack, SvgIcon, Typography } from "@mui/material";
 import React, { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { MovieGenreCategories } from "src/components/detailedMovieView/components/MovieGenreCategories";
-import {
-  ContentWrapper,
-  DetailedMovieViewWrapper,
-  DetailsWrapper,
-  HeaderWrapper,
-  Heading,
-  ImageWrapper,
-  Info,
-  InteriorWrapper,
-  LinksWrapper,
-  MovieImg,
-  OverviewText,
-  StyledLink
-} from "src/components/detailedMovieView/DetailedMovieView.style";
-import { Header } from "src/components/Header";
 import { Loader } from "src/components/loader/Loader";
 import { MovieList } from "src/components/movieList/MovieList";
 import { DetailedMovie, Movie } from "src/redux/movdbModel";
@@ -36,21 +20,6 @@ export const DetailedMovieView = () => {
 
   return (
     <Box display={"flex"} flexDirection={"row"} position={"relative"} gap={4}>
-      {/*  <Box
-        component={"div"}
-        sx={{
-          backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url(https://media.themoviedb.org/t/p/w1280/${backdrop})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          zIndex: -1
-        }}
-      /> */}
       <Box component={"img"} src={imageSource} />
       <Stack direction={"column"} gap={3}>
         <Stack direction={"column"}>
