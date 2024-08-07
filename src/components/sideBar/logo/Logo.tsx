@@ -2,21 +2,9 @@ import { SvgIcon } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 
-import styled from "styled-components";
-
-const LinkWrapper = styled(Link)`
-  width: 100%;
-  height: 18rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
-  margin-bottom: 2rem;
-`;
-
 export const LogoImage = () => {
   return (
-    <LinkWrapper to={"/"} style={{ maxWidth: "100%" }}>
+    <Link to={"/"} style={{ maxWidth: "100%" }}>
       <SvgIcon>
         <svg
           data-name="Layer 1"
@@ -614,6 +602,6 @@ export const LogoImage = () => {
           />
         </svg>
       </SvgIcon>
-    </LinkWrapper>
+    </Link>
   );
 };
