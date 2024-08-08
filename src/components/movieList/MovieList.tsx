@@ -1,10 +1,8 @@
 import { Grid, Pagination, Skeleton } from "@mui/material";
-import React from "react";
-import { Loader } from "src/components/loader/Loader";
+import { BatchMoviesResponse } from "src/api/types/movDbTypes";
 import { MovieListItem } from "src/components/movieList/movieListItem/MovieListItem";
-import { BatchMoviesResponse } from "src/redux/movdbModel";
 
-export const MovieList = ({ isLoading, movies }: MovieListProps) => {
+export const MovieList = ({ isLoading, movies, setPage, page }: MovieListProps) => {
   return (
     <Grid container rowGap={3} alignItems="start">
       {movies.map(movie => (
@@ -25,7 +23,7 @@ export const MovieList = ({ isLoading, movies }: MovieListProps) => {
       <Grid item xs={12} container justifyContent="center">
         {/* TODO: Pagination loginc*/}
         <Pagination
-          count={15}
+          count={500}
           shape="rounded"
           size="large"
           sx={{
@@ -36,6 +34,8 @@ export const MovieList = ({ isLoading, movies }: MovieListProps) => {
               margin: "0 5px"
             }
           }}
+          defaultPage={page}
+          onChange={(_e, page) => setPage(page)}
         />
       </Grid>
     </Grid>
@@ -43,6 +43,8 @@ export const MovieList = ({ isLoading, movies }: MovieListProps) => {
 };
 
 type MovieListProps = {
-  movies: BatchMoviesResponse["results"];
   isLoading: boolean;
+  movies: BatchMoviesResponse["results"];
+  page: number;
+  setPage: (page: number) => void;
 };

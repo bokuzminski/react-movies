@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DetailedMovieView } from "src/components/detailedMovieView/DetailedMovieView";
 import { SideBarMenu } from "src/components/sideBar/SideBarMenu";
+import { PopularMovies } from "./pages/PopularMovies";
 
 export const App = () => {
   const [isMobile, setisMobile] = useState(false);
@@ -22,11 +23,11 @@ export const App = () => {
         >
           <SideBarMenu />
         </Drawer>
-
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <Toolbar />
           <Routes>
             <Route path="/:movieId" element={<DetailedMovieView />} />
+            <Route path="/" element={<PopularMovies />} />
           </Routes>
         </Box>
       </Box>

@@ -1,8 +1,9 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export const MovieListItem = ({ id, poster_path, title }: MovieListItemProps) => {
+  const [first, setFirst] = useState(true);
   return (
     <Box
       component={Link}
@@ -24,6 +25,7 @@ export const MovieListItem = ({ id, poster_path, title }: MovieListItemProps) =>
       <Box
         component="img"
         src={`https://image.tmdb.org/t/p/w342/${poster_path}`}
+        onLoad={() => setFirst(false)}
         alt={title}
         sx={{ borderRadius: 3, objectFit: "cover", maxWidth: 342 }}
       />

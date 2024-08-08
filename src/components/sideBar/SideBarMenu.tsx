@@ -1,14 +1,14 @@
 import { Circle, Grade, Upcoming, WhatshotOutlined } from "@mui/icons-material";
 import { Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
-import React from "react";
 import { Link } from "react-router-dom";
 import { Loader } from "src/components/loader/Loader";
 import { LogoImage } from "src/components/sideBar/logo/Logo";
-import { Genre } from "src/redux/movdbModel";
-import { useFetchAvailableGenresQuery } from "src/redux/movies";
+
+import { useFetchGenres } from "../../api/hooks";
+import { Genre } from "src/api/types/movDbTypes";
 
 export const SideBarMenu = () => {
-  const { data: genres, isLoading } = useFetchAvailableGenresQuery();
+  const { data, isFetching } = useFetchGenres();
 
   return (
     <Box display={"flex"} flexDirection={"column"} p={2}>
@@ -87,7 +87,7 @@ export const SideBarMenu = () => {
         Genres
       </Typography>
       <Divider component="div" orientation="horizontal" />
-      {isLoading ? <Loader /> : renderGenres(genres || [])}
+      {isFetching ? <Loader /> : renderGenres(data || [])}
     </Box>
   );
 };
