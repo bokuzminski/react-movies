@@ -1,12 +1,10 @@
-import React from "react";
 import { createRoot } from "react-dom/client";
-import { Provider } from "react-redux";
 import { App } from "src/App";
-import { store } from "src/redux/store";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const rootElement = document.getElementById("root");
 if (!rootElement) {
@@ -14,8 +12,10 @@ if (!rootElement) {
 }
 const root = createRoot(rootElement);
 
+const queryClient = new QueryClient();
+
 root.render(
-  <Provider store={store}>
+  <QueryClientProvider client={queryClient}>
     <App />
-  </Provider>
+  </QueryClientProvider>
 );
