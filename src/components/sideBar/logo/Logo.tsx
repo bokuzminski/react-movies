@@ -1,11 +1,10 @@
 import { SvgIcon } from "@mui/material";
-import React from "react";
 import { Link } from "react-router-dom";
 
 export const LogoImage = () => {
   return (
     <Link to={"/"} style={{ maxWidth: "100%" }}>
-      <SvgIcon>
+      <SvgIcon sx={{ fontSize: "14em" }}>
         <svg
           data-name="Layer 1"
           xmlns="http://www.w3.org/2000/svg"
