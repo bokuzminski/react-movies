@@ -17,7 +17,9 @@ const fetchPopularMovies = async (page: number) => {
 };
 
 const fetchMovieDetails = async (id: string) => {
-  const { data } = await axios.get<DetailedMovie>(`movie/${id}`, { params: { append_to_response: "credits,videos" } });
+  const { data } = await axios.get<DetailedMovie>(`movie/${id}`, {
+    params: { append_to_response: "credits,videos,external_ids" }
+  });
   return data;
 };
 

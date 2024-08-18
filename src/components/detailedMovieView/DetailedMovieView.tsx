@@ -1,8 +1,9 @@
-import { Instagram, LinkOutlined, X, YouTube } from "@mui/icons-material";
+import { Facebook, Instagram, LinkOutlined, X, YouTube } from "@mui/icons-material";
 import { Box, Breadcrumbs, Button, Divider, Paper, Rating, Stack, SvgIcon, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useFetchMovieById } from "src/api/hooks";
+import { ExternalConnections } from "src/components/detailedMovieView/components/externalConnections/ExternalConnections";
 import { MovieGenreCategories } from "src/components/detailedMovieView/components/MovieGenreCategories";
 import { Loader } from "src/components/loader/Loader";
 
@@ -74,7 +75,7 @@ export const DetailedMovieView = () => {
               fontWeight={400}
               color={"GrayText"}
               lineHeight={1.5}
-              fontSize={"2rem"}
+              fontSize={"1.5rem"}
               maxWidth={"60%"}
               pl={1}
             >
@@ -83,10 +84,10 @@ export const DetailedMovieView = () => {
             </Typography>
           </Stack>
           <Stack direction={"row"} alignItems={"stretch"} useFlexGap gap={4}>
-            {data.production_companies.map(company => {
+            {data.production_companies.splice(0, 4).map(company => {
               return (
                 <Stack key={company.id} direction={"column"} justifyContent={"space-between"} alignItems={"center"}>
-                  <Box component={"img"} src={`https://image.tmdb.org/t/p/w45/${company.logo_path}`} maxWidth={45} />
+                  <Box component={"img"} src={`https://image.tmdb.org/t/p/w45/${company.logo_path}`} />
                   <Typography
                     variant="body1"
                     fontFamily={"Proza Libre, sans-serif"}
@@ -101,144 +102,47 @@ export const DetailedMovieView = () => {
               );
             })}
           </Stack>
-          <Stack direction={"row"} gap={1}>
-            <Button
-              variant="outlined"
-              startIcon={<LinkOutlined />}
-              onClick={() => window.open(`${data.homepage}`, "_blank")}
-            >
-              Homepage
-            </Button>
-            <Button variant="outlined" startIcon={<X />}>
-              Twitter
-            </Button>
-
-            <Button
-              variant="outlined"
-              startIcon={<YouTube />}
-              onClick={() => window.open("https://www.youtube.com/", "_blank")}
-            >
-              Youtube
-            </Button>
-
-            <Button variant="outlined" startIcon={<Instagram />}>
-              Instagram
-            </Button>
-            <Button
-              variant="outlined"
-              startIcon={
-                <SvgIcon>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    version="1.1"
-                    preserveAspectRatio="xMidYMid meet"
-                    viewBox="0 0 575 289.83"
-                    width="575"
-                    height="289.83"
-                  >
-                    <defs>
-                      <path
-                        d="M575 24.91C573.44 12.15 563.97 1.98 551.91 0C499.05 0 76.18 0 23.32 0C10.11 2.17 0 14.16 0 28.61C0 51.84 0 237.64 0 260.86C0 276.86 12.37 289.83 27.64 289.83C79.63 289.83 495.6 289.83 547.59 289.83C561.65 289.83 573.26 278.82 575 264.57C575 216.64 575 48.87 575 24.91Z"
-                        id="d1pwhf9wy2"
-                      />
-                      <path d="M69.35 58.24L114.98 58.24L114.98 233.89L69.35 233.89L69.35 58.24Z" id="g5jjnq26yS" />
-                      <path
-                        d="M201.2 139.15C197.28 112.38 195.1 97.5 194.67 94.53C192.76 80.2 190.94 67.73 189.2 57.09C185.25 57.09 165.54 57.09 130.04 57.09L130.04 232.74L170.01 232.74L170.15 116.76L186.97 232.74L215.44 232.74L231.39 114.18L231.54 232.74L271.38 232.74L271.38 57.09L211.77 57.09L201.2 139.15Z"
-                        id="i3Prh1JpXt"
-                      />
-                      <path
-                        d="M346.71 93.63C347.21 95.87 347.47 100.95 347.47 108.89C347.47 115.7 347.47 170.18 347.47 176.99C347.47 188.68 346.71 195.84 345.2 198.48C343.68 201.12 339.64 202.43 333.09 202.43C333.09 190.9 333.09 98.66 333.09 87.13C338.06 87.13 341.45 87.66 343.25 88.7C345.05 89.75 346.21 91.39 346.71 93.63ZM367.32 230.95C372.75 229.76 377.31 227.66 381.01 224.67C384.7 221.67 387.29 217.52 388.77 212.21C390.26 206.91 391.14 196.38 391.14 180.63C391.14 174.47 391.14 125.12 391.14 118.95C391.14 102.33 390.49 91.19 389.48 85.53C388.46 79.86 385.93 74.71 381.88 70.09C377.82 65.47 371.9 62.15 364.12 60.13C356.33 58.11 343.63 57.09 321.54 57.09C319.27 57.09 307.93 57.09 287.5 57.09L287.5 232.74L342.78 232.74C355.52 232.34 363.7 231.75 367.32 230.95Z"
-                        id="a4ov9rRGQm"
-                      />
-                      <path
-                        d="M464.76 204.7C463.92 206.93 460.24 208.06 457.46 208.06C454.74 208.06 452.93 206.98 452.01 204.81C451.09 202.65 450.64 197.72 450.64 190C450.64 185.36 450.64 148.22 450.64 143.58C450.64 135.58 451.04 130.59 451.85 128.6C452.65 126.63 454.41 125.63 457.13 125.63C459.91 125.63 463.64 126.76 464.6 129.03C465.55 131.3 466.03 136.15 466.03 143.58C466.03 146.58 466.03 161.58 466.03 188.59C465.74 197.84 465.32 203.21 464.76 204.7ZM406.68 231.21L447.76 231.21C449.47 224.5 450.41 220.77 450.6 220.02C454.32 224.52 458.41 227.9 462.9 230.14C467.37 232.39 474.06 233.51 479.24 233.51C486.45 233.51 492.67 231.62 497.92 227.83C503.16 224.05 506.5 219.57 507.92 214.42C509.34 209.26 510.05 201.42 510.05 190.88C510.05 185.95 510.05 146.53 510.05 141.6C510.05 131 509.81 124.08 509.34 120.83C508.87 117.58 507.47 114.27 505.14 110.88C502.81 107.49 499.42 104.86 494.98 102.98C490.54 101.1 485.3 100.16 479.26 100.16C474.01 100.16 467.29 101.21 462.81 103.28C458.34 105.35 454.28 108.49 450.64 112.7C450.64 108.89 450.64 89.85 450.64 55.56L406.68 55.56L406.68 231.21Z"
-                        id="fk968BpsX"
-                      />
-                    </defs>
-                    <g>
-                      <g>
-                        <g>
-                          <use xlinkHref="#d1pwhf9wy2" opacity="1" fill="#f6c700" fillOpacity="1" />
-                          <g>
-                            <use
-                              xlinkHref="#d1pwhf9wy2"
-                              opacity="1"
-                              fillOpacity="0"
-                              stroke="#000000"
-                              strokeWidth="1"
-                              strokeOpacity="0"
-                            />
-                          </g>
-                        </g>
-                        <g>
-                          <use xlinkHref="#g5jjnq26yS" opacity="1" fill="#000000" fillOpacity="1" />
-                          <g>
-                            <use
-                              xlinkHref="#g5jjnq26yS"
-                              opacity="1"
-                              fillOpacity="0"
-                              stroke="#000000"
-                              strokeWidth="1"
-                              strokeOpacity="0"
-                            />
-                          </g>
-                        </g>
-                        <g>
-                          <use xlinkHref="#i3Prh1JpXt" opacity="1" fill="#000000" fillOpacity="1" />
-                          <g>
-                            <use
-                              xlinkHref="#i3Prh1JpXt"
-                              opacity="1"
-                              fillOpacity="0"
-                              stroke="#000000"
-                              strokeWidth="1"
-                              strokeOpacity="0"
-                            />
-                          </g>
-                        </g>
-                        <g>
-                          <use xlinkHref="#a4ov9rRGQm" opacity="1" fill="#000000" fillOpacity="1" />
-                          <g>
-                            <use
-                              xlinkHref="#a4ov9rRGQm"
-                              opacity="1"
-                              fillOpacity="0"
-                              stroke="#000000"
-                              strokeWidth="1"
-                              strokeOpacity="0"
-                            />
-                          </g>
-                        </g>
-                        <g>
-                          <use xlinkHref="#fk968BpsX" opacity="1" fill="#000000" fillOpacity="1" />
-                          <g>
-                            <use
-                              xlinkHref="#fk968BpsX"
-                              opacity="1"
-                              fillOpacity="0"
-                              stroke="#000000"
-                              strokeWidth="1"
-                              strokeOpacity="0"
-                            />
-                          </g>
-                        </g>
-                      </g>
-                    </g>
-                  </svg>
-                </SvgIcon>
-              }
-            >
-              IMDb
-            </Button>
-          </Stack>
+          <ExternalConnections homepage={data.homepage} data={data.external_ids} />
         </Stack>
       </Box>
       <Box display={"flex"} flexDirection={"row"} gap={2} flexWrap={"wrap"}>
-        {data.credits.cast.map(actor => {
+        {data.credits.cast.splice(0, 14).map(actor => {
+          const avatarImage = actor.profile_path ? (
+            <Box
+              component={"img"}
+              src={`https://image.tmdb.org/t/p/w45/${actor.profile_path}`}
+              width={45}
+              height={68}
+              borderRadius={1}
+            />
+          ) : (
+            <SvgIcon sx={{ height: 68, width: 45 }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="532" height="532" viewBox="0 0 532 532">
+                <circle cx="270.75986" cy="260.93427" r="86.34897" fill="#ffb6b6" />
+                <polygon
+                  points="221.18982 360.05209 217.28876 320.6185 295.18982 306.05209 341.18982 418.05209 261.18982 510.05209 204.18982 398.05209 221.18982 360.05209"
+                  fill="#ffb6b6"
+                />
+                <path
+                  d="m216.0374,340.35736l17.03111,3.84802s-13.38821-42.45453-8.84396-46.50766c4.54427-4.05316,15.68007,2.33328,15.68007,2.33328l11.70201,13.1199,14.25394-14.51239s15.47495-19.2421,21.53397-24.6463-3.67319-25.46364-3.67319-25.46364c0,0,89.89185-24.23923,56.44299-67.83968,0,0-19.61093-34.18452-25.99734-23.04871-6.38641,11.1358-14.00162-6.55013-14.00162-6.55013l-23.25381,4.42198s-45.89429-27.06042-89.45331,30.82959c-43.55902,57.89003,28.57916,154.01572,28.57916,154.01572h-.00002Z"
+                  fill="#2f2e41"
+                />
+                <path
+                  d="m433.16003,472.95001c-47.19,38.26001-105.57001,59.04999-167.16003,59.04999-56.23999,0-109.81-17.33997-154.62-49.47998.08002-.84003.16003-1.66998.23004-2.5,1.19-13,2.25-25.64001,2.94995-36.12,2.71002-40.69,97.64001-67.81,97.64001-67.81,0,0,.42999.42999,1.29004,1.17999,5.23999,4.59998,26.50995,21.27997,63.81,25.94,33.25995,4.15997,44.20996-15.57001,47.51996-25.02002,1-2.88,1.30005-4.81,1.30005-4.81l97.63995,46.10999c6.37,9.10004,8.86005,28.70001,9.35004,50.73004.01996.90997.03998,1.81.04999,2.72998Z"
+                  fill="#1976d2"
+                />
+                <path
+                  d="m454.09003,77.91003C403.85004,27.66998,337.05005,0,266,0S128.15002,27.66998,77.91003,77.91003C27.67004,128.15002,0,194.95001,0,266c0,64.85004,23.05005,126.16003,65.29004,174.57001,4.02997,4.63,8.23999,9.14001,12.62,13.52002,1.02997,1.02997,2.07001,2.06,3.12,3.06,2.79999,2.70996,5.65002,5.35999,8.54999,7.92999,1.76001,1.57001,3.54004,3.10999,5.34003,4.62,1.40997,1.19,2.82001,2.35999,4.25,3.51001.02997.02997.04999.04999.07996.07001,3.97003,3.19995,8.01001,6.27997,12.13,9.23999,44.81,32.14001,98.37999,49.47998,154.61998,49.47998,61.59003,0,119.97003-20.78998,167.16003-59.04999,3.84998-3.12,7.62-6.35999,11.32001-9.71002,3.26996-2.95996,6.46997-6.01001,9.60999-9.14996.98999-.98999,1.97998-1.98999,2.95001-3,2.70001-2.78003,5.32001-5.61005,7.88-8.48004,43.37-48.71997,67.07996-110.83997,67.07996-176.60999,0-71.04999-27.66998-137.84998-77.90997-188.08997Zm10.17999,362.20997c-2.5,2.84003-5.06,5.64001-7.67999,8.37-4.08002,4.25-8.28998,8.37-12.64001,12.34003-1.64996,1.52002-3.32001,3-5.01001,4.46997-1.91998,1.67004-3.85999,3.31-5.82996,4.92004-15.53003,12.75-32.54004,23.75-50.73004,32.70996-7.19,3.54999-14.56,6.78003-22.09998,9.67004-29.28998,11.23999-61.08002,17.39996-94.28003,17.39996-32.03998,0-62.75995-5.73999-91.19-16.23999-11.66998-4.29999-22.94995-9.40997-33.77997-15.26001-1.59003-.85999-3.16998-1.72998-4.73999-2.62-8.26001-4.67999-16.25-9.78998-23.91998-15.31-.25-.17999-.51001-.37-.76001-.54999-5.46002-3.94-10.77002-8.09003-15.90002-12.45001-1.88-1.59003-3.73999-3.20001-5.57001-4.84998-2.97998-2.65002-5.89996-5.38-8.75-8.18005-5.39996-5.28998-10.56-10.79999-15.48999-16.52997C26.09003,391.77002,2,331.65002,2,266,2,120.42999,120.43005,2,266,2s264,118.42999,264,264c0,66.66003-24.82996,127.62-65.72998,174.12Z"
+                  fill="#3f3d56"
+                />
+              </svg>
+            </SvgIcon>
+          );
+
           return (
             <Paper elevation={3} square key={actor.id}>
               <Box display={"flex"} flexDirection={"row"} width={300} gap={1}>
-                <Box component={"img"} src={`https://image.tmdb.org/t/p/w45/${actor.profile_path}`} width={45} />
+                {avatarImage}
                 <Stack direction={"column"} overflow={"hidden"}>
                   <Typography fontWeight={700} variant="body1" fontFamily={"Proza Libre, sans-serif"}>
                     {actor.name}

@@ -22,6 +22,15 @@ export type Movie = {
   vote_count: number;
 };
 
+export type ExternalConnections = {
+  id: number;
+  imdb_id: string;
+  wikidata_id: string;
+  facebook_id: string;
+  instagram_id: string;
+  twitter_id: string;
+};
+
 export type DetailedMovie = {
   adult: boolean;
   backdrop_path: string;
@@ -49,6 +58,13 @@ export type DetailedMovie = {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  credits: Credits;
+  external_ids: ExternalConnections;
+};
+
+export type Credits = {
+  cast: CastItem[];
+  crew: any[];
 };
 
 export type Genre = {
@@ -79,4 +95,25 @@ type SpokenLanguage = {
   english_name: string;
   iso_639_1: string;
   name: string;
+};
+
+export enum Genders {
+  Female = 1,
+  Male = 2,
+  Other = 3
+}
+
+type CastItem = {
+  adult: boolean;
+  gender: Genders;
+  id: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string;
+  cast_id: number;
+  character: string;
+  credit_id: string;
+  order: number;
 };
