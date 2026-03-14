@@ -4,6 +4,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DetailedMovieView } from "src/components/detailedMovieView/DetailedMovieView";
 import { SideBarMenu } from "src/components/sideBar/SideBarMenu";
 import { PopularMovies } from "./pages/PopularMovies";
+import { TopRatedMovies } from "./pages/TopRatedMovies";
+import { UpcomingMovies } from "src/pages/UpcomingMovies";
 
 export const App = () => {
   const [isMobile, setisMobile] = useState(false);
@@ -26,8 +28,10 @@ export const App = () => {
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <Toolbar />
           <Routes>
-            <Route path="/:movieId" element={<DetailedMovieView />} />
             <Route path="/" element={<PopularMovies />} />
+            <Route path="/top_rated" element={<TopRatedMovies />} />
+            <Route path="/upcoming" element={<UpcomingMovies />} />
+            <Route path="/:movieId" element={<DetailedMovieView />} />
           </Routes>
         </Box>
       </Box>

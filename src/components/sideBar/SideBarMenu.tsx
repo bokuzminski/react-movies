@@ -42,7 +42,7 @@ export const SideBarMenu = () => {
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton component={Link} to={"/"}>
+          <ListItemButton component={Link} to={"/top_rated"}>
             <ListItemIcon>
               <Grade color="primary" />
             </ListItemIcon>
@@ -59,7 +59,7 @@ export const SideBarMenu = () => {
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton component={Link} to={"/"}>
+          <ListItemButton component={Link} to={"/upcoming"}>
             <ListItemIcon>
               <Upcoming color="primary" />
             </ListItemIcon>
