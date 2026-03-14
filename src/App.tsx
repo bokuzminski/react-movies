@@ -49,7 +49,7 @@ export const App = () => {
   useEffect(resizeWindowIfOnMobile, []);
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL || ""}>
       <MainWrapper isMobile={isMobile}>
         {isMobile ? (
           <MobileMenu />
