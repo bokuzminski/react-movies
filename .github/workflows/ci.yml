@@ -1,6 +1,8 @@
-name: Deploy to GitHub Pages
+name: CI
 
 on:
+  pull_request:
+    branches: [master]
   push:
     branches: [master]
 
@@ -10,11 +12,35 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: "ci"
   cancel-in-progress: false
 
 jobs:
+  validate:
+    name: Lint, format, test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Prettier
+        run: npx prettier --check .
+
+      - name: Test
+        run: npm run test
+
   build:
+    name: Build
+    needs: validate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,10 +54,13 @@ jobs:
       - run: npm run build
 
       - uses: actions/upload-pages-artifact@v3
+        if: github.event_name == 'push'
         with:
-          path: ./build
+          path: ./dist
 
   deploy:
+    if: github.event_name == 'push'
+    name: Deploy to GitHub Pages
     needs: build
     runs-on: ubuntu-latest
     environment:
