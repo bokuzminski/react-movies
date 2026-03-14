@@ -22,12 +22,11 @@ import { MovieList } from "src/components/movieList/MovieList";
 import { RatingStars } from "src/components/RatingStars";
 import { DetailedMovie, Movie } from "src/redux/movdbModel";
 import { useFeetchMovieByIdQuery, useFetchSimilarMoviesQuery } from "src/redux/movies";
-import missingImg from "src/style/imageMissing.png";
 
 export const DetailedMovieView = () => {
   const { movieId = "" } = useParams<{ movieId: string }>();
   const { data, isLoading, error } = useFeetchMovieByIdQuery(movieId);
-  const imageSource = data?.poster_path ? `https://image.tmdb.org/t/p/w342/${data.poster_path}` : missingImg;
+  const imageSource = data?.poster_path ? `https://image.tmdb.org/t/p/w342/${data.poster_path}` : "";
 
   useEffect(scrollToTopWhenNewMovieLoads, [movieId]);
 
