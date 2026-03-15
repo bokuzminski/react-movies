@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useFetchMoviesByGenre } from "@/api/hooks";
 import { MovieList } from "@/components/movieList/MovieList";
-import { Pagination } from "@mui/material";
+import { MoviePagination } from "@/components/movieList/MoviePagination";
 
 export const MoviesByGenre = () => {
   const { genreId, genreName } = useParams<{ genreId: string; genreName: string }>();
@@ -14,24 +14,12 @@ export const MoviesByGenre = () => {
 
   return (
     <>
-      <h1 className="mb-4 text-2xl font-semibold">
-        {genreName} movies
-      </h1>
+      <h1 className="mb-4 text-2xl font-semibold">{genreName} movies</h1>
       <MovieList movies={data.results} />
-      <Pagination
-        count={Math.min(data.total_pages, 500)}
-        shape="rounded"
-        size="large"
-        sx={{
-          mt: 4,
-          "& .MuiPaginationItem-root": {
-            fontSize: "1.5rem",
-            padding: "10px 20px",
-            margin: "0 5px"
-          }
-        }}
+      <MoviePagination
         page={page}
-        onChange={(_e, p) => setPage(p)}
+        totalPages={Math.min(data.total_pages, 500)}
+        onPageChange={setPage}
       />
     </>
   );

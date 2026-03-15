@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useFetchUpcomingMovies } from "../api/hooks";
-import { MovieList } from "../components/movieList/MovieList";
-import { Pagination } from "@mui/material";
+import { useFetchUpcomingMovies } from "@/api/hooks";
+import { MovieList } from "@/components/movieList/MovieList";
+import { MoviePagination } from "@/components/movieList/MoviePagination";
 
 export const UpcomingMovies = () => {
   const [page, setPage] = useState(1);
@@ -13,20 +13,10 @@ export const UpcomingMovies = () => {
   return (
     <>
       <MovieList movies={data.results} />
-      <Pagination
-        count={data.total_pages || 100}
-        shape="rounded"
-        size="large"
-        sx={{
-          mt: 4,
-          "& .MuiPaginationItem-root": {
-            fontSize: "1.5rem",
-            padding: "10px 20px",
-            margin: "0 5px"
-          }
-        }}
-        defaultPage={page}
-        onChange={(_e, page) => setPage(page)}
+      <MoviePagination
+        page={page}
+        totalPages={data.total_pages || 100}
+        onPageChange={setPage}
       />
     </>
   );
