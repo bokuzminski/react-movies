@@ -1,4 +1,5 @@
 import { Box, Paper, Rating, Stack, SvgIcon, Typography } from "@mui/material";
+import { ImageOff } from "lucide-react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useFetchMovieById } from "@/api/hooks";
@@ -22,7 +23,7 @@ export const DetailedMovieView = () => {
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-6 sm:flex-row">
         {/* Poster image */}
-        <Card className="h-fit shrink-0 overflow-hidden">
+        <Card className="h-fit shrink-0 overflow-hidden p-0">
           {imageSource ? (
             <img
               src={imageSource}
@@ -78,25 +79,29 @@ export const DetailedMovieView = () => {
             <p className="max-w-2xl leading-relaxed text-muted-foreground">{data.overview}</p>
           </section>
 
-          <Stack direction={"row"} alignItems={"stretch"} useFlexGap gap={4}>
-            {data.production_companies.splice(0, 4).map(company => {
-              return (
-                <Stack key={company.id} direction={"column"} justifyContent={"space-between"} alignItems={"center"}>
-                  <Box component={"img"} src={`https://image.tmdb.org/t/p/w45/${company.logo_path}`} />
-                  <Typography
-                    variant="body1"
-                    fontFamily={"Proza Libre, sans-serif"}
-                    fontWeight={500}
-                    color={"GrayText"}
-                    lineHeight={1.5}
-                    fontSize={"1.2rem"}
-                  >
-                    {company.name}
-                  </Typography>
-                </Stack>
-              );
-            })}
-          </Stack>
+          <div className="flex flex-wrap items-start gap-6">
+            {data.production_companies.splice(0, 4).map(company => (
+              <div
+                key={company.id}
+                className="flex flex-col items-center gap-2"
+              >
+                <div className="flex h-8 w-20 shrink-0 items-center justify-center rounded bg-muted">
+                  {company.logo_path ? (
+                    <img
+                      src={`https://image.tmdb.org/t/p/w92/${company.logo_path}`}
+                      alt={company.name}
+                      className="max-h-8 max-w-20 object-contain"
+                    />
+                  ) : (
+                    <ImageOff className="size-4 text-muted-foreground" />
+                  )}
+                </div>
+                <span className="max-w-20 text-center text-xs text-muted-foreground leading-tight">
+                  {company.name}
+                </span>
+              </div>
+            ))}
+          </div>
           <ExternalConnections homepage={data.homepage} data={data.external_ids} />
         </div>
       </div>
