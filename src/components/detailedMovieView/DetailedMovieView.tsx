@@ -1,11 +1,11 @@
-import { Facebook, Instagram, LinkOutlined, X, YouTube } from "@mui/icons-material";
-import { Box, Breadcrumbs, Button, Divider, Paper, Rating, Stack, SvgIcon, Typography } from "@mui/material";
+import { Box, Paper, Rating, Stack, SvgIcon, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useFetchMovieById } from "src/api/hooks";
-import { ExternalConnections } from "src/components/detailedMovieView/components/externalConnections/ExternalConnections";
-import { MovieGenreCategories } from "src/components/detailedMovieView/components/MovieGenreCategories";
-import { Loader } from "src/components/loader/Loader";
+import { useFetchMovieById } from "@/api/hooks";
+import { Card } from "@/components/ui/card";
+import { ExternalConnections } from "@/components/detailedMovieView/components/externalConnections/ExternalConnections";
+import { MovieGenreCategories } from "@/components/detailedMovieView/components/MovieGenreCategories";
+import { Loader } from "@/components/loader/Loader";
 
 export const DetailedMovieView = () => {
   const { movieId = "" } = useParams<{ movieId: string }>();
@@ -14,75 +14,70 @@ export const DetailedMovieView = () => {
 
   if (isFetching) return <Loader />;
   if (!data) return <h1>no data</h1>;
-  const imageSource = `https://image.tmdb.org/t/p/w500/${data?.poster_path}`;
+  const imageSource = data.poster_path
+    ? `https://image.tmdb.org/t/p/w500/${data.poster_path}`
+    : null;
 
   return (
-    <Box display={"flex"} flexDirection={"column"} gap={5}>
-      <Box display={"flex"} flexDirection={"row"} position={"relative"} gap={4}>
-        <Box component={"img"} src={imageSource} />
-        <Stack direction={"column"} gap={3}>
-          <Stack direction={"column"}>
-            <Typography
-              fontFamily={"Montserrat, sans-serif"}
-              variant="h1"
-              fontWeight={200}
-              fontSize={"4rem"}
-              textTransform={"uppercase"}
-              letterSpacing={-0.5}
-              lineHeight={1.2}
-            >
-              {data.title}
-            </Typography>
-            <Typography
-              variant="h2"
-              fontFamily={"Proza Libre, sans-serif"}
-              fontWeight={700}
-              fontSize={"2rem"}
-              color={"GrayText"}
-              textTransform={"uppercase"}
-              lineHeight={1.5}
-            >
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-6 sm:flex-row">
+        {/* Poster image */}
+        <Card className="h-fit shrink-0 overflow-hidden">
+          {imageSource ? (
+            <img
+              src={imageSource}
+              alt={data.title}
+              className="aspect-[2/3] w-full max-w-[342px] object-cover"
+            />
+          ) : (
+            <div className="flex aspect-[2/3] w-full max-w-[342px] items-center justify-center bg-muted">
+              <span className="text-4xl text-muted-foreground">🎬</span>
+            </div>
+          )}
+        </Card>
+
+        <div className="flex flex-1 flex-col gap-4">
+          {/* Title */}
+          <h1 className="text-4xl font-light uppercase tracking-tight leading-tight text-foreground sm:text-5xl">
+            {data.title}
+          </h1>
+
+          {/* Tagline */}
+          {data.tagline && (
+            <p className="text-xl font-semibold uppercase tracking-wide text-muted-foreground">
               {data.tagline}
-            </Typography>
-          </Stack>
-          <Stack direction={"row"} gap={1} alignItems={"center"}>
+            </p>
+          )}
+
+          {/* Subtitle / metadata */}
+          <p className="text-sm text-muted-foreground">
+            {new Date(data.release_date).toLocaleDateString()} ·{" "}
+            {Array.isArray(data.origin_country) ? data.origin_country.join(", ") : data.origin_country} ·{" "}
+            {data.original_language.toUpperCase()} · {data.runtime} min
+          </p>
+
+          <div className="flex items-center gap-2">
             <Rating
-              size="large"
-              sx={{ color: "black" }}
+              size="small"
+              sx={{ color: "black", "& .MuiRating-icon": { fontSize: "1.25rem" } }}
               readOnly
-              defaultValue={data.vote_average}
-              max={10}
+              value={data.vote_average / 2}
+              max={5}
               precision={0.5}
             />
-            <Typography fontSize={"1.2rem"}>{Number(data.vote_average).toFixed(1)}</Typography>
-          </Stack>
-          <Stack>
-            <Breadcrumbs>
-              <Typography>{new Date(data.release_date).toLocaleDateString()}</Typography>
-              <Typography>{data.origin_country}</Typography>
-              <Typography>{data.original_language.toUpperCase()}</Typography>
-              <Typography>{data.runtime.toString()} min</Typography>
-            </Breadcrumbs>
-          </Stack>
+            <span className="text-sm font-medium text-foreground">
+              {Number(data.vote_average).toFixed(1)}
+            </span>
+          </div>
+
           <MovieGenreCategories genres={data.genres} />
-          <Stack direction={"column"}>
-            <Typography fontFamily={"Roboto"} fontWeight={400} fontSize={"1.5rem"}>
-              Overview
-            </Typography>
-            <Typography
-              variant="body1"
-              fontFamily={"Proza Libre"}
-              fontWeight={400}
-              color={"GrayText"}
-              lineHeight={1.5}
-              fontSize={"1.5rem"}
-              maxWidth={"60%"}
-              pl={1}
-            >
-              {data.overview}
-              <Divider variant="fullWidth" />
-            </Typography>
-          </Stack>
+
+          {/* Overview */}
+          <section className="space-y-2">
+            <h2 className="text-lg font-medium text-foreground">Overview</h2>
+            <p className="max-w-2xl leading-relaxed text-muted-foreground">{data.overview}</p>
+          </section>
+
           <Stack direction={"row"} alignItems={"stretch"} useFlexGap gap={4}>
             {data.production_companies.splice(0, 4).map(company => {
               return (
@@ -103,8 +98,8 @@ export const DetailedMovieView = () => {
             })}
           </Stack>
           <ExternalConnections homepage={data.homepage} data={data.external_ids} />
-        </Stack>
-      </Box>
+        </div>
+      </div>
       <Box display={"flex"} flexDirection={"row"} gap={2} flexWrap={"wrap"}>
         {data.credits.cast.splice(0, 14).map(actor => {
           const avatarImage = actor.profile_path ? (
@@ -163,7 +158,7 @@ export const DetailedMovieView = () => {
           );
         })}
       </Box>
-    </Box>
+    </div>
   );
 };
 

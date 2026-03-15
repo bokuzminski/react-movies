@@ -1,21 +1,21 @@
-import { Circle } from "@mui/icons-material";
-import { Breadcrumbs, Stack, Typography } from "@mui/material";
-import React from "react";
+import { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { DetailedMovie } from "src/api/types/movDbTypes";
+import { DetailedMovie } from "@/api/types/movDbTypes";
 
 export const MovieGenreCategories = ({ genres }: { genres: DetailedMovie["genres"] }) => {
   return (
-    <Stack direction={"column"}>
-      <Breadcrumbs separator={<Circle fontSize="small" />} aria-label="breadcrumb">
-        {genres.map(genre => (
-          <Link key={genre.id} to={`/genre/${genre.id}/${genre.name}`} style={{ textDecoration: "none" }}>
-            <Typography fontFamily={"Roboto"} textTransform={"uppercase"} fontWeight={700} fontSize={"1rem"}>
-              {genre.name}
-            </Typography>
+    <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-sm">
+      {genres.map((genre, i) => (
+        <Fragment key={genre.id}>
+          {i > 0 && <span className="text-muted-foreground/50">·</span>}
+          <Link
+            to={`/genre/${genre.id}/${genre.name}`}
+            className="font-medium uppercase tracking-wide text-foreground hover:text-muted-foreground hover:underline"
+          >
+            {genre.name}
           </Link>
-        ))}
-      </Breadcrumbs>
-    </Stack>
+        </Fragment>
+      ))}
+    </div>
   );
 };
