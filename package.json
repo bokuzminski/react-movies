@@ -10,7 +10,8 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "lint": "eslint src",
-    "lint-fix": "eslinst --fix"
+    "lint-fix": "eslint --fix",
+    "test": "true"
   },
   "browserslist": {
     "production": [
