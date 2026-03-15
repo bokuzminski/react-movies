@@ -1,84 +1,32 @@
-import React, { useEffect, useState } from "react";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { AppSidebar } from "@/components/app-sidebar";
 import { DetailedMovieView } from "src/components/detailedMovieView/DetailedMovieView";
-import MobileMenu from "src/components/MobileMenu";
-import { MoviesByGenre } from "src/components/moviesByGenre/MoviesByGenre";
-import { PopularMovies } from "src/components/popularMovies/PopularMovies";
-import { SearchBar } from "src/components/searchMovies/searchBar/SearchBar";
-import { SearchMovies } from "src/components/searchMovies/SearchMovies";
-import { SideBarMenu } from "src/components/sideBar/SideBarMenu";
-import styled from "styled-components";
-
-const MainWrapper = styled.div<{ isMobile: boolean }>`
-  display: flex;
-  flex-direction: ${props => (props.isMobile ? "column" : "row")};
-  position: relative;
-  align-items: flex-start;
-  height: 100%;
-  width: 100%;
-  user-select: none;
-`;
-const ContentWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 6rem 4rem;
-  @media ${props => props.theme.mediaQueries.larger} {
-    padding: 6rem 3rem;
-  }
-  @media ${props => props.theme.mediaQueries.large} {
-    padding: 4rem 2rem;
-  }
-`;
-const SearchBarWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  padding: 2rem;
-  width: 100%;
-`;
+import { PopularMovies } from "./pages/PopularMovies";
+import { TopRatedMovies } from "./pages/TopRatedMovies";
+import { UpcomingMovies } from "src/pages/UpcomingMovies";
+import { MoviesByGenre } from "./pages/MoviesByGenre";
 
 export const App = () => {
-  const [isMobile, setisMobile] = useState(false);
-
-  useEffect(resizeWindowIfOnMobile, []);
-
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL || ""}>
-      <MainWrapper isMobile={isMobile}>
-        {isMobile ? (
-          <MobileMenu />
-        ) : (
-          <>
-            <SideBarMenu />
-            <SearchBarWrapper>
-              <SearchBar />
-            </SearchBarWrapper>
-          </>
-        )}
-        <ContentWrapper>
-          <Routes>
-            <Route path="/" element={<PopularMovies />} />
-            <Route path="/:movieId" element={<DetailedMovieView />} />
-            <Route path="/genre/:genreId/:genreName" element={<MoviesByGenre />} />
-            <Route path="/search/:query" element={<SearchMovies />} />
-          </Routes>
-        </ContentWrapper>
-      </MainWrapper>
+    <BrowserRouter>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4">
+            <SidebarTrigger />
+          </header>
+          <div className="flex-1 p-4">
+            <Routes>
+              <Route path="/" element={<PopularMovies />} />
+              <Route path="/top_rated" element={<TopRatedMovies />} />
+              <Route path="/upcoming" element={<UpcomingMovies />} />
+              <Route path="/genre/:genreId/:genreName" element={<MoviesByGenre />} />
+              <Route path="/:movieId" element={<DetailedMovieView />} />
+            </Routes>
+          </div>
+        </SidebarInset>
+      </SidebarProvider>
     </BrowserRouter>
   );
-
-  function resizeWindowIfOnMobile() {
-    window.addEventListener("resize", changeMobile);
-
-    return () => window.removeEventListener("resize", changeMobile);
-  }
-  function changeMobile() {
-    window.matchMedia("(max-width: 80em)").matches ? setisMobile(true) : setisMobile(false);
-  }
 };

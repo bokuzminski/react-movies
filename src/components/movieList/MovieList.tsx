@@ -1,44 +1,23 @@
-import React from "react";
-import { Loader } from "src/components/loader/Loader";
-import { MovieListItem } from "src/components/movieList/movieListItem/MovieListItem";
-import { BatchMoviesResponse } from "src/redux/movdbModel";
-import styled from "styled-components";
+import { BatchMoviesResponse } from "@/api/types/movDbTypes";
+import { MovieListItem } from "@/components/movieList/movieListItem/MovieListItem";
 
-const MoviesWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 25rem));
-  justify-content: space-evenly;
-  align-content: space-between;
-  align-items: start;
-  padding: 4rem 0;
-  grid-gap: 4rem 2rem;
-  @media ${props => props.theme.mediaQueries.small} {
-    grid-template-columns: repeat(auto-fit, minmax(10rem, 23rem));
-    justify-content: space-around;
-    grid-gap: 4rem 1.5rem;
-  }
-  @media ${props => props.theme.mediaQueries.smaller} {
-    grid-template-columns: repeat(auto-fit, minmax(10rem, 18rem));
-    grid-gap: 4rem 1rem;
-  }
-`;
-
-export const MovieList = ({ isLoading, movies }: MovieListProps) => {
-  if (isLoading || !movies) return <Loader />;
-
+export const MovieList = ({ movies }: MovieListProps) => {
   return (
-    <>
-      <MoviesWrapper>
-        {movies.map(movie => (
-          <MovieListItem key={movie.id} title={movie.title} id={movie.id} poster_path={movie.poster_path} />
-        ))}
-      </MoviesWrapper>
-      {/* <Pagination film={film} /> */}
-    </>
+    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4">
+      {movies.map(movie => (
+        <div key={movie.id} className="flex justify-center">
+          <MovieListItem
+            title={movie.title}
+            id={movie.id}
+            poster_path={movie.poster_path}
+            vote_average={movie.vote_average}
+          />
+        </div>
+      ))}
+    </div>
   );
 };
 
 type MovieListProps = {
   movies: BatchMoviesResponse["results"];
-  isLoading: boolean;
 };

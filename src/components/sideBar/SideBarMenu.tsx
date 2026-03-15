@@ -1,57 +1,121 @@
-import React from "react";
+import { Circle, Grade, Upcoming, WhatshotOutlined } from "@mui/icons-material";
+import { Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Loader } from "src/components/loader/Loader";
 import { LogoImage } from "src/components/sideBar/logo/Logo";
-import { SideBarMenuItem } from "src/components/sideBar/sideBarMenuItem/SideBarMenuItem";
-import { Genre } from "src/redux/movdbModel";
-import { useFetchAvailableGenresQuery } from "src/redux/movies";
-import styled from "styled-components";
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 25rem;
-  padding: 2rem;
-  margin-top: 4rem;
-  color: var(--color-primary-dark);
-  border-right: 1px solid #953433;
-`;
-
-const Heading = styled.h2`
-  font-family: "Proza Libre", sans-serif;
-  font-weight: 500;
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.75px;
-  margin: 0 0 1rem 1rem;
-  &:not(:first-child) {
-    margin-top: 4rem;
-  }
-`;
-
-const LinkWrap = styled(Link)`
-  text-decoration: none;
-  display: block;
-  outline: none;
-  margin-bottom: 0.5rem;
-`;
+import { useFetchGenres } from "../../api/hooks";
+import { Genre } from "src/api/types/movDbTypes";
 
 export const SideBarMenu = () => {
-  const { data: genres, isLoading } = useFetchAvailableGenresQuery();
+  const { data, isFetching } = useFetchGenres();
 
   return (
-    <Wrapper>
+    <Box display={"flex"} flexDirection={"column"} p={2}>
       <LogoImage />
-      <Heading>Genres</Heading>
-      {isLoading ? <Loader /> : renderGenres(genres || [])}
-    </Wrapper>
+      <Typography
+        fontFamily={"Monserrat, sans-serif"}
+        fontWeight={700}
+        textTransform={"uppercase"}
+        lineHeight={1.2}
+        variant="h2"
+        sx={{ fontSize: "1.2rem", letterSpacing: "0.8px" }}
+      >
+        Discover
+      </Typography>
+      <List>
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to={"/"}>
+            <ListItemIcon>
+              <WhatshotOutlined color="primary" />
+            </ListItemIcon>
+            <ListItemText
+              primary={"Popular"}
+              primaryTypographyProps={{
+                fontWeight: 600,
+
+                fontSize: "1.2rem",
+                lineHeight: 1,
+                variant: "caption"
+              }}
+            />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to={"/top_rated"}>
+            <ListItemIcon>
+              <Grade color="primary" />
+            </ListItemIcon>
+            <ListItemText
+              primary={"Top rated"}
+              primaryTypographyProps={{
+                fontWeight: 600,
+
+                fontSize: "1.2rem",
+                lineHeight: 1,
+                variant: "caption"
+              }}
+            />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to={"/upcoming"}>
+            <ListItemIcon>
+              <Upcoming color="primary" />
+            </ListItemIcon>
+            <ListItemText
+              primary={"Upcoming"}
+              primaryTypographyProps={{
+                fontWeight: 600,
+
+                fontSize: "1.2rem",
+                lineHeight: 1,
+                variant: "caption"
+              }}
+            />
+          </ListItemButton>
+        </ListItem>
+      </List>
+      <Typography
+        fontFamily={"Monserrat, sans-serif"}
+        fontWeight={700}
+        textTransform={"uppercase"}
+        lineHeight={1.2}
+        variant="h2"
+        sx={{ fontSize: "1.2rem", letterSpacing: "0.8px" }}
+      >
+        Genres
+      </Typography>
+      <Divider component="div" orientation="horizontal" />
+      {isFetching ? <Loader /> : renderGenres(data || [])}
+    </Box>
   );
 };
 
 function renderGenres(genres: Genre[]) {
-  return genres.map(genre => (
-    <LinkWrap to={`/genre/${genre.id}/${genre.name}`} key={genre.id}>
-      <SideBarMenuItem title={genre.name} mobile={false} selected={false} />
-    </LinkWrap>
-  ));
+  return (
+    <Box flexGrow={1} overflow={"auto"}>
+      <List>
+        {genres.map(genre => (
+          <ListItem key={genre.id} disablePadding>
+            <ListItemButton component={Link} to={`/genre/${genre.id}/${genre.name}`}>
+              <ListItemIcon>
+                <Circle color="primary" />
+              </ListItemIcon>
+              <ListItemText
+                primary={genre.name}
+                primaryTypographyProps={{
+                  fontWeight: 600,
+
+                  fontSize: "1.2rem",
+                  lineHeight: 1,
+                  variant: "caption"
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
 }

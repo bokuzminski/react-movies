@@ -1,3 +1,5 @@
+import { createTheme } from "@mui/material";
+
 const theme = {
   colors: {
     main: "#8a92a9",
@@ -26,5 +28,11 @@ const theme = {
     largest: "only screen and (max-width: 97em)"
   }
 };
+
+export const muiTheme = createTheme({
+  palette: {
+    mode: "dark"
+  }
+});
 
 export default theme;

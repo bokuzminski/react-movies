@@ -1,129 +1,45 @@
-import React from "react";
+import { ImageOff, Star } from "lucide-react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const MovieWrapper = styled(Link)`
-  display: flex;
-  flex-direction: column;
-  text-decoration: none;
-
-  border-radius: 0.8rem;
-  transition: all 300ms cubic-bezier(0.645, 0.045, 0.355, 1);
-  position: relative;
-  transition: all 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
-  &:hover {
-    transform: scale(1.03);
-  }
-`;
-
-const MovieImg = styled.img`
-  width: 100%;
-  height: 38rem;
-  object-fit: cover;
-  border-radius: 0.8rem;
-  padding: 2rem;
-  box-shadow: 0rem 2rem 5rem var(--shadow-color);
-  transition: all 100ms cubic-bezier(0.645, 0.045, 0.355, 1);
-  ${MovieWrapper}:hover & {
-    border-radius: 0.8rem 0.8rem 0rem 0rem;
-    box-shadow: none;
-  }
-  @media ${props => props.theme.mediaQueries.smaller} {
-    height: 28rem;
-  }
-`;
-
-const ImgLoading = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  min-height: 300px;
-  border-radius: 0.8rem;
-  box-shadow: 0rem 2rem 5rem var(--shadow-color);
-  transition: all 100ms cubic-bezier(0.645, 0.045, 0.355, 1);
-`;
-
-const Title = styled.h2`
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: 500;
-  color: var(--color-primary-light);
-  margin-bottom: 1rem;
-  line-height: 1.4;
-  transition: color 300ms cubic-bezier(0.645, 0.045, 0.355, 1);
-`;
-
-const DetailsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem 3rem;
-  @media ${props => props.theme.mediaQueries.smaller} {
-    padding: 1.5rem 1.5rem;
-  }
-`;
-
-const RatingsWrapper = styled.div`
-  display: flex;
-  position: relative;
-  align-items: center;
-  margin-bottom: 0.5rem;
-  color: var(--color-primary);
-  ${MovieWrapper}:hover & {
-    color: var(--color-primary-lighter);
-  }
-`;
-
-const Tooltip = styled.span`
-  visibility: hidden;
-  opacity: 0;
-  width: 120px;
-  font-weight: 500;
-  font-size: 1.1rem;
-  background-color: var(--color-primary-light);
-  color: var(--text-color);
-  text-align: center;
-  border-radius: 6px;
-  padding: 1rem;
-  position: absolute;
-  z-index: 999;
-  bottom: 150%;
-  left: 50%;
-  margin-left: -60px;
-  transition: all 200ms cubic-bezier(0.645, 0.045, 0.355, 1);
-  &::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    transition: all 200ms cubic-bezier(0.645, 0.045, 0.355, 1);
-    border-color: var(--color-primary-light) transparent transparent transparent;
-  }
-  ${RatingsWrapper}:hover & {
-    visibility: visible;
-    opacity: 1;
-  }
-`;
-
-export const MovieListItem = ({ id, poster_path, title }: MovieListItemProps) => {
+export const MovieListItem = ({ id, poster_path, title, vote_average }: MovieListItemProps) => {
   return (
-    <MovieWrapper to={`/${id}`}>
-      <MovieImg src={`https://image.tmdb.org/t/p/w342/${poster_path}`} />
-      <DetailsWrapper>
-        <Title>{title}</Title>
-      </DetailsWrapper>
-    </MovieWrapper>
+    <Link to={`/${id}`} className="block w-full no-underline">
+      <Card className="group relative overflow-hidden aspect-[2/3] w-full p-0 transition-transform duration-300 hover:scale-[1.02]">
+        {poster_path ? (
+          <img
+            src={`https://image.tmdb.org/t/p/w500/${poster_path}`}
+            alt={title}
+            className="size-full object-cover object-top absolute inset-0 z-0"
+          />
+        ) : (
+          <div className="absolute inset-0 z-0 flex items-center justify-center bg-muted">
+            <ImageOff className="size-16 text-muted-foreground" />
+          </div>
+        )}
+        {/* Overlay gradient - keeps dark bar at bottom on hover for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-10 group-hover:from-black/80 group-hover:via-black/20 group-hover:to-transparent transition-all duration-500" />
+        <div className="isolate z-50 flex flex-col gap-2 relative grow justify-end min-h-0">
+          <CardHeader className="px-4 pb-0 pt-0">
+            <CardTitle className="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] line-clamp-2">
+              {title}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex items-center gap-1.5 px-4 pb-3 pt-0">
+            <Star className="size-4 fill-amber-400 text-amber-400 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" />
+            <span className="text-sm font-medium text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+              {Number(vote_average).toFixed(1)}
+            </span>
+          </CardContent>
+        </div>
+      </Card>
+    </Link>
   );
 };
 
 type MovieListItemProps = {
   id: number;
   title: string;
-  poster_path: string;
+  poster_path: string | null;
+  vote_average: number;
 };
