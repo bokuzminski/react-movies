@@ -9,6 +9,7 @@
 /coverage
 # production
 /build
+/dist
 .env
 .env.local
 # misc
