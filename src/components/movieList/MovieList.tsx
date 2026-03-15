@@ -1,26 +1,20 @@
-import { Grid } from "@mui/material";
-import { BatchMoviesResponse } from "src/api/types/movDbTypes";
-import { MovieListItem } from "src/components/movieList/movieListItem/MovieListItem";
+import { BatchMoviesResponse } from "@/api/types/movDbTypes";
+import { MovieListItem } from "@/components/movieList/movieListItem/MovieListItem";
 
 export const MovieList = ({ movies }: MovieListProps) => {
   return (
-    <Grid container rowGap={3} alignItems="start">
+    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4">
       {movies.map(movie => (
-        <Grid
-          item
-          container
-          xs={12}
-          sm={6}
-          md={4}
-          lg={2.4}
-          key={movie.id}
-          justifyContent={"center"}
-          alignContent={"center"}
-        >
-          <MovieListItem key={movie.id} title={movie.title} id={movie.id} poster_path={movie.poster_path} />
-        </Grid>
+        <div key={movie.id} className="flex justify-center">
+          <MovieListItem
+            title={movie.title}
+            id={movie.id}
+            poster_path={movie.poster_path}
+            vote_average={movie.vote_average}
+          />
+        </div>
       ))}
-    </Grid>
+    </div>
   );
 };
 

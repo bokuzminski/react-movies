@@ -1,49 +1,32 @@
-import { Box, CssBaseline, Drawer, Toolbar } from "@mui/material";
-import React, { useState } from "react";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { AppSidebar } from "@/components/app-sidebar";
 import { DetailedMovieView } from "src/components/detailedMovieView/DetailedMovieView";
-import { SideBarMenu } from "src/components/sideBar/SideBarMenu";
 import { PopularMovies } from "./pages/PopularMovies";
 import { TopRatedMovies } from "./pages/TopRatedMovies";
 import { UpcomingMovies } from "src/pages/UpcomingMovies";
+import { MoviesByGenre } from "./pages/MoviesByGenre";
 
 export const App = () => {
-  const [isMobile, setisMobile] = useState(false);
-  const drawerWidth = 270;
-
   return (
     <BrowserRouter>
-      <Box sx={{ display: "flex" }}>
-        <CssBaseline />
-        <Drawer
-          variant="permanent"
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: "border-box" }
-          }}
-        >
-          <SideBarMenu />
-        </Drawer>
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-          <Toolbar />
-          <Routes>
-            <Route path="/" element={<PopularMovies />} />
-            <Route path="/top_rated" element={<TopRatedMovies />} />
-            <Route path="/upcoming" element={<UpcomingMovies />} />
-            <Route path="/:movieId" element={<DetailedMovieView />} />
-          </Routes>
-        </Box>
-      </Box>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4">
+            <SidebarTrigger />
+          </header>
+          <div className="flex-1 p-4">
+            <Routes>
+              <Route path="/" element={<PopularMovies />} />
+              <Route path="/top_rated" element={<TopRatedMovies />} />
+              <Route path="/upcoming" element={<UpcomingMovies />} />
+              <Route path="/genre/:genreId/:genreName" element={<MoviesByGenre />} />
+              <Route path="/:movieId" element={<DetailedMovieView />} />
+            </Routes>
+          </div>
+        </SidebarInset>
+      </SidebarProvider>
     </BrowserRouter>
   );
-
-  function resizeWindowIfOnMobile() {
-    window.addEventListener("resize", changeMobile);
-
-    return () => window.removeEventListener("resize", changeMobile);
-  }
-  function changeMobile() {
-    window.matchMedia("(max-width: 80em)").matches ? setisMobile(true) : setisMobile(false);
-  }
 };

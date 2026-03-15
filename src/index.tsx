@@ -6,6 +6,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const rootElement = document.getElementById("root");
 if (!rootElement) {
@@ -16,7 +17,9 @@ const root = createRoot(rootElement);
 const queryClient = new QueryClient();
 
 root.render(
-  <QueryClientProvider client={queryClient}>
-    <App />
-  </QueryClientProvider>
+  <TooltipProvider>
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+  </TooltipProvider>
 );

@@ -30,6 +30,13 @@ const fetchUpcomingMovies = async (page: number) => {
   return data;
 };
 
+const fetchMoviesByGenre = async (genreId: string, page: number) => {
+  const { data } = await axios.get<BatchMoviesResponse>("discover/movie", {
+    params: { with_genres: genreId, page }
+  });
+  return data;
+};
+
 const fetchMovieDetails = async (id: string) => {
   const { data } = await axios.get<DetailedMovie>(`movie/${id}`, {
     params: { append_to_response: "credits,videos,external_ids" }
@@ -45,4 +52,6 @@ export const useFetchTopRatedMovies = (page: number) =>
   useQuery(["topRatedMovies", page], () => fetchTopRatedMovies(page));
 export const useFetchUpcomingMovies = (page: number) =>
   useQuery(["upcomingMovies", page], () => fetchUpcomingMovies(page));
+export const useFetchMoviesByGenre = (genreId: string, page: number) =>
+  useQuery(["moviesByGenre", genreId, page], () => fetchMoviesByGenre(genreId, page));
 export const useFetchMovieById = (id: string) => useQuery([`movie/${id}`], () => fetchMovieDetails(id));
