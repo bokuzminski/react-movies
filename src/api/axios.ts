@@ -2,8 +2,10 @@ import axios, { AxiosError } from "axios";
 
 const axiosInstance = axios.create({
   baseURL: "https://api.themoviedb.org/3/",
-  params: {
-    api_key: import.meta.env.VITE_API_KEY
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    Authorization: `Bearer ${import.meta.env.VITE_ACCESS_TOKEN}`
   }
 });
 

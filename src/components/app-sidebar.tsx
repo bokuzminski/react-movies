@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Flame, Star, Calendar } from "lucide-react";
+import { Flame, Star, Calendar, Tag } from "lucide-react";
 import Logo from "@/style/Logo.svg?url";
 import {
   Sidebar,
@@ -88,6 +88,7 @@ export function AppSidebar() {
                       isActive={location.pathname.includes(`/genre/${genre.id}`)}
                     >
                       <Link to={`/genre/${genre.id}/${genre.name}`}>
+                        <Tag />
                         <span>{genre.name}</span>
                       </Link>
                     </SidebarMenuButton>
