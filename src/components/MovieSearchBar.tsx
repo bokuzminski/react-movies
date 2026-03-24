@@ -26,7 +26,7 @@ export function MovieSearchBar() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-sm min-w-0 flex-1" role="search">
+    <form onSubmit={handleSubmit} className="w-full min-w-0 max-w-md" role="search">
       <Input
         type="search"
         name="q"

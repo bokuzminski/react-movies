@@ -17,10 +17,16 @@ export const App = () => {
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
-          <header className="flex h-14 shrink-0 items-center gap-4 border-b px-4">
-            <SidebarTrigger />
-            <MovieSearchBar />
-            <ThemeToggle />
+          <header className="grid h-14 shrink-0 grid-cols-3 items-center gap-4 border-b px-4">
+            <div className="flex justify-start">
+              <SidebarTrigger />
+            </div>
+            <div className="flex min-w-0 justify-center px-2">
+              <MovieSearchBar />
+            </div>
+            <div className="flex justify-end">
+              <ThemeToggle />
+            </div>
           </header>
           <div className="min-w-0 flex-1 p-4">
             <Routes>
