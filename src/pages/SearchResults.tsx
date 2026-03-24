@@ -4,12 +4,7 @@ import { useSearchMovies } from "@/api/hooks";
 import { MovieList } from "@/components/movieList/MovieList";
 import { MovieListSkeleton } from "@/components/movieList/MovieListSkeleton";
 import { MoviePagination } from "@/components/movieList/MoviePagination";
-import {
-  Empty,
-  EmptyDescription,
-  EmptyIcon,
-  EmptyTitle
-} from "@/components/ui/empty";
+import { Empty, EmptyDescription, EmptyIcon, EmptyTitle } from "@/components/ui/empty";
 import { Search } from "lucide-react";
 
 export const SearchResults = () => {
@@ -60,16 +55,10 @@ export const SearchResults = () => {
 
   return (
     <>
-      <h1 className="mb-4 text-xl font-semibold tracking-tight">
-        Results for &ldquo;{trimmed}&rdquo;
-      </h1>
+      <h1 className="mb-4 text-xl font-semibold tracking-tight">Results for &ldquo;{trimmed}&rdquo;</h1>
       {isFetching ? <MovieListSkeleton /> : <MovieList movies={data!.results} />}
       {data && data.results.length > 0 && (
-        <MoviePagination
-          page={page}
-          totalPages={Math.min(data.total_pages, 500)}
-          onPageChange={setPage}
-        />
+        <MoviePagination page={page} totalPages={Math.min(data.total_pages, 500)} onPageChange={setPage} />
       )}
     </>
   );

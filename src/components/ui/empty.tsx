@@ -1,10 +1,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-function Empty({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+function Empty({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="empty"
@@ -17,10 +14,7 @@ function Empty({
   );
 }
 
-function EmptyIcon({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+function EmptyIcon({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="empty-icon"
@@ -30,43 +24,16 @@ function EmptyIcon({
   );
 }
 
-function EmptyTitle({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="empty-title"
-      className={cn("text-lg font-semibold", className)}
-      {...props}
-    />
-  );
+function EmptyTitle({ className, ...props }: React.ComponentProps<"div">) {
+  return <div data-slot="empty-title" className={cn("text-lg font-semibold", className)} {...props} />;
 }
 
-function EmptyDescription({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="empty-description"
-      className={cn("text-sm text-muted-foreground", className)}
-      {...props}
-    />
-  );
+function EmptyDescription({ className, ...props }: React.ComponentProps<"div">) {
+  return <div data-slot="empty-description" className={cn("text-sm text-muted-foreground", className)} {...props} />;
 }
 
-function EmptyAction({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="empty-action"
-      className={cn("mt-2", className)}
-      {...props}
-    />
-  );
+function EmptyAction({ className, ...props }: React.ComponentProps<"div">) {
+  return <div data-slot="empty-action" className={cn("mt-2", className)} {...props} />;
 }
 
 export { Empty, EmptyIcon, EmptyTitle, EmptyDescription, EmptyAction };

@@ -46,10 +46,7 @@ export function MoviePagination({ page, totalPages, onPageChange }: MoviePaginat
     <Pagination className="mt-8">
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious
-            onClick={() => onPageChange(Math.max(1, page - 1))}
-            isActive={page <= 1}
-          />
+          <PaginationPrevious onClick={() => onPageChange(Math.max(1, page - 1))} isActive={page <= 1} />
         </PaginationItem>
         {pages.map((p, i) =>
           p === "ellipsis" ? (
@@ -58,20 +55,14 @@ export function MoviePagination({ page, totalPages, onPageChange }: MoviePaginat
             </PaginationItem>
           ) : (
             <PaginationItem key={p}>
-              <PaginationLink
-                isActive={page === p}
-                onClick={() => onPageChange(p)}
-              >
+              <PaginationLink isActive={page === p} onClick={() => onPageChange(p)}>
                 {p}
               </PaginationLink>
             </PaginationItem>
           )
         )}
         <PaginationItem>
-          <PaginationNext
-            onClick={() => onPageChange(Math.min(totalPages, page + 1))}
-            isActive={page >= totalPages}
-          />
+          <PaginationNext onClick={() => onPageChange(Math.min(totalPages, page + 1))} isActive={page >= totalPages} />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

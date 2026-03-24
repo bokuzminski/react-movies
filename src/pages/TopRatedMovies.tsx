@@ -13,13 +13,7 @@ export const TopRatedMovies = () => {
   return (
     <>
       {isFetching ? <MovieListSkeleton /> : <MovieList movies={data!.results} />}
-      {data && (
-        <MoviePagination
-          page={page}
-          totalPages={data.total_pages || 100}
-          onPageChange={setPage}
-        />
-      )}
+      {data && <MoviePagination page={page} totalPages={data.total_pages || 100} onPageChange={setPage} />}
     </>
   );
 };

@@ -19,11 +19,7 @@ export const ExternalConnections = ({ homepage, data }: ExternalConnectionsProps
         </Button>
       )}
       {twitter_id && (
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => window.open(`https://twitter.com/${twitter_id}`, "_blank")}
-        >
+        <Button variant="outline" size="sm" onClick={() => window.open(`https://twitter.com/${twitter_id}`, "_blank")}>
           <Twitter className="size-3.5" />
           Twitter
         </Button>

@@ -2,13 +2,7 @@ import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { DetailedMovie } from "@/api/types/movDbTypes";
 
-export const MovieGenreCategories = ({
-  genres,
-  inverted
-}: {
-  genres: DetailedMovie["genres"];
-  inverted?: boolean;
-}) => {
+export const MovieGenreCategories = ({ genres, inverted }: { genres: DetailedMovie["genres"]; inverted?: boolean }) => {
   return (
     <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-sm">
       {genres.map((genre, i) => (

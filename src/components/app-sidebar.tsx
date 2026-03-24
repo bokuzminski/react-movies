@@ -29,11 +29,7 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader className="group-data-[collapsible=icon]:hidden">
         <Link to="/" className="flex items-center justify-center px-2 py-2">
-          <img
-            src={Logo}
-            alt="React Movies"
-            className="h-16 w-full max-w-[180px] object-contain object-left"
-          />
+          <img src={Logo} alt="React Movies" className="h-16 w-full max-w-[180px] object-contain object-left" />
         </Link>
       </SidebarHeader>
       <SidebarContent>
@@ -83,10 +79,7 @@ export function AppSidebar() {
               <SidebarMenu>
                 {(genres || []).map((genre: Genre) => (
                   <SidebarMenuItem key={genre.id}>
-                    <SidebarMenuButton
-                      asChild
-                      isActive={location.pathname.includes(`/genre/${genre.id}`)}
-                    >
+                    <SidebarMenuButton asChild isActive={location.pathname.includes(`/genre/${genre.id}`)}>
                       <Link to={`/genre/${genre.id}/${genre.name}`}>
                         <Tag />
                         <span>{genre.name}</span>

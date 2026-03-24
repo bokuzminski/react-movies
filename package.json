@@ -12,6 +12,8 @@
     "deploy": "gh-pages -d build",
     "lint": "eslint src",
     "lint-fix": "eslint --fix",
+    "format": "prettier --check .",
+    "format-fix": "prettier --write .",
     "test": "true"
   },
   "browserslist": {

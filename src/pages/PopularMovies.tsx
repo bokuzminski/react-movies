@@ -13,13 +13,7 @@ export const PopularMovies = () => {
   return (
     <>
       {isFetching ? <MovieListSkeleton /> : <MovieList movies={data!.results} />}
-      {data && (
-        <MoviePagination
-          page={page}
-          totalPages={Math.min(data.total_pages, 500)}
-          onPageChange={setPage}
-        />
-      )}
+      {data && <MoviePagination page={page} totalPages={Math.min(data.total_pages, 500)} onPageChange={setPage} />}
     </>
   );
 };

@@ -11,9 +11,7 @@ type VoteAverageStarsProps = {
 
 export function VoteAverageStars({ voteAverage, onDarkBackdrop }: VoteAverageStarsProps) {
   const value = Math.min(5, Math.max(0, voteAverage / 2));
-  const filledClass = onDarkBackdrop
-    ? "fill-amber-300 text-amber-300"
-    : "fill-amber-400 text-amber-400";
+  const filledClass = onDarkBackdrop ? "fill-amber-300 text-amber-300" : "fill-amber-400 text-amber-400";
   const emptyClass = onDarkBackdrop ? "text-white/35" : "text-muted-foreground/40";
 
   return (
