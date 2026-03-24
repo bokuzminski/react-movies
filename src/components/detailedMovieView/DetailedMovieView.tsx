@@ -1,4 +1,3 @@
-import { Rating } from "@mui/material";
 import { ImageOff } from "lucide-react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -7,6 +6,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Card } from "@/components/ui/card";
 import { ExternalConnections } from "@/components/detailedMovieView/components/externalConnections/ExternalConnections";
 import { MovieGenreCategories } from "@/components/detailedMovieView/components/MovieGenreCategories";
+import { VoteAverageStars } from "@/components/detailedMovieView/components/VoteAverageStars";
 import { Loader } from "@/components/loader/Loader";
 
 export const DetailedMovieView = () => {
@@ -72,17 +72,7 @@ export const DetailedMovieView = () => {
             </p>
 
             <div className="flex items-center gap-2">
-              <Rating
-                size="small"
-                sx={{
-                  color: backdropUrl ? "white" : "black",
-                  "& .MuiRating-icon": { fontSize: "1.25rem" }
-                }}
-                readOnly
-                value={data.vote_average / 2}
-                max={5}
-                precision={0.5}
-              />
+              <VoteAverageStars voteAverage={data.vote_average} onDarkBackdrop={!!backdropUrl} />
               <span className="text-sm font-medium">{Number(data.vote_average).toFixed(1)}</span>
             </div>
 
