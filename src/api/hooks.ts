@@ -44,9 +44,9 @@ const fetchMovieDetails = async (id: string) => {
   return data;
 };
 
-const fetchSearchMovies = async (query: string) => {
+const fetchSearchMovies = async (query: string, page: number) => {
   const { data } = await axios.get<BatchMoviesResponse>("search/movie", {
-    params: { query }
+    params: { query, page }
   });
   return data;
 };
@@ -63,9 +63,9 @@ export const useFetchMoviesByGenre = (genreId: string, page: number) =>
   useQuery(["moviesByGenre", genreId, page], () => fetchMoviesByGenre(genreId, page));
 export const useFetchMovieById = (id: string) => useQuery([`movie/${id}`], () => fetchMovieDetails(id));
 
-export const useSearchMovies = (query: string) => {
+export const useSearchMovies = (query: string, page: number) => {
   const trimmed = query.trim();
-  return useQuery(["searchMovies", trimmed], () => fetchSearchMovies(trimmed), {
+  return useQuery(["searchMovies", trimmed, page], () => fetchSearchMovies(trimmed, page), {
     enabled: trimmed.length > 0
   });
 };
