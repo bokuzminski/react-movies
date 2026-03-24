@@ -64,7 +64,7 @@ export type DetailedMovie = {
 
 export type Credits = {
   cast: CastItem[];
-  crew: any[];
+  crew: unknown[];
 };
 
 export type Genre = {
