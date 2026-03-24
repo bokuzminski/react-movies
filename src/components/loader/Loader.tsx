@@ -1,6 +1,9 @@
-import { CircularProgress } from "@mui/material";
-import React from "react";
+import { Spinner } from "@/components/ui/spinner";
 
 export const Loader = () => {
-  return <CircularProgress />;
+  return (
+    <div className="flex min-h-[40vh] w-full items-center justify-center">
+      <Spinner className="size-10 text-muted-foreground" />
+    </div>
+  );
 };
