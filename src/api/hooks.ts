@@ -1,6 +1,5 @@
-import { useQuery } from "react-query";
-
 import axios from "./axios";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { PaginatedMoviesResponse, DetailedMovie, Genre } from "@/api/tmdbTypes";
 
 // Hooks
@@ -52,20 +51,22 @@ const fetchSearchMovies = async (query: string, page: number) => {
 };
 
 // Exported hooks
-export const useFetchGenres = () => useQuery("genres", fetchGenres, { staleTime: Infinity, cacheTime: Infinity });
+export const useFetchGenres = () =>
+  useSuspenseQuery({ queryKey: ["genres"], queryFn: fetchGenres, staleTime: Infinity });
 export const useFetchPopularMovies = (page: number) =>
-  useQuery(["popularMovies", page], () => fetchPopularMovies(page));
+  useSuspenseQuery({ queryKey: ["popularMovies", page], queryFn: () => fetchPopularMovies(page) });
 export const useFetchTopRatedMovies = (page: number) =>
-  useQuery(["topRatedMovies", page], () => fetchTopRatedMovies(page));
+  useSuspenseQuery({ queryKey: ["topRatedMovies", page], queryFn: () => fetchTopRatedMovies(page) });
 export const useFetchUpcomingMovies = (page: number) =>
-  useQuery(["upcomingMovies", page], () => fetchUpcomingMovies(page));
+  useSuspenseQuery({ queryKey: ["upcomingMovies", page], queryFn: () => fetchUpcomingMovies(page) });
 export const useFetchMoviesByGenre = (genreId: string, page: number) =>
-  useQuery(["moviesByGenre", genreId, page], () => fetchMoviesByGenre(genreId, page));
-export const useFetchMovieById = (id: string) => useQuery([`movie/${id}`], () => fetchMovieDetails(id));
+  useSuspenseQuery({ queryKey: ["moviesByGenre", genreId, page], queryFn: () => fetchMoviesByGenre(genreId, page) });
+export const useFetchMovieById = (id: string) =>
+  useSuspenseQuery({ queryKey: [`movie/${id}`], queryFn: () => fetchMovieDetails(id) });
 
-export const useSearchMovies = (query: string, page: number) => {
-  const trimmed = query.trim();
-  return useQuery(["searchMovies", trimmed, page], () => fetchSearchMovies(trimmed, page), {
-    enabled: trimmed.length > 0
+export const useSearchMovies = (query: string, page: number) =>
+  useQuery({
+    queryKey: ["searchMovies", query.trim(), page],
+    queryFn: () => fetchSearchMovies(query.trim(), page),
+    enabled: query.trim().length > 0
   });
-};

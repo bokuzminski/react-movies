@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { App } from "src/App";
 import "./index.css";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 const rootElement = document.getElementById("root");
