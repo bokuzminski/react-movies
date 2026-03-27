@@ -18,7 +18,7 @@ export default defineConfig([
   {
     settings: {
       // Explicit version avoids flaky `detect` with some ESLint 10 + plugin-react combos
-      react: { version: "18.3" }
+      react: { version: "19.2.4" }
     }
   }
 ]);

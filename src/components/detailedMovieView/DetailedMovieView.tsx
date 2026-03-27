@@ -2,6 +2,7 @@ import { ImageOff } from "lucide-react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useFetchMovieById } from "@/api/hooks";
+import { CastMember } from "@/components/detailedMovieView/components/Cast/Cast";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card } from "@/components/ui/card";
 import { ExternalConnections } from "@/components/detailedMovieView/components/externalConnections/ExternalConnections";
@@ -41,7 +42,13 @@ export const DetailedMovieView = () => {
           {/* Poster image */}
           <Card className="h-fit shrink-0 overflow-hidden p-0">
             {imageSource ? (
-              <img src={imageSource} alt={data.title} className="aspect-[2/3] w-full max-w-[342px] object-cover" />
+              <img
+                loading="lazy"
+                decoding="async"
+                src={imageSource}
+                alt={data.title}
+                className="aspect-[2/3] w-full max-w-[342px] object-cover"
+              />
             ) : (
               <div className="flex aspect-[2/3] w-full max-w-[342px] items-center justify-center bg-muted">
                 <span className="text-4xl text-muted-foreground">🎬</span>
@@ -122,36 +129,21 @@ export const DetailedMovieView = () => {
           </div>
         </div>
       </div>
-      <section className="max-w-2xl space-y-4 overflow-hidden">
-        <h2 className="text-lg font-medium text-foreground">Cast</h2>
-        <Carousel opts={{ align: "start", loop: false }} className="max-w-2xl">
-          <CarouselContent className="-ml-4">
+      <section>
+        <h2 className="text-lg font-medium text-foreground">Top Cast</h2>
+        <Carousel
+          opts={{ align: "start", loop: false, direction: "ltr" }}
+          className="w-full max-w-[12rem] sm:max-w-xs md:max-w-sm"
+        >
+          <CarouselContent className="-ml-1">
             {data.credits.cast.slice(0, 14).map(actor => (
-              <CarouselItem key={actor.id} className="basis-full pl-4 sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
-                <Card className="flex overflow-hidden p-0">
-                  <div className="flex w-full gap-3 p-3">
-                    {actor.profile_path ? (
-                      <img
-                        src={`https://image.tmdb.org/t/p/w45/${actor.profile_path}`}
-                        alt={actor.name}
-                        className="h-16 w-12 shrink-0 rounded object-cover"
-                      />
-                    ) : (
-                      <div className="flex h-16 w-12 shrink-0 items-center justify-center rounded bg-muted">
-                        <ImageOff className="size-5 text-muted-foreground" />
-                      </div>
-                    )}
-                    <div className="min-w-0 flex-1 overflow-hidden">
-                      <p className="truncate text-sm font-medium text-foreground">{actor.name}</p>
-                      <p className="truncate text-xs text-muted-foreground">{actor.character}</p>
-                    </div>
-                  </div>
-                </Card>
+              <CarouselItem key={actor.id} className="basis-1/2 pl-1 lg:basis-1/4">
+                <CastMember name={actor.name} character={actor.character} profilePath={actor.profile_path} />
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="-left-2" />
-          <CarouselNext className="-right-2" />
+          <CarouselPrevious />
+          <CarouselNext />
         </Carousel>
       </section>
     </div>
