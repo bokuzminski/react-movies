@@ -4,12 +4,12 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { DetailedMovieView } from "@/pages/MovieDetail";
 import { MovieSearchBar } from "@/components/MovieSearchBar";
-import { PopularMovies } from "./pages/PopularMovies";
-import { TopRatedMovies } from "./pages/TopRatedMovies";
-import { UpcomingMovies } from "src/pages/UpcomingMovies";
-import { MoviesByGenre } from "./pages/MoviesByGenre";
-import { SearchResults } from "./pages/SearchResults";
-import { NotFoundPage } from "./pages/NotFoundPage";
+import { PopularMovies } from "@/pages/PopularMovies";
+import { TopRatedMovies } from "@/pages/TopRatedMovies";
+import { UpcomingMovies } from "@/pages/UpcomingMovies";
+import { MoviesByGenre } from "@/pages/MoviesByGenre";
+import { SearchResults } from "@/pages/SearchResults";
+import { NotFoundPage } from "@/pages/NotFoundPage";
 
 export const App = () => {
   return (
