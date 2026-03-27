@@ -1,8 +1,8 @@
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { DetailedMovieView } from "src/components/detailedMovieView/DetailedMovieView";
+import { DetailedMovieView } from "@/pages/MovieDetail";
 import { MovieSearchBar } from "@/components/MovieSearchBar";
 import { PopularMovies } from "./pages/PopularMovies";
 import { TopRatedMovies } from "./pages/TopRatedMovies";

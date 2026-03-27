@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useFetchGenres } from "@/api/hooks";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Genre } from "@/api/types/movDbTypes";
+import { Genre } from "@/api/tmdbTypes";
 
 export function AppSidebar() {
   const { data: genres, isFetching } = useFetchGenres();

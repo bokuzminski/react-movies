@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { DetailedMovie } from "@/api/types/movDbTypes";
+import { DetailedMovie } from "@/api/tmdbTypes";
 
 export const MovieGenreCategories = ({ genres, inverted }: { genres: DetailedMovie["genres"]; inverted?: boolean }) => {
   return (

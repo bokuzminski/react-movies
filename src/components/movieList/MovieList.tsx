@@ -1,5 +1,5 @@
-import { BatchMoviesResponse } from "@/api/types/movDbTypes";
-import { MovieListItem } from "@/components/movieList/movieListItem/MovieListItem";
+import { PaginatedMoviesResponse } from "@/api/tmdbTypes";
+import { MovieListItem } from "@/components/movieList/MovieListItem";
 
 export const MovieList = ({ movies }: MovieListProps) => {
   return (
@@ -19,5 +19,5 @@ export const MovieList = ({ movies }: MovieListProps) => {
 };
 
 type MovieListProps = {
-  movies: BatchMoviesResponse["results"];
+  movies: PaginatedMoviesResponse["results"];
 };

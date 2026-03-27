@@ -1,6 +1,6 @@
 import { ExternalLink, Facebook, Film, Instagram, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ExternalConnections as ExternalConnectionsType } from "src/api/types/movDbTypes";
+import { ExternalLinks as ExternalConnectionsType } from "@/api/tmdbTypes";
 
 type ExternalConnectionsProps = {
   homepage: string;

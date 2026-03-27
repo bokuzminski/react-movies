@@ -2,12 +2,12 @@ import { ImageOff } from "lucide-react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useFetchMovieById } from "@/api/hooks";
-import { CastMember } from "@/components/detailedMovieView/components/Cast/Cast";
+import { CastMember } from "@/components/movieDetail/Cast";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card } from "@/components/ui/card";
-import { ExternalConnections } from "@/components/detailedMovieView/components/externalConnections/ExternalConnections";
-import { MovieGenreCategories } from "@/components/detailedMovieView/components/MovieGenreCategories";
-import { VoteAverageStars } from "@/components/detailedMovieView/components/VoteAverageStars";
+import { ExternalConnections } from "@/components/movieDetail/ExternalConnections";
+import { MovieGenreCategories } from "@/components/movieDetail/MovieGenreCategories";
+import { VoteAverageStars } from "@/components/movieDetail/VoteAverageStars";
 import { Loader } from "@/components/loader/Loader";
 
 export const DetailedMovieView = () => {
@@ -94,7 +94,7 @@ export const DetailedMovieView = () => {
             </section>
 
             <div className="flex flex-wrap items-start gap-6">
-              {data.production_companies.splice(0, 4).map(company => (
+              {data.production_companies.slice(0, 4).map(company => (
                 <div key={company.id} className="flex flex-col items-center gap-2">
                   <div className="flex h-8 w-20 shrink-0 items-center justify-center">
                     {company.logo_path ? (

@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 
 import axios from "./axios";
-import { BatchMoviesResponse, DetailedMovie, Genre } from "src/api/types/movDbTypes";
+import { PaginatedMoviesResponse, DetailedMovie, Genre } from "@/api/tmdbTypes";
 
 // Hooks
 const fetchGenres = async () => {
@@ -10,28 +10,28 @@ const fetchGenres = async () => {
 };
 
 const fetchPopularMovies = async (page: number) => {
-  const { data } = await axios.get<BatchMoviesResponse>("movie/popular", {
+  const { data } = await axios.get<PaginatedMoviesResponse>("movie/popular", {
     params: { page }
   });
   return data;
 };
 
 const fetchTopRatedMovies = async (page: number) => {
-  const { data } = await axios.get<BatchMoviesResponse>("movie/top_rated", {
+  const { data } = await axios.get<PaginatedMoviesResponse>("movie/top_rated", {
     params: { page }
   });
   return data;
 };
 
 const fetchUpcomingMovies = async (page: number) => {
-  const { data } = await axios.get<BatchMoviesResponse>("movie/upcoming", {
+  const { data } = await axios.get<PaginatedMoviesResponse>("movie/upcoming", {
     params: { page }
   });
   return data;
 };
 
 const fetchMoviesByGenre = async (genreId: string, page: number) => {
-  const { data } = await axios.get<BatchMoviesResponse>("discover/movie", {
+  const { data } = await axios.get<PaginatedMoviesResponse>("discover/movie", {
     params: { with_genres: genreId, page }
   });
   return data;
@@ -45,7 +45,7 @@ const fetchMovieDetails = async (id: string) => {
 };
 
 const fetchSearchMovies = async (query: string, page: number) => {
-  const { data } = await axios.get<BatchMoviesResponse>("search/movie", {
+  const { data } = await axios.get<PaginatedMoviesResponse>("search/movie", {
     params: { query, page }
   });
   return data;

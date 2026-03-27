@@ -1,4 +1,4 @@
-export type BatchMoviesResponse = {
+export type PaginatedMoviesResponse = {
   page: number;
   results: Movie[];
   total_pages: number;
@@ -22,7 +22,7 @@ export type Movie = {
   vote_count: number;
 };
 
-export type ExternalConnections = {
+export type ExternalLinks = {
   id: number;
   imdb_id: string;
   wikidata_id: string;
@@ -59,7 +59,7 @@ export type DetailedMovie = {
   vote_average: number;
   vote_count: number;
   credits: Credits;
-  external_ids: ExternalConnections;
+  external_ids: ExternalLinks;
 };
 
 export type Credits = {
@@ -97,11 +97,14 @@ type SpokenLanguage = {
   name: string;
 };
 
-export enum Genders {
-  Female = 1,
-  Male = 2,
-  Other = 3
-}
+export const GENDERS = {
+  Unknown: 0,
+  Female: 1,
+  Male: 2,
+  NonBinary: 3
+} as const;
+
+export type Genders = (typeof GENDERS)[keyof typeof GENDERS];
 
 type CastItem = {
   adult: boolean;

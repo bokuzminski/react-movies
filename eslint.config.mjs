@@ -5,6 +5,7 @@ import pluginReact from "eslint-plugin-react";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
+  { ignores: ["dist", "node_modules", "coverage"] },
   {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     plugins: { js },
@@ -13,11 +14,9 @@ export default defineConfig([
   },
   tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
-  // React 17+ / automatic JSX runtime — no `import React` required
   pluginReact.configs.flat["jsx-runtime"],
   {
     settings: {
-      // Explicit version avoids flaky `detect` with some ESLint 10 + plugin-react combos
       react: { version: "19.2.4" }
     }
   }
