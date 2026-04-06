@@ -1,16 +1,8 @@
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { far } from "@fortawesome/free-regular-svg-icons";
-import { fas, faStar } from "@fortawesome/free-solid-svg-icons";
-import React from "react";
 import { createRoot } from "react-dom/client";
-import { Provider } from "react-redux";
 import { App } from "src/App";
-import { store } from "src/redux/store";
-import GlobalStyle from "src/style/globals";
-import theme from "src/style/theme";
-import { ThemeProvider } from "styled-components";
-
-library.add(fas, far, faStar);
+import "./index.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const rootElement = document.getElementById("root");
 if (!rootElement) {
@@ -18,11 +10,12 @@ if (!rootElement) {
 }
 const root = createRoot(rootElement);
 
+const queryClient = new QueryClient();
+
 root.render(
-  <ThemeProvider theme={theme}>
-    <Provider store={store}>
+  <TooltipProvider>
+    <QueryClientProvider client={queryClient}>
       <App />
-    </Provider>
-    <GlobalStyle />
-  </ThemeProvider>
+    </QueryClientProvider>
+  </TooltipProvider>
 );

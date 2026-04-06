@@ -1,84 +1,46 @@
-import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { DetailedMovieView } from "src/components/detailedMovieView/DetailedMovieView";
-import MobileMenu from "src/components/MobileMenu";
-import { MoviesByGenre } from "src/components/moviesByGenre/MoviesByGenre";
-import { PopularMovies } from "src/components/popularMovies/PopularMovies";
-import { SearchBar } from "src/components/searchMovies/searchBar/SearchBar";
-import { SearchMovies } from "src/components/searchMovies/SearchMovies";
-import { SideBarMenu } from "src/components/sideBar/SideBarMenu";
-import styled from "styled-components";
-
-const MainWrapper = styled.div<{ isMobile: boolean }>`
-  display: flex;
-  flex-direction: ${props => (props.isMobile ? "column" : "row")};
-  position: relative;
-  align-items: flex-start;
-  height: 100%;
-  width: 100%;
-  user-select: none;
-`;
-const ContentWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 6rem 4rem;
-  @media ${props => props.theme.mediaQueries.larger} {
-    padding: 6rem 3rem;
-  }
-  @media ${props => props.theme.mediaQueries.large} {
-    padding: 4rem 2rem;
-  }
-`;
-const SearchBarWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  padding: 2rem;
-  width: 100%;
-`;
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { DetailedMovieView } from "@/pages/MovieDetail";
+import { MovieSearchBar } from "@/components/MovieSearchBar";
+import { PopularMovies } from "@/pages/PopularMovies";
+import { TopRatedMovies } from "@/pages/TopRatedMovies";
+import { UpcomingMovies } from "@/pages/UpcomingMovies";
+import { MoviesByGenre } from "@/pages/MoviesByGenre";
+import { SearchResults } from "@/pages/SearchResults";
+import { NotFoundPage } from "@/pages/NotFoundPage";
 
 export const App = () => {
-  const [isMobile, setisMobile] = useState(false);
-
-  useEffect(resizeWindowIfOnMobile, []);
-
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL || ""}>
-      <MainWrapper isMobile={isMobile}>
-        {isMobile ? (
-          <MobileMenu />
-        ) : (
-          <>
-            <SideBarMenu />
-            <SearchBarWrapper>
-              <SearchBar />
-            </SearchBarWrapper>
-          </>
-        )}
-        <ContentWrapper>
-          <Routes>
-            <Route path="/" element={<PopularMovies />} />
-            <Route path="/:movieId" element={<DetailedMovieView />} />
-            <Route path="/genre/:genreId/:genreName" element={<MoviesByGenre />} />
-            <Route path="/search/:query" element={<SearchMovies />} />
-          </Routes>
-        </ContentWrapper>
-      </MainWrapper>
+    <BrowserRouter>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <header className="grid h-14 shrink-0 grid-cols-3 items-center gap-4 border-b px-4">
+            <div className="flex justify-start">
+              <SidebarTrigger />
+            </div>
+            <div className="flex min-w-0 justify-center px-2">
+              <MovieSearchBar />
+            </div>
+            <div className="flex justify-end">
+              <ThemeToggle />
+            </div>
+          </header>
+          <div className="min-w-0 flex-1 p-4">
+            <Routes>
+              <Route path="/" element={<PopularMovies />} />
+              <Route path="/top_rated" element={<TopRatedMovies />} />
+              <Route path="/upcoming" element={<UpcomingMovies />} />
+              <Route path="/genre/:genreId/:genreName" element={<MoviesByGenre />} />
+              <Route path="/search" element={<SearchResults />} />
+              <Route path="/:movieId" element={<DetailedMovieView />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </div>
+        </SidebarInset>
+      </SidebarProvider>
     </BrowserRouter>
   );
-
-  function resizeWindowIfOnMobile() {
-    window.addEventListener("resize", changeMobile);
-
-    return () => window.removeEventListener("resize", changeMobile);
-  }
-  function changeMobile() {
-    window.matchMedia("(max-width: 80em)").matches ? setisMobile(true) : setisMobile(false);
-  }
 };
