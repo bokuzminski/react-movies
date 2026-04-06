@@ -1,14 +1,14 @@
-import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useFetchMoviesByGenre } from "@/api/hooks";
 import { MovieList } from "@/components/movieList/MovieList";
 import { MovieListSkeleton } from "@/components/movieList/MovieListSkeleton";
 import { MoviePagination } from "@/components/movieList/MoviePagination";
 import { NotFoundPage } from "@/pages/NotFoundPage";
+import { useQueryParams } from "@/hooks/useQueryParams";
 
 export const MoviesByGenre = () => {
   const { genreId, genreName } = useParams<{ genreId: string; genreName: string }>();
-  const [page, setPage] = useState(1);
+  const { page, setPage } = useQueryParams();
   const { data, isFetching } = useFetchMoviesByGenre(genreId ?? "", page);
 
   if (isFetching) return <MovieListSkeleton />;

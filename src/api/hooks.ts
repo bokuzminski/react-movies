@@ -68,5 +68,6 @@ export const useSearchMovies = (query: string, page: number) =>
   useQuery({
     queryKey: ["searchMovies", query.trim(), page],
     queryFn: () => fetchSearchMovies(query.trim(), page),
-    enabled: query.trim().length > 0
+    enabled: query.trim().length > 0,
+    placeholderData: prev => prev
   });

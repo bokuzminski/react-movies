@@ -1,11 +1,11 @@
-import { useState } from "react";
 import { useFetchUpcomingMovies } from "@/api/hooks";
 import { MovieList } from "@/components/movieList/MovieList";
 import { MovieListSkeleton } from "@/components/movieList/MovieListSkeleton";
 import { MoviePagination } from "@/components/movieList/MoviePagination";
+import { useQueryParams } from "@/hooks/useQueryParams";
 
 export const UpcomingMovies = () => {
-  const [page, setPage] = useState(1);
+  const { page, setPage } = useQueryParams();
   const { data, isFetching } = useFetchUpcomingMovies(page);
 
   if (!data && !isFetching) return <h1>Error: no data to display.</h1>;

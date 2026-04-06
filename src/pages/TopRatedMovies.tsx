@@ -1,19 +1,26 @@
-import { useState } from "react";
 import { useFetchTopRatedMovies } from "@/api/hooks";
 import { MovieList } from "@/components/movieList/MovieList";
-import { MovieListSkeleton } from "@/components/movieList/MovieListSkeleton";
 import { MoviePagination } from "@/components/movieList/MoviePagination";
+import { useSearchParams } from "react-router";
 
 export const TopRatedMovies = () => {
-  const [page, setPage] = useState(1);
-  const { data, isFetching } = useFetchTopRatedMovies(page);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = parseInt(searchParams.get("page") ?? "1");
+  const { data } = useFetchTopRatedMovies(page);
 
-  if (!data && !isFetching) return <h1>Error: no data to display.</h1>;
+  const handlePageChange = (page: number) => {
+    setSearchParams(prev => {
+      prev.set("page", page.toString());
+      return prev;
+    });
+  };
+
+  if (!data) return <h1>Error: no data to display.</h1>;
 
   return (
     <>
-      {isFetching ? <MovieListSkeleton /> : <MovieList movies={data!.results} />}
-      {data && <MoviePagination page={page} totalPages={data.total_pages || 100} onPageChange={setPage} />}
+      <MovieList movies={data.results} />
+      <MoviePagination page={page} totalPages={data.total_pages} onPageChange={handlePageChange} />
     </>
   );
 };

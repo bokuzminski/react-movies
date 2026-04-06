@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import {  SyntheticEvent, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 
@@ -15,7 +15,7 @@ export function MovieSearchBar() {
     }
   }, [location.pathname, qFromUrl]);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const trimmed = value.trim();
     if (trimmed) {

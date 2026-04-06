@@ -1,5 +1,5 @@
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { DetailedMovieView } from "@/pages/MovieDetail";

@@ -1,25 +1,21 @@
-import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 import { useSearchMovies } from "@/api/hooks";
 import { MovieList } from "@/components/movieList/MovieList";
 import { MovieListSkeleton } from "@/components/movieList/MovieListSkeleton";
 import { MoviePagination } from "@/components/movieList/MoviePagination";
 import { Empty, EmptyDescription, EmptyIcon, EmptyTitle } from "@/components/ui/empty";
 import { Search } from "lucide-react";
+import { useQueryParams } from "@/hooks/useQueryParams";
 
 export const SearchResults = () => {
-  const [searchParams] = useSearchParams();
-  const q = searchParams.get("q") ?? "";
-  const trimmed = q.trim();
-  const [page, setPage] = useState(1);
+  const { page, setPage, q } = useQueryParams();
+  const { data, isFetching } = useSearchMovies(q, page);
 
   useEffect(() => {
     setPage(1);
-  }, [trimmed]);
+  }, [q]);
 
-  const { data, isFetching } = useSearchMovies(trimmed, page);
-
-  if (!trimmed) {
+  if (!q) {
     return (
       <Empty className="mx-auto max-w-md py-16">
         <EmptyIcon>
@@ -48,15 +44,15 @@ export const SearchResults = () => {
           <Search className="size-6" />
         </EmptyIcon>
         <EmptyTitle>No results</EmptyTitle>
-        <EmptyDescription>Nothing matched &ldquo;{trimmed}&rdquo;. Try a different title.</EmptyDescription>
+        <EmptyDescription>Nothing matched &ldquo;{q}&rdquo;. Try a different title.</EmptyDescription>
       </Empty>
     );
   }
 
   return (
     <>
-      <h1 className="mb-4 text-xl font-semibold tracking-tight">Results for &ldquo;{trimmed}&rdquo;</h1>
-      {isFetching ? <MovieListSkeleton /> : <MovieList movies={data!.results} />}
+      <h1 className="mb-4 text-xl font-semibold tracking-tight">Results for &ldquo;{q}&rdquo;</h1>
+      <MovieList movies={data!.results} />
       {data && data.results.length > 0 && (
         <MoviePagination page={page} totalPages={Math.min(data.total_pages, 500)} onPageChange={setPage} />
       )}
